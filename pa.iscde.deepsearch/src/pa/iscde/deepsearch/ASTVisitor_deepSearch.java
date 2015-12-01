@@ -22,15 +22,12 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 	private String full_class;
 	private File temp_file;
 
-	
-
 	public ASTVisitor_deepSearch(MainSearchView searchView, String searchText, SearchEnumType myEnm,
 			String advancedSpecification) {
 		this.searchView = searchView;
 		this.searchText = searchText;
 		this.myEnum = myEnm.toString();
 		this.advancedSpecification = advancedSpecification;
-		
 	}
 
 	public File setFile(File file) {
@@ -45,13 +42,10 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 			String result = node.toString();
 			if (search_result.contains(searchText)) {
 				packageName = "" + node.getName();
-//				searchView.addTreeElement(TreeEnum.Package, packageName, temp_file,  result,
-//						search_result);
 				searchView.getMyOutput().addTreeElement(TreeEnum.Package, packageName, temp_file,  result,
 						search_result);
 			}
 		}
-		System.out.println("just test 3");
 		return true;
 		
 	}
@@ -59,7 +53,6 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 	@Override
 	public boolean visit(TypeDeclaration node) {
 		if (searcForClass_orInPachage_orClass()) {
-			
 			String search_result = "";
 			for (int i = 0; i < node.modifiers().size(); i++) {
 				search_result += node.modifiers().get(i) + " ";

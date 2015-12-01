@@ -34,7 +34,6 @@ public class AdvancedComposite extends Composite {
 	}
 
 	public class SearchFor extends ComboBox_Autocompleted {
-
 		private final String[] ButtonsName_Class = new String[] { "abstract", "interface", "enum" };
 		private final String[] ButtonsName_Method = new String[] { PACKAGE, CLASS, METHOD, ATRIBUTE };
 		private final String[] ButtonsName_Atribute = new String[] { "public", "private", "protected", "static",

@@ -1,9 +1,14 @@
 package pa.iscde.deepsearch;
 
 import java.io.File;
-import java.util.Collection;
 import java.util.Map;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtension;
+import org.eclipse.core.runtime.IExtensionPoint;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -20,8 +25,6 @@ import pt.iscte.pidesco.projectbrowser.model.ClassElement;
 import pt.iscte.pidesco.projectbrowser.model.PackageElement;
 import pt.iscte.pidesco.projectbrowser.model.PackageElement.Visitor;
 import pt.iscte.pidesco.projectbrowser.model.SourceElement;
-import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserListener;
-import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserListener.Adapter;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 
 public class MainSearchView implements PidescoView {
@@ -49,7 +52,6 @@ public class MainSearchView implements PidescoView {
 	private TreeItem statement_root;
 	private TreeItem field_root;
 	private myOutput output;
-	
 
 	public MainSearchView() {
 		instance = this;
@@ -58,12 +60,29 @@ public class MainSearchView implements PidescoView {
 	@Override
 	public void createContents(final Composite viewArea, Map<String, Image> imageMap) {
 
+		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
+		IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.deepsearch.output_preview");
+		IExtension[] extensions = extensionPoint.getExtensions();
+		for (IExtension e : extensions) {
+			IConfigurationElement[] confElements = e.getConfigurationElements();
+			for (IConfigurationElement c : confElements) {
+				String s = c.getAttribute("name");
+				System.out.println(s + " is Connected to US");
+				try {
+					Object o = c.createExecutableExtension("class");
+					System.out.println("And it is using this class reference -> " + o);
+				} catch (CoreException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
+
 		images = imageMap;
 
 		browser_search = SearchActivator.getActivator().getBrowserService();
-		
-		output=new myOutput();
-		
+
+		output = new myOutput();
+
 		editor_search = SearchActivator.getActivator().getEditorService();
 
 		viewArea.setLayout(new FillLayout(SWT.VERTICAL));
@@ -86,18 +105,18 @@ public class MainSearchView implements PidescoView {
 					advanced_composite.getComboSearchFor().clearSelected();
 					searchForScanner(advanced_composite.getComboSearchFor().itemSelected, root_package);
 				} else if (search_composite.getSearchIn().hasAlreadySelected) {
-					
+
 					searchInScanner(search_composite.getSearchIn().itemSelected);
-					
-					
+
 				} else {
 					root_package.traverse(new MyVisitor(instance, SearchEnumType.SearchInPackage, ""));
 				}
-				
-				if( !(package_root!=null || class_root!=null || interface_root!=null || method_root!=null || field_root!=null || statement_root!=null) ){
-					 TreeItem notFound= new TreeItem(preview_composite.getHierarquies(), 0);
-					 notFound.setText("Not Found");
-					 notFound.setImage(images.get("help.gif"));
+
+				if (!(package_root != null || class_root != null || interface_root != null || method_root != null
+						|| field_root != null || statement_root != null)) {
+					TreeItem notFound = new TreeItem(preview_composite.getHierarquies(), 0);
+					notFound.setText("Not Found");
+					notFound.setImage(images.get("help.gif"));
 				}
 			}
 		});
@@ -107,9 +126,9 @@ public class MainSearchView implements PidescoView {
 			public void widgetSelected(SelectionEvent e) {
 				if (search_composite.getAdvanced().getSelection()) {
 					advancedButtonIsSelected = true;
-					
+
 					advanced_composite = new AdvancedComposite(viewArea, SWT.BORDER);
-					
+
 					advanced_composite.moveAbove(preview_composite);
 					viewArea.layout();
 				} else {
@@ -128,8 +147,7 @@ public class MainSearchView implements PidescoView {
 				if (ti.getData() != null) {
 					preview_composite.styleText(ti.getData().toString(), ti.getData("searched").toString(),
 							data_search);
-					
-					
+
 				}
 			}
 
@@ -168,7 +186,6 @@ public class MainSearchView implements PidescoView {
 	}
 
 	private void searchIn_orForPackage(SearchEnumType enumType) {
-	
 
 		SearchIn comboSearchIn = search_composite.getSearchIn();
 		if (comboSearchIn.hasAlreadySelected && !comboSearchIn.getText_ofSearchSpecific().equals("")) {
@@ -179,10 +196,10 @@ public class MainSearchView implements PidescoView {
 				}
 			}
 		} else {
-		
+
 			root_package.traverse(new MyVisitor(instance, enumType, ""));
 		}
-		
+
 	}
 
 	private void searchForScanner(int itemSelected, PackageElement rootPackage) {
@@ -207,21 +224,19 @@ public class MainSearchView implements PidescoView {
 		}
 	}
 
-	public myOutput getMyOutput(){
+	public myOutput getMyOutput() {
 		return output;
 	}
-	
-	public class myOutput implements OutputPreview{
+
+	public class myOutput implements OutputPreview {
 
 		@Override
 		public void addTreeElement(TreeEnum parent, String treeItemName, File fileToOpen_DoubleClickItem,
 				String fileContent_SelecteItem, String searchResult) {
-			// TODO Auto-generated method stub
 			TreeItem tree_item = null;
 			switch (parent) {
 			case Package:
-				
-				if(package_root==null){
+				if (package_root == null) {
 					package_root = new TreeItem(preview_composite.getHierarquies(), 0);
 					package_root.setText("Packages");
 					package_root.setImage(images.get("package.gif"));
@@ -230,7 +245,7 @@ public class MainSearchView implements PidescoView {
 				tree_item.setImage(images.get("package.gif"));
 				break;
 			case Class:
-				if(class_root==null){
+				if (class_root == null) {
 					class_root = new TreeItem(preview_composite.getHierarquies(), 0);
 					class_root.setText("Classes");
 					class_root.setImage(images.get("class.gif"));
@@ -239,37 +254,37 @@ public class MainSearchView implements PidescoView {
 				tree_item.setImage(images.get("class.gif"));
 				break;
 			case Interface:
-				
-				if(interface_root==null){
-				interface_root = new TreeItem(preview_composite.getHierarquies(), 0);
-				interface_root.setText("Interfaces");
-				interface_root.setImage(images.get("interface.gif"));
+
+				if (interface_root == null) {
+					interface_root = new TreeItem(preview_composite.getHierarquies(), 0);
+					interface_root.setText("Interfaces");
+					interface_root.setImage(images.get("interface.gif"));
 				}
 				tree_item = new TreeItem(interface_root, 0);
 				tree_item.setImage(images.get("interface.gif"));
 				break;
 			case Enum:
-				if(enum_root==null){
+				if (enum_root == null) {
 					enum_root = new TreeItem(preview_composite.getHierarquies(), 0);
 					enum_root.setText("Enums");
 					enum_root.setImage(images.get("enum.gif"));
 				}
-				
+
 				tree_item = new TreeItem(enum_root, 0);
 				tree_item.setImage(images.get("enum.gif"));
 				break;
 			case Import:
-				if(import_root==null){
+				if (import_root == null) {
 					import_root = new TreeItem(preview_composite.getHierarquies(), 0);
 					import_root.setText("Imports");
 					import_root.setImage(images.get("import.gif"));
 				}
-				
+
 				tree_item = new TreeItem(import_root, 0);
 				tree_item.setImage(images.get("import.gif"));
 				break;
 			case Constructor:
-				if(constructor_root==null){
+				if (constructor_root == null) {
 					constructor_root = new TreeItem(preview_composite.getHierarquies(), 0);
 					constructor_root.setText("Constructors");
 					constructor_root.setImage(images.get("constructor.gif"));
@@ -278,7 +293,7 @@ public class MainSearchView implements PidescoView {
 				tree_item.setImage(images.get("constructor.gif"));
 				break;
 			case Method:
-				if(method_root==null){
+				if (method_root == null) {
 					method_root = new TreeItem(preview_composite.getHierarquies(), 0);
 					method_root.setText("Methods");
 					method_root.setImage(images.get("method.gif"));
@@ -287,7 +302,7 @@ public class MainSearchView implements PidescoView {
 				tree_item.setImage(images.get("method.gif"));
 				break;
 			case Field:
-				if(field_root==null){
+				if (field_root == null) {
 					field_root = new TreeItem(preview_composite.getHierarquies(), 0);
 					field_root.setText("Fields");
 					field_root.setImage(images.get("field.gif"));
@@ -296,7 +311,7 @@ public class MainSearchView implements PidescoView {
 				tree_item.setImage(images.get("field.gif"));
 				break;
 			case Statement:
-				if(statement_root==null){
+				if (statement_root == null) {
 
 					statement_root = new TreeItem(preview_composite.getHierarquies(), 0);
 					statement_root.setText("Method Statements");
@@ -308,23 +323,18 @@ public class MainSearchView implements PidescoView {
 			default:
 				break;
 			}
-			
 			tree_item.setText(treeItemName);
 			tree_item.setData("file", fileToOpen_DoubleClickItem);
 			tree_item.setData(fileContent_SelecteItem);
 			tree_item.setData("searched", treeItemName);
 		}
-
-	
-		
 	}
-	
-	
+
 	public void addTreeElement(TreeEnum parent, String name, File file, String result, String searched) {
 		TreeItem tree_item = null;
 		switch (parent) {
 		case Package:
-			if(package_root==null){
+			if (package_root == null) {
 				package_root = new TreeItem(preview_composite.getHierarquies(), 0);
 				package_root.setText("Packages");
 				package_root.setImage(images.get("package.gif"));
@@ -333,7 +343,7 @@ public class MainSearchView implements PidescoView {
 			tree_item.setImage(images.get("package.gif"));
 			break;
 		case Class:
-			if(class_root==null){
+			if (class_root == null) {
 				class_root = new TreeItem(preview_composite.getHierarquies(), 0);
 				class_root.setText("Classes");
 				class_root.setImage(images.get("class.gif"));
@@ -342,37 +352,37 @@ public class MainSearchView implements PidescoView {
 			tree_item.setImage(images.get("class.gif"));
 			break;
 		case Interface:
-			
-			if(interface_root==null){
-			interface_root = new TreeItem(preview_composite.getHierarquies(), 0);
-			interface_root.setText("Interfaces");
-			interface_root.setImage(images.get("interface.gif"));
+
+			if (interface_root == null) {
+				interface_root = new TreeItem(preview_composite.getHierarquies(), 0);
+				interface_root.setText("Interfaces");
+				interface_root.setImage(images.get("interface.gif"));
 			}
 			tree_item = new TreeItem(interface_root, 0);
 			tree_item.setImage(images.get("interface.gif"));
 			break;
 		case Enum:
-			if(enum_root==null){
+			if (enum_root == null) {
 				enum_root = new TreeItem(preview_composite.getHierarquies(), 0);
 				enum_root.setText("Enums");
 				enum_root.setImage(images.get("enum.gif"));
 			}
-			
+
 			tree_item = new TreeItem(enum_root, 0);
 			tree_item.setImage(images.get("enum.gif"));
 			break;
 		case Import:
-			if(import_root==null){
+			if (import_root == null) {
 				import_root = new TreeItem(preview_composite.getHierarquies(), 0);
 				import_root.setText("Imports");
 				import_root.setImage(images.get("import.gif"));
 			}
-			
+
 			tree_item = new TreeItem(import_root, 0);
 			tree_item.setImage(images.get("import.gif"));
 			break;
 		case Constructor:
-			if(constructor_root==null){
+			if (constructor_root == null) {
 				constructor_root = new TreeItem(preview_composite.getHierarquies(), 0);
 				constructor_root.setText("Constructors");
 				constructor_root.setImage(images.get("constructor.gif"));
@@ -381,7 +391,7 @@ public class MainSearchView implements PidescoView {
 			tree_item.setImage(images.get("constructor.gif"));
 			break;
 		case Method:
-			if(method_root==null){
+			if (method_root == null) {
 				method_root = new TreeItem(preview_composite.getHierarquies(), 0);
 				method_root.setText("Methods");
 				method_root.setImage(images.get("method.gif"));
@@ -390,7 +400,7 @@ public class MainSearchView implements PidescoView {
 			tree_item.setImage(images.get("method.gif"));
 			break;
 		case Field:
-			if(field_root==null){
+			if (field_root == null) {
 				field_root = new TreeItem(preview_composite.getHierarquies(), 0);
 				field_root.setText("Fields");
 				field_root.setImage(images.get("field.gif"));
@@ -399,7 +409,7 @@ public class MainSearchView implements PidescoView {
 			tree_item.setImage(images.get("field.gif"));
 			break;
 		case Statement:
-			if(statement_root==null){
+			if (statement_root == null) {
 
 				statement_root = new TreeItem(preview_composite.getHierarquies(), 0);
 				statement_root.setText("Method Statements");
@@ -411,68 +421,55 @@ public class MainSearchView implements PidescoView {
 		default:
 			break;
 		}
-		
+
 		tree_item.setText(name);
 		tree_item.setData("file", file);
-		
+
 		tree_item.setData(result);
 		tree_item.setData("searched", searched);
-		
-		
-	}
-	
-	
 
-	
+	}
 
 	private void initializeTreeHierarquies() {
-		
-//		package_root = new TreeItem(preview_composite.getHierarquies(), 0);
-//		package_root.setText("Packages");
-//		package_root.setImage(images.get("package.gif"));
 
-//		class_root = new TreeItem(preview_composite.getHierarquies(), 0);
-//		class_root.setText("Classes");
-//		class_root.setImage(images.get("class.gif"));
+		// package_root = new TreeItem(preview_composite.getHierarquies(), 0);
+		// package_root.setText("Packages");
+		// package_root.setImage(images.get("package.gif"));
 
-//		interface_root = new TreeItem(preview_composite.getHierarquies(), 0);
-//		interface_root.setText("Interfaces");
-//		interface_root.setImage(images.get("interface.gif"));
+		// class_root = new TreeItem(preview_composite.getHierarquies(), 0);
+		// class_root.setText("Classes");
+		// class_root.setImage(images.get("class.gif"));
 
-//		enum_root = new TreeItem(preview_composite.getHierarquies(), 0);
-//		enum_root.setText("Enums");
-//		enum_root.setImage(images.get("enum.gif"));
+		// interface_root = new TreeItem(preview_composite.getHierarquies(), 0);
+		// interface_root.setText("Interfaces");
+		// interface_root.setImage(images.get("interface.gif"));
 
-//		import_root = new TreeItem(preview_composite.getHierarquies(), 0);
-//		import_root.setText("Imports");
-//		import_root.setImage(images.get("import.gif"));
+		// enum_root = new TreeItem(preview_composite.getHierarquies(), 0);
+		// enum_root.setText("Enums");
+		// enum_root.setImage(images.get("enum.gif"));
 
-//		field_root = new TreeItem(preview_composite.getHierarquies(), 0);
-//		field_root.setText("Fields");
-//		field_root.setImage(images.get("field.gif"));
-//
-//		constructor_root = new TreeItem(preview_composite.getHierarquies(), 0);
-//		constructor_root.setText("Constructors");
-//		constructor_root.setImage(images.get("constructor.gif"));
+		// import_root = new TreeItem(preview_composite.getHierarquies(), 0);
+		// import_root.setText("Imports");
+		// import_root.setImage(images.get("import.gif"));
 
-//		method_root = new TreeItem(preview_composite.getHierarquies(), 0);
-//		method_root.setText("Methods");
-//		method_root.setImage(images.get("method.gif"));
+		// field_root = new TreeItem(preview_composite.getHierarquies(), 0);
+		// field_root.setText("Fields");
+		// field_root.setImage(images.get("field.gif"));
+		//
+		// constructor_root = new TreeItem(preview_composite.getHierarquies(),
+		// 0);
+		// constructor_root.setText("Constructors");
+		// constructor_root.setImage(images.get("constructor.gif"));
 
-//		statement_root = new TreeItem(preview_composite.getHierarquies(), 0);
-//		statement_root.setText("Method Statements");
-//		statement_root.setImage(images.get("statement.gif"));
+		// method_root = new TreeItem(preview_composite.getHierarquies(), 0);
+		// method_root.setText("Methods");
+		// method_root.setImage(images.get("method.gif"));
+
+		// statement_root = new TreeItem(preview_composite.getHierarquies(), 0);
+		// statement_root.setText("Method Statements");
+		// statement_root.setImage(images.get("statement.gif"));
 	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	private class MyVisitor extends Visitor.Adapter {
 		private MainSearchView searchView;
 		private SearchEnumType myEnumType;
@@ -491,10 +488,6 @@ public class MainSearchView implements PidescoView {
 				astVisitor_deepSearch.setFile(c.getFile());
 				editor_search.parseFile(c.getFile(), astVisitor_deepSearch);
 			}
-		}
-		
-		public ASTVisitor_deepSearch getASTVisitor(){
-			return astVisitor_deepSearch;
 		}
 
 	};
