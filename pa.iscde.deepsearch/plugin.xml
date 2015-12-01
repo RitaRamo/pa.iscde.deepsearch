@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension-point id="output_preview" name="OutputAndPreview" schema="schema/output_preview.exsd"/>
+   <extension
+         id="id2"
+         name="MainSearchView"
+         point="pt.iscte.pidesco.view">
+      <view
+            class="pa.iscde.deepsearch.MainSearchView">
+      </view>
+   </extension>
+   <extension
+         id="id1"
+         name="name"
+         point="pt.iscte.pidesco.view">
+      <view
+            class="pa.iscde.deepsearch.MainSearchView">
+      </view>
+   </extension>
+
+</plugin>
