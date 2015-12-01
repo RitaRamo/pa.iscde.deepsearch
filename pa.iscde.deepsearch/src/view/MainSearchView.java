@@ -68,27 +68,12 @@ public class MainSearchView implements PidescoView {
 	@Override
 	public void createContents(final Composite viewArea, Map<String, Image> imageMap) {
 
-		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
-		IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.deepsearch.output_preview");
-		IExtension[] extensions = extensionPoint.getExtensions();
-		for (IExtension e : extensions) {
-			IConfigurationElement[] confElements = e.getConfigurationElements();
-			for (IConfigurationElement c : confElements) {
-				String s = c.getAttribute("name");
-				System.out.println(s + " is Connected to US");
-				try {
-					Object o = c.createExecutableExtension("class");
-					System.out.println("And it is using this class reference -> " + o);
-				} catch (CoreException e1) {
-					e1.printStackTrace();
-				}
-			}
-		}
+		checkExtensions();
 
 		images = imageMap;
 		browser_search = SearchActivator.getActivator().getBrowserService();
 		editor_search = SearchActivator.getActivator().getEditorService();
-		
+
 		output = new myOutput();
 
 		viewArea.setLayout(new FillLayout(SWT.VERTICAL));
@@ -132,9 +117,7 @@ public class MainSearchView implements PidescoView {
 			public void widgetSelected(SelectionEvent e) {
 				if (search_composite.getAdvanced().getSelection()) {
 					advancedButtonIsSelected = true;
-
 					advanced_composite = new AdvancedComposite(viewArea, SWT.BORDER);
-
 					advanced_composite.moveAbove(preview_composite);
 					viewArea.layout();
 				} else {
@@ -522,6 +505,25 @@ public class MainSearchView implements PidescoView {
 			}
 		}
 		return null;
+	}
+
+	private void checkExtensions() {
+		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
+		IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.deepsearch.output_preview");
+		IExtension[] extensions = extensionPoint.getExtensions();
+		for (IExtension e : extensions) {
+			IConfigurationElement[] confElements = e.getConfigurationElements();
+			for (IConfigurationElement c : confElements) {
+				String s = c.getAttribute("name");
+				System.out.println(s + " is Connected to US");
+				try {
+					Object o = c.createExecutableExtension("class");
+					System.out.println("And it is using this class reference -> " + o);
+				} catch (CoreException e1) {
+					e1.printStackTrace();
+				}
+			}
+		}
 	}
 
 	public static MainSearchView getInstance() {

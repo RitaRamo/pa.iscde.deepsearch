@@ -1,10 +1,8 @@
 package api;
 
 import java.io.File;
-import java.util.Collection;
 
 import enums.TreeEnum;
-import pt.iscte.pidesco.projectbrowser.model.SourceElement;
 
 public interface OutputPreview {
 	
