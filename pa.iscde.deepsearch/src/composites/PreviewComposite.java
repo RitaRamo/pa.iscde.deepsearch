@@ -1,4 +1,4 @@
-package pa.iscde.deepsearch;
+package composites;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StyleRange;

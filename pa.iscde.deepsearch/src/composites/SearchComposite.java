@@ -1,4 +1,4 @@
-package pa.iscde.deepsearch;
+package composites;
 
 import java.util.Collection;
 import java.util.LinkedList;
@@ -12,10 +12,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+import activator.SearchActivator;
+import enums.SearchInEnum;
 import pt.iscte.pidesco.projectbrowser.model.PackageElement;
 import pt.iscte.pidesco.projectbrowser.model.SourceElement;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserListener;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
+import view.ComboBox_Autocompleted;
 
 public class SearchComposite extends Composite {
 

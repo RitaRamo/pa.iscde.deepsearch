@@ -1,4 +1,4 @@
-package pa.iscde.deepsearch;
+package view;
 
 import java.io.File;
 import java.util.Map;
@@ -17,8 +17,15 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeItem;
 
-import pa.iscde.deepsearch.AdvancedComposite.SearchFor;
-import pa.iscde.deepsearch.SearchComposite.SearchIn;
+import activator.SearchActivator;
+import api.OutputPreview;
+import composites.AdvancedComposite;
+import composites.AdvancedComposite.SearchFor;
+import composites.PreviewComposite;
+import composites.SearchComposite;
+import composites.SearchComposite.SearchIn;
+import enums.SearchEnumType;
+import enums.TreeEnum;
 import pt.iscte.pidesco.extensibility.PidescoView;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
 import pt.iscte.pidesco.projectbrowser.model.ClassElement;
@@ -26,6 +33,7 @@ import pt.iscte.pidesco.projectbrowser.model.PackageElement;
 import pt.iscte.pidesco.projectbrowser.model.PackageElement.Visitor;
 import pt.iscte.pidesco.projectbrowser.model.SourceElement;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
+import visitor.ASTVisitor_deepSearch;
 
 public class MainSearchView implements PidescoView {
 
@@ -78,12 +86,10 @@ public class MainSearchView implements PidescoView {
 		}
 
 		images = imageMap;
-
 		browser_search = SearchActivator.getActivator().getBrowserService();
-
-		output = new myOutput();
-
 		editor_search = SearchActivator.getActivator().getEditorService();
+		
+		output = new myOutput();
 
 		viewArea.setLayout(new FillLayout(SWT.VERTICAL));
 

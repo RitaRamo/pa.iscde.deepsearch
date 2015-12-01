@@ -1,4 +1,4 @@
-package pa.iscde.deepsearch;
+package activator;
 
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;

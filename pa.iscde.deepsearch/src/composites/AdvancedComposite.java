@@ -1,4 +1,4 @@
-package pa.iscde.deepsearch;
+package composites;
 
 import java.util.ArrayList;
 
@@ -6,6 +6,9 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
+
+import enums.SearchInEnum;
+import view.ComboBox_Autocompleted;
 
 public class AdvancedComposite extends Composite {
 

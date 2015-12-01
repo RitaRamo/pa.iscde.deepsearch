@@ -1,4 +1,4 @@
-package pa.iscde.deepsearch;
+package view;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;

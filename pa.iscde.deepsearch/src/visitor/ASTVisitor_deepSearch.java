@@ -1,4 +1,4 @@
-package pa.iscde.deepsearch;
+package visitor;
 
 import java.io.File;
 import java.util.List;
@@ -11,6 +11,10 @@ import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
+
+import enums.SearchEnumType;
+import enums.TreeEnum;
+import view.MainSearchView;
 
 public class ASTVisitor_deepSearch extends ASTVisitor {
 
