@@ -38,7 +38,7 @@ public class SearchActivator implements BundleActivator {
 		return editor_service;
 	}
 
-	public static SearchActivator getActivator() {
+	public static SearchActivator getActivatorInstance() {
 		return activator;
 	}
 }

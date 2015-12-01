@@ -27,7 +27,7 @@ public class PreviewComposite extends Composite {
 
 		preview = new StyledText(this, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.WRAP);
 		preview.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.FILL_VERTICAL));
-		preview.setBackground(new Color(this.getDisplay(), 255, 255, 255));
+		preview.setBackground(new Color(getDisplay(), 255, 255, 255));
 		preview.setEditable(false);
 	}
 

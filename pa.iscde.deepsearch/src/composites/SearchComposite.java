@@ -26,8 +26,8 @@ public class SearchComposite extends Composite {
 	private Button search_button;
 	private ProjectBrowserServices browser_search;
 	private Text search_field;
-	private Button advanced;
-	private SearchIn search_in;
+	private Button advanced_button;
+	private SearchIn search_in_combo;
 	private static final String NULL = "";
 	private static final String PACKAGE = SearchInEnum.Package.toString();
 	private static final String CLASS = SearchInEnum.Class.toString();
@@ -36,7 +36,7 @@ public class SearchComposite extends Composite {
 
 	public SearchComposite(Composite parent, int style) {
 		super(parent, style);
-		browser_search = SearchActivator.getActivator().getBrowserService();
+		browser_search = SearchActivator.getActivatorInstance().getBrowserService();
 		createContents();
 	}
 
@@ -49,19 +49,19 @@ public class SearchComposite extends Composite {
 		search_field = new Text(this, SWT.BORDER);
 		search_field.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
-		search_in = new SearchIn(this, comboItems);
+		search_in_combo = new SearchIn(this, comboItems);
 
-		advanced = new Button(this, SWT.CHECK);
-		advanced.setText("   Advanced Search");
-		advanced.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
+		advanced_button = new Button(this, SWT.CHECK);
+		advanced_button.setText("   Advanced Search");
+		advanced_button.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 2, 1));
 
 		search_button = new Button(this, SWT.NONE);
 		search_button.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false));
 		search_button.setText("Search");
 	}
 	
-	public SearchIn getSearchIn() {
-		return search_in;
+	public SearchIn getSearchInCombo() {
+		return search_in_combo;
 	}
 
 	public Button getSearchButton() {
@@ -73,7 +73,7 @@ public class SearchComposite extends Composite {
 	}
 
 	public Button getAdvanced() {
-		return advanced;
+		return advanced_button;
 	}
 
 	public class SearchIn extends ComboBox_Autocompleted {

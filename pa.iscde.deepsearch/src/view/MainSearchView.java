@@ -71,8 +71,8 @@ public class MainSearchView implements PidescoView {
 		checkExtensions();
 
 		images = imageMap;
-		browser_search = SearchActivator.getActivator().getBrowserService();
-		editor_search = SearchActivator.getActivator().getEditorService();
+		browser_search = SearchActivator.getActivatorInstance().getBrowserService();
+		editor_search = SearchActivator.getActivatorInstance().getEditorService();
 
 		output = new myOutput();
 
@@ -95,9 +95,9 @@ public class MainSearchView implements PidescoView {
 				if (advancedButtonIsSelected) {
 					advanced_composite.getComboSearchFor().clearSelected();
 					searchForScanner(advanced_composite.getComboSearchFor().itemSelected, root_package);
-				} else if (search_composite.getSearchIn().hasAlreadySelected) {
+				} else if (search_composite.getSearchInCombo().hasAlreadySelected) {
 
-					searchInScanner(search_composite.getSearchIn().itemSelected);
+					searchInScanner(search_composite.getSearchInCombo().itemSelected);
 
 				} else {
 					root_package.traverse(new MyVisitor(instance, SearchEnumType.SearchInPackage, ""));
@@ -161,7 +161,7 @@ public class MainSearchView implements PidescoView {
 	}
 
 	private void searchInClass_orSearchFor(SearchEnumType enumType, String advancedSpecifications) {
-		SearchIn comboSearchIn = search_composite.getSearchIn();
+		SearchIn comboSearchIn = search_composite.getSearchInCombo();
 		if (comboSearchIn.hasAlreadySelected && !comboSearchIn.getText_ofSearchSpecific().equals("")) {
 			new MyVisitor(instance, enumType, advancedSpecifications)
 					.visitClass(getClass(comboSearchIn.getText_ofSearchSpecific(), root_package));
@@ -176,7 +176,7 @@ public class MainSearchView implements PidescoView {
 
 	private void searchIn_orForPackage(SearchEnumType enumType) {
 
-		SearchIn comboSearchIn = search_composite.getSearchIn();
+		SearchIn comboSearchIn = search_composite.getSearchInCombo();
 		if (comboSearchIn.hasAlreadySelected && !comboSearchIn.getText_ofSearchSpecific().equals("")) {
 			for (SourceElement sourcePackage : root_package.getChildren()) {
 				if (sourcePackage.getName().equals(comboSearchIn.getText_ofSearchSpecific())) {
