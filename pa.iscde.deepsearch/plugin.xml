@@ -8,7 +8,7 @@
          point="pt.iscte.pidesco.view">
       <view
             class="pa.iscde.deepsearch.MainSearchView"
-            icon="mag_glass.png">
+            icon="map_glass.png">
       </view>
    </extension>
 
