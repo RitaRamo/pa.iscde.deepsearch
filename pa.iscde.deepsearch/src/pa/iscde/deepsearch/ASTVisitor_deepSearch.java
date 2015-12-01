@@ -51,7 +51,7 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 						search_result);
 			}
 		}
-		System.out.println("just test");
+		System.out.println("just test 2");
 		return true;
 		
 	}
