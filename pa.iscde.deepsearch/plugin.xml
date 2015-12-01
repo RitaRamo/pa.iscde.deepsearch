@@ -10,13 +10,5 @@
             class="pa.iscde.deepsearch.MainSearchView">
       </view>
    </extension>
-   <extension
-         id="id1"
-         name="name"
-         point="pt.iscte.pidesco.view">
-      <view
-            class="pa.iscde.deepsearch.MainSearchView">
-      </view>
-   </extension>
 
 </plugin>
