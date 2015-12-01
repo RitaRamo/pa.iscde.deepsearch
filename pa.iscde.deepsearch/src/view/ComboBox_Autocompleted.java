@@ -97,11 +97,6 @@ public abstract class ComboBox_Autocompleted {
 		}
 	}
 
-	
-//	public void newComboItems(String [] comboItems) {
-//		comboBox_search.setItems(comboItems);
-//	}
-//	
 	public Combo getComboBox_search() {
 		return comboBox_search;
 	}

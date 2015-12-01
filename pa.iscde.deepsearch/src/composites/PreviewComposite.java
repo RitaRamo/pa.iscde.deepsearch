@@ -31,16 +31,7 @@ public class PreviewComposite extends Composite {
 		preview.setEditable(false);
 	}
 
-	public Tree getHierarquies() {
-		return hierarquies;
-	}
-
-	public StyledText getPreview() {
-		return preview;
-	}
-
 	public void styleText(String full, String result, String data_search) {
-		System.out.println(result);
 		getPreview().setText(full);
 		if (!data_search.equals("")) {
 			getPreview().setStyleRange(new StyleRange(full.indexOf(result), result.length(), null,
@@ -50,6 +41,14 @@ public class PreviewComposite extends Composite {
 						getDisplay().getSystemColor(SWT.COLOR_GREEN)));
 			}
 		}
+	}
+
+	public Tree getHierarquies() {
+		return hierarquies;
+	}
+
+	public StyledText getPreview() {
+		return preview;
 	}
 
 }
