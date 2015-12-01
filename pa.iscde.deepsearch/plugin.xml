@@ -3,19 +3,12 @@
 <plugin>
    <extension-point id="output_preview" name="OutputAndPreview" schema="schema/output_preview.exsd"/>
    <extension
-         id="id2"
-         name="MainSearchView"
-         point="pt.iscte.pidesco.view">
-      <view
-            class="pa.iscde.deepsearch.MainSearchView">
-      </view>
-   </extension>
-   <extension
          id="id1"
-         name="name"
+         name="DeepSearch"
          point="pt.iscte.pidesco.view">
       <view
-            class="pa.iscde.deepsearch.MainSearchView">
+            class="pa.iscde.deepsearch.MainSearchView"
+            icon="mag_glass.png">
       </view>
    </extension>
 
