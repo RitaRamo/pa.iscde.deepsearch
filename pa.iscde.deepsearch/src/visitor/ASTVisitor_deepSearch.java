@@ -42,16 +42,15 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 	public boolean visit(PackageDeclaration node) {
 		if (isToSearchFor_orIn_Pachage() && !packageName.equals("" + node.getName())) {
 			String search_result = "" + node.getName();
-		
+
 			String result = node.toString();
 			if (search_result.contains(searchText)) {
 				packageName = "" + node.getName();
-				searchView.getMyOutput().addTreeElement(TreeEnum.Package, packageName, temp_file,  result,
-						search_result);
+				searchView.addTreeElement(TreeEnum.Package, packageName, temp_file, result, search_result);
 			}
 		}
 		return true;
-		
+
 	}
 
 	@Override
@@ -88,25 +87,25 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 				if (search_result.contains(advancedSpecification)) {
 					if (search_result.contains(searchText)) {
 						if (node.isInterface()) {
-							searchView.addTreeElement(TreeEnum.Interface, node.getName() + "", temp_file,
-									 result, search_result);
+							searchView.addTreeElement(TreeEnum.Interface, node.getName() + "", temp_file, result,
+									search_result);
 						} else {
-							searchView.addTreeElement(TreeEnum.Class, node.getName() + "", temp_file, 
-									result, search_result);
+							searchView.addTreeElement(TreeEnum.Class, node.getName() + "", temp_file, result,
+									search_result);
 						}
 					}
 				}
 			} else {
 				if (search_result.contains(searchText)) {
 					if (node.isInterface()) {
-						searchView.addTreeElement(TreeEnum.Interface, node.getName() + "", temp_file, 
-								result, search_result);
+						searchView.addTreeElement(TreeEnum.Interface, node.getName() + "", temp_file, result,
+								search_result);
 					} else {
 						searchView.addTreeElement(TreeEnum.Class, node.getName() + "", temp_file, result,
 								search_result);
 					}
 				}
-				
+
 			}
 		}
 		return true;
@@ -118,8 +117,7 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 			String search_result = node.toString();
 			String result = search_result + "\n" + full_class;
 			if (search_result.contains(searchText)) {
-				searchView.addTreeElement(TreeEnum.Import, node.getName() + "", temp_file,  result,
-						search_result);
+				searchView.addTreeElement(TreeEnum.Import, node.getName() + "", temp_file, result, search_result);
 			}
 		}
 		return true;
@@ -140,14 +138,12 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 			if (isArgumentDefined(advancedSpecification)) {
 				if (search_result.contains(advancedSpecification)) {
 					if (search_result.contains(searchText)) {
-						searchView.addTreeElement(TreeEnum.Enum, node.getName() + "", temp_file,  result,
-								search_result);
+						searchView.addTreeElement(TreeEnum.Enum, node.getName() + "", temp_file, result, search_result);
 					}
 				}
 			} else {
 				if (search_result.contains(searchText)) {
-					searchView.addTreeElement(TreeEnum.Enum, node.getName() + "", temp_file,  result,
-							search_result);
+					searchView.addTreeElement(TreeEnum.Enum, node.getName() + "", temp_file, result, search_result);
 				}
 			}
 		}
@@ -167,7 +163,7 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 				if (equals.contains("=")) {
 					equals = node.fragments().get(0).toString().split("=")[0];
 				}
-				searchView.addTreeElement(TreeEnum.Field, equals, temp_file,  full_class, search_result);
+				searchView.addTreeElement(TreeEnum.Field, equals, temp_file, full_class, search_result);
 			}
 		}
 		return true;
@@ -186,11 +182,10 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 			class_temp += node.getName();
 			if (class_temp.contains(searchText)) {
 				if (node.isConstructor()) {
-					searchView.addTreeElement(TreeEnum.Constructor, node.getName() + "", temp_file, 
-							full_class, class_temp);
-				} else {
-					searchView.addTreeElement(TreeEnum.Method, node.getName() + "", temp_file,  full_class,
+					searchView.addTreeElement(TreeEnum.Constructor, node.getName() + "", temp_file, full_class,
 							class_temp);
+				} else {
+					searchView.addTreeElement(TreeEnum.Method, node.getName() + "", temp_file, full_class, class_temp);
 				}
 			}
 		}
@@ -205,8 +200,8 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 				search_result += workStatement(node.statements());
 			}
 			if (search_result.contains(searchText)) {
-				searchView.addTreeElement(TreeEnum.Statement, "Statement of" + node.getParent(), temp_file,
-						 full_class, search_result);
+				searchView.addTreeElement(TreeEnum.Statement, "Statement of" + node.getParent(), temp_file, full_class,
+						search_result);
 			}
 		}
 		return true;
@@ -231,7 +226,7 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 	private boolean isToSearchForMethod_or_InMethod_Class_orPackage() {
 		return myEnum.equals(SearchEnumType.SearchForMethod.toString()) || isToSearchInMethod_Class_orPackage();
 	}
-	
+
 	private boolean isToSearchForClass_or_InClass_orPackage() {
 		return myEnum.equals(SearchEnumType.SearchForClass.toString()) || isToSearchInPackage_orClass();
 	}
@@ -261,9 +256,5 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 	private boolean isToSearchForField_orInPachage_orClass() {
 		return myEnum.equals(SearchEnumType.SearchForField.toString()) || isToSearchInPackage_orClass();
 	}
-	
-	
-	
-
 
 }
