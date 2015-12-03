@@ -3,7 +3,6 @@ package view;
 import java.io.File;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.TreeMap;
 
 import org.eclipse.core.runtime.CoreException;
@@ -52,7 +51,6 @@ public class MainSearchView implements PidescoView {
 	private boolean advancedButtonIsSelected;
 
 	private Map<String, Image> images;
-
 	private TreeMap<TreeEnum, TreeInstance> tree_map;
 
 	public MainSearchView() {
@@ -65,6 +63,7 @@ public class MainSearchView implements PidescoView {
 		checkExtensions();
 
 		images = imageMap;
+		tree_map = new TreeMap<TreeEnum, TreeInstance>();
 		browser_search = SearchActivator.getActivatorInstance().getBrowserService();
 		editor_search = SearchActivator.getActivatorInstance().getEditorService();
 
@@ -81,7 +80,7 @@ public class MainSearchView implements PidescoView {
 				preview_composite.getHierarquies().removeAll();
 				root_package = (PackageElement) browser_search.getRootPackage();
 				data_search = search_composite.getSearchField().getText();
-				if (tree_map != null) {
+				if (!tree_map.isEmpty()) {
 					tree_map.clear();
 				}
 				initializeTree();
@@ -93,21 +92,19 @@ public class MainSearchView implements PidescoView {
 				} else {
 					root_package.traverse(new MyVisitor(instance, SearchEnumType.SearchInPackage, ""));
 				}
-				Set<Entry<TreeEnum, TreeInstance>> set = tree_map.entrySet();
-				if(!checkFound(set)) {
-					TreeItem notFound = new TreeItem(preview_composite.getHierarquies(), 0);
-					notFound.setText("Not Found");
-					notFound.setImage(images.get("help.gif"));
+				if (!checkFound()) {
+					new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0), "Not Found", "help.gif",
+							images);
 				}
 			}
 
-			private boolean checkFound(Set<Entry<TreeEnum,TreeInstance>> set) {
+			private boolean checkFound() {
 				boolean found = false;
-				for(Entry<TreeEnum, TreeInstance> entry : set) {
-					if(entry.getValue().hasChildren()) {
+				for (Entry<TreeEnum, TreeInstance> entry : tree_map.entrySet()) {
+					if (entry.getValue().hasChildren()) {
 						found = true;
 					} else {
-						entry.getValue().dispose();	
+						entry.getValue().dispose();
 					}
 				}
 				return found;
@@ -177,7 +174,6 @@ public class MainSearchView implements PidescoView {
 	}
 
 	private void searchIn_orForPackage(SearchEnumType enumType) {
-
 		SearchIn comboSearchIn = search_composite.getSearchInCombo();
 		if (comboSearchIn.hasAlreadySelected && !comboSearchIn.getText_ofSearchSpecific().equals("")) {
 			for (SourceElement sourcePackage : root_package.getChildren()) {
@@ -187,10 +183,8 @@ public class MainSearchView implements PidescoView {
 				}
 			}
 		} else {
-
 			root_package.traverse(new MyVisitor(instance, enumType, ""));
 		}
-
 	}
 
 	private void searchForScanner(int itemSelected, PackageElement rootPackage) {
@@ -224,7 +218,6 @@ public class MainSearchView implements PidescoView {
 	}
 
 	private void initializeTree() {
-		tree_map = new TreeMap<TreeEnum, TreeInstance>();
 		tree_map.put(TreeEnum.Package, new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0), "Packages",
 				"package.gif", images));
 		tree_map.put(TreeEnum.Class,
@@ -269,7 +262,6 @@ public class MainSearchView implements PidescoView {
 
 	public ClassElement getClass(String className, PackageElement rootPackage) {
 		for (SourceElement source_package : rootPackage) {
-			System.out.println("MyPackage:" + source_package.getName());
 			ClassElement c = getClassOfSearchIn(className, (PackageElement) source_package);
 			if (c != null) {
 				return c;
