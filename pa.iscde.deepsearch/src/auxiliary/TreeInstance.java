@@ -21,15 +21,7 @@ public class TreeInstance {
 		tree_child.setText(child_name);
 		tree_child.setImage(tree_item.getImage());
 		tree_child.setData("file", file);
-		tree_child.setData(result); 
+		tree_child.setData(result);
 		tree_child.setData("searched", searched);
-	}
-
-	public boolean hasChildren() {
-		return tree_item.getItems().length > 0;
-	}
-
-	public void dispose() {
-		tree_item.dispose();
 	}
 }

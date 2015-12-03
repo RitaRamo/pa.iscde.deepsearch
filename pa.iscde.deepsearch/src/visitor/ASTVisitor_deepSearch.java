@@ -200,7 +200,7 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 				search_result += workStatement(node.statements());
 			}
 			if (search_result.contains(searchText)) {
-				searchView.addTreeElement(TreeEnum.Statement, "Statement of " + node.getParent(), temp_file, full_class,
+				searchView.addTreeElement(TreeEnum.Statement, "Statement of" + node.getParent(), temp_file, full_class,
 						search_result);
 			}
 		}
