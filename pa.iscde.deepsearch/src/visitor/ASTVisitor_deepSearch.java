@@ -1,14 +1,15 @@
 package visitor;
 
 import java.io.File;
+import java.util.List;
 
 import org.eclipse.jdt.core.dom.ASTVisitor;
+import org.eclipse.jdt.core.dom.Block;
 import org.eclipse.jdt.core.dom.EnumDeclaration;
 import org.eclipse.jdt.core.dom.FieldDeclaration;
 import org.eclipse.jdt.core.dom.ImportDeclaration;
 import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
-import org.eclipse.jdt.core.dom.Statement;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
 import enums.SearchEnumType;
@@ -188,20 +189,38 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 				}
 			}
 		}
+		return true;
+	}
+
+	@Override
+	public boolean visit(Block node) {
 		if (isToSearchInMethod_Class_orPackage()) {
 			String search_result = "";
-			if (node.getBody() != null && node.getBody().statements().size() > 0) {
-				for (int i = 0; i < node.getBody().statements().size(); i++) {
-					Statement s = (Statement) node.getBody().statements().get(i);
-					if (search_result.contains(searchText)) {
-						searchView.addTreeElement(TreeEnum.Statement, "Statement of " + s.getNodeType(), temp_file,
-								full_class, search_result);
-					}
-
-				}
+			if (node.statements().size() > 0) {
+				search_result += workStatement(node.statements());
+			}
+			if (search_result.contains(searchText)) {
+				searchView.addTreeElement(TreeEnum.Statement, "Statement of " + node.getParent(), temp_file, full_class,
+						search_result);
 			}
 		}
 		return true;
+	}
+
+	private String workStatement(List<?> stats) {
+		for (int i = 0; i < stats.size(); i++) {
+			if (stats.get(i) instanceof Block) {
+				Block b = (Block) stats.get(i);
+				if (b.statements().size() > 0) {
+					workStatement(b.statements());
+				} else {
+					return b.toString();
+				}
+			} else {
+				return stats.get(i).toString();
+			}
+		}
+		return "";
 	}
 
 	private boolean isToSearchForMethod_or_InMethod_Class_orPackage() {

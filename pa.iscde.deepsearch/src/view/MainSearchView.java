@@ -2,7 +2,6 @@ package view;
 
 import java.io.File;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.eclipse.core.runtime.CoreException;
@@ -83,7 +82,6 @@ public class MainSearchView implements PidescoView {
 				if (!tree_map.isEmpty()) {
 					tree_map.clear();
 				}
-				initializeTree();
 				if (advancedButtonIsSelected) {
 					advanced_composite.getComboSearchFor().clearSelected();
 					searchForScanner(advanced_composite.getComboSearchFor().itemSelected, root_package);
@@ -99,15 +97,7 @@ public class MainSearchView implements PidescoView {
 			}
 
 			private boolean checkFound() {
-				boolean found = false;
-				for (Entry<TreeEnum, TreeInstance> entry : tree_map.entrySet()) {
-					if (entry.getValue().hasChildren()) {
-						found = true;
-					} else {
-						entry.getValue().dispose();
-					}
-				}
-				return found;
+				return tree_map.size() > 0;
 			}
 		});
 		search_composite.getAdvanced().addSelectionListener(new SelectionAdapter() {
@@ -135,7 +125,6 @@ public class MainSearchView implements PidescoView {
 				if (ti.getData() != null) {
 					preview_composite.styleText(ti.getData().toString(), ti.getData("searched").toString(),
 							data_search);
-
 				}
 			}
 
@@ -210,32 +199,11 @@ public class MainSearchView implements PidescoView {
 	}
 
 	public void addTreeElement(TreeEnum parent, String name, File file, String result, String searched) {
-		for (Entry<TreeEnum, TreeInstance> entry : tree_map.entrySet()) {
-			if (entry.getKey().equals(parent)) {
-				entry.getValue().addChildElement(name, file, result, searched);
-			}
+		if (!tree_map.containsKey(parent)) {
+			tree_map.put(parent, new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0),
+					parent.toString(), parent.toString().toLowerCase() + ".gif", images));
 		}
-	}
-
-	private void initializeTree() {
-		tree_map.put(TreeEnum.Package, new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0), "Packages",
-				"package.gif", images));
-		tree_map.put(TreeEnum.Class,
-				new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0), "Classes", "class.gif", images));
-		tree_map.put(TreeEnum.Interface, new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0),
-				"Interfaces", "interface.gif", images));
-		tree_map.put(TreeEnum.Enum,
-				new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0), "Enums", "enum.gif", images));
-		tree_map.put(TreeEnum.Import,
-				new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0), "Imports", "import.gif", images));
-		tree_map.put(TreeEnum.Field,
-				new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0), "Fields", "field.gif", images));
-		tree_map.put(TreeEnum.Constructor, new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0),
-				"Constructors", "constructor.gif", images));
-		tree_map.put(TreeEnum.Method,
-				new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0), "Methods", "method.gif", images));
-		tree_map.put(TreeEnum.Statement, new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0),
-				"Method Statements", "statement.gif", images));
+		tree_map.get(parent).addChildElement(name, file, result, searched);
 	}
 
 	private class MyVisitor extends Visitor.Adapter {
