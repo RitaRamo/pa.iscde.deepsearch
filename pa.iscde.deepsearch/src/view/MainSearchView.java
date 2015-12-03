@@ -31,10 +31,9 @@ import pt.iscte.pidesco.extensibility.PidescoView;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
 import pt.iscte.pidesco.projectbrowser.model.ClassElement;
 import pt.iscte.pidesco.projectbrowser.model.PackageElement;
-import pt.iscte.pidesco.projectbrowser.model.PackageElement.Visitor;
 import pt.iscte.pidesco.projectbrowser.model.SourceElement;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
-import visitor.ASTVisitor_deepSearch;
+import visitor.DeepSearchVisitor;
 
 public class MainSearchView implements PidescoView {
 
@@ -88,7 +87,7 @@ public class MainSearchView implements PidescoView {
 				} else if (search_composite.getSearchInCombo().hasAlreadySelected) {
 					searchInScanner(search_composite.getSearchInCombo().itemSelected);
 				} else {
-					root_package.traverse(new MyVisitor(instance, SearchEnumType.SearchInPackage, ""));
+					root_package.traverse(new DeepSearchVisitor(instance, SearchEnumType.SearchInPackage, ""));
 				}
 				if (!checkFound()) {
 					new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0), "Not Found", "help.gif",
@@ -151,15 +150,15 @@ public class MainSearchView implements PidescoView {
 	private void searchInClass_orSearchFor(SearchEnumType enumType, String advancedSpecifications) {
 		SearchIn comboSearchIn = search_composite.getSearchInCombo();
 		if (comboSearchIn.hasAlreadySelected && !comboSearchIn.getText_ofSearchSpecific().equals("")) {
-			new MyVisitor(instance, enumType, advancedSpecifications)
+			new DeepSearchVisitor(instance, enumType, advancedSpecifications)
 					.visitClass(getClass(comboSearchIn.getText_ofSearchSpecific(), root_package));
 		} else {
-			root_package.traverse(new MyVisitor(instance, enumType, advancedSpecifications));
+			root_package.traverse(new DeepSearchVisitor(instance, enumType, advancedSpecifications));
 		}
 	}
 
 	private void searchIn_orForMethod(SearchEnumType enumType, String advancedSpecifications) {
-		root_package.traverse(new MyVisitor(instance, enumType, advancedSpecifications));
+		root_package.traverse(new DeepSearchVisitor(instance, enumType, advancedSpecifications));
 	}
 
 	private void searchIn_orForPackage(SearchEnumType enumType) {
@@ -167,12 +166,12 @@ public class MainSearchView implements PidescoView {
 		if (comboSearchIn.hasAlreadySelected && !comboSearchIn.getText_ofSearchSpecific().equals("")) {
 			for (SourceElement sourcePackage : root_package.getChildren()) {
 				if (sourcePackage.getName().equals(comboSearchIn.getText_ofSearchSpecific())) {
-					((PackageElement) sourcePackage).traverse(new MyVisitor(instance, enumType, ""));
+					((PackageElement) sourcePackage).traverse(new DeepSearchVisitor(instance, enumType, ""));
 					break;
 				}
 			}
 		} else {
-			root_package.traverse(new MyVisitor(instance, enumType, ""));
+			root_package.traverse(new DeepSearchVisitor(instance, enumType, ""));
 		}
 	}
 
@@ -205,28 +204,6 @@ public class MainSearchView implements PidescoView {
 		}
 		tree_map.get(parent).addChildElement(name, file, result, searched);
 	}
-
-	private class MyVisitor extends Visitor.Adapter {
-		private MainSearchView searchView;
-		private SearchEnumType myEnumType;
-		private ASTVisitor_deepSearch astVisitor_deepSearch;
-
-		public MyVisitor(MainSearchView search_view, SearchEnumType enum_type, String advancedSpecifications) {
-			this.myEnumType = enum_type;
-			this.searchView = search_view;
-			astVisitor_deepSearch = new ASTVisitor_deepSearch(searchView, data_search, myEnumType,
-					advancedSpecifications);
-		}
-
-		@Override
-		public void visitClass(ClassElement c) {
-			if (c != null) {
-				astVisitor_deepSearch.setFile(c.getFile());
-				editor_search.parseFile(c.getFile(), astVisitor_deepSearch);
-			}
-		}
-
-	};
 
 	public ClassElement getClass(String className, PackageElement rootPackage) {
 		for (SourceElement source_package : rootPackage) {
@@ -274,6 +251,14 @@ public class MainSearchView implements PidescoView {
 
 	public static MainSearchView getInstance() {
 		return instance;
+	}
+
+	public JavaEditorServices getEditorSearch() {
+		return editor_search;
+	}
+
+	public String getDataSearch() {
+		return data_search;
 	}
 
 }
