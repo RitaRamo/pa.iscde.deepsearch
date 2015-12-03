@@ -53,7 +53,6 @@ public class AdvancedComposite extends Composite {
 		@Override
 		protected void showRelatedSpecifications() {
 			disposeButtons();
-			
 			if (hasAlreadySelected) {
 				switch (itemSelected) {
 				case 2:
@@ -82,7 +81,7 @@ public class AdvancedComposite extends Composite {
 
 		public ArrayList<String> getButtonsSelected() {
 			for (Button button : myButtons) {
-				if (button.getSelection() == true) {
+				if (button.getSelection()) {
 					itemsSelected.add(button.getText());
 				}
 			}

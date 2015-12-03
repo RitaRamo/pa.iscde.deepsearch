@@ -16,7 +16,7 @@ import enums.SearchEnumType;
 import enums.TreeEnum;
 import view.MainSearchView;
 
-public class ASTVisitor_deepSearch extends ASTVisitor {
+public class ASTVisitorDeepSearch extends ASTVisitor {
 
 	private MainSearchView searchView;
 	private String searchText;
@@ -26,7 +26,7 @@ public class ASTVisitor_deepSearch extends ASTVisitor {
 	private String full_class;
 	private File temp_file;
 
-	public ASTVisitor_deepSearch(MainSearchView searchView, String searchText, SearchEnumType myEnm,
+	public ASTVisitorDeepSearch(MainSearchView searchView, String searchText, SearchEnumType myEnm,
 			String advancedSpecification) {
 		this.searchView = searchView;
 		this.searchText = searchText;

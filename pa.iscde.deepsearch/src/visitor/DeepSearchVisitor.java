@@ -9,12 +9,12 @@ public class DeepSearchVisitor extends Visitor.Adapter {
 
 	private MainSearchView searchView;
 	private SearchEnumType myEnumType;
-	private ASTVisitor_deepSearch astVisitor_deepSearch;
+	private ASTVisitorDeepSearch astVisitor_deepSearch;
 
 	public DeepSearchVisitor(MainSearchView search_view, SearchEnumType enum_type, String advancedSpecifications) {
 		this.myEnumType = enum_type;
 		this.searchView = search_view;
-		astVisitor_deepSearch = new ASTVisitor_deepSearch(searchView, searchView.getDataSearch(), myEnumType,
+		astVisitor_deepSearch = new ASTVisitorDeepSearch(searchView, searchView.getDataSearch(), myEnumType,
 				advancedSpecifications);
 	}
 
