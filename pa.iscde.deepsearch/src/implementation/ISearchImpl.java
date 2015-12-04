@@ -40,4 +40,9 @@ public class ISearchImpl implements ISearch {
 		return search.getSearchInCombo().getComboBox_searchSpecific().getItems();
 	}
 
+	@Override
+	public boolean advancedButtonIsSelected() {
+		return search.getAdvanced().getSelection();
+	}
+
 }

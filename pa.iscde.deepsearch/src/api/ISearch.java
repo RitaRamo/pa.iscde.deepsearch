@@ -34,4 +34,10 @@ public interface ISearch {
 	 */
 	public String[] getSpecificElements(String combo_element);
 	
+	/**
+	 * Invoked to check if Advanced button is selected.
+	 * @return boolean Advanced button selected
+	 */
+	public boolean advancedButtonIsSelected();
+	
 }
