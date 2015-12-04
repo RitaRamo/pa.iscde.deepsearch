@@ -11,7 +11,7 @@ import org.eclipse.swt.widgets.Label;
 public abstract class ComboBox_Autocompleted {
 	protected Combo comboBox_search;
 	protected int itemSelected;
-	protected boolean hasAlreadySelected = false;
+	protected boolean hasAlreadySelected;
 	private Composite parent;
 	protected String[] comboItems;
 	private Label search_label;
@@ -21,6 +21,7 @@ public abstract class ComboBox_Autocompleted {
 		this.comboName = comboName;
 		this.parent = parent;
 		this.comboItems = comboItems;
+		hasAlreadySelected = false;
 		createContents();
 	}
 
@@ -28,9 +29,9 @@ public abstract class ComboBox_Autocompleted {
 
 		search_label = new Label(parent, SWT.NONE);
 		search_label.setText(comboName);
+
 		comboBox_search = new Combo(parent, SWT.BORDER);
 		comboBox_search.setItems(comboItems);
-		
 		comboBox_search.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 
 		comboBox_search.addModifyListener(new ModifyListener() {
@@ -68,8 +69,9 @@ public abstract class ComboBox_Autocompleted {
 
 		if (hasSelectedItemWithMouse()) {
 			itemSelected = comboBox_search.getSelectionIndex();
-			if (itemSelected > 0)
+			if (itemSelected > 0) {
 				hasAlreadySelected = true;
+			}
 		} else {
 			if (textInserted.length() > 0) {
 				for (int i = 1; i < comboItems.length; i++) {
@@ -101,8 +103,8 @@ public abstract class ComboBox_Autocompleted {
 		return comboBox_search;
 	}
 
-	public void dispose(){
+	public void dispose() {
 		comboBox_search.removeAll();
 	}
-	
+
 }

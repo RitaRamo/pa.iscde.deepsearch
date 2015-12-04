@@ -144,6 +144,8 @@ public class MainSearchView implements PidescoView {
 			searchInClass_orSearchFor(SearchEnumType.SearchInClass, "");
 		} else if (itemSelected == 3) {
 			searchIn_orForMethod(SearchEnumType.SearchInMethod, "");
+		} else if (itemSelected > 3) {
+			searchIn_adHoc(SearchEnumType.SearchInAdHoc);
 		}
 	}
 
@@ -173,6 +175,10 @@ public class MainSearchView implements PidescoView {
 		} else {
 			root_package.traverse(new DeepSearchVisitor(instance, enumType, ""));
 		}
+	}
+
+	private void searchIn_adHoc(SearchEnumType enumType) {
+		root_package.traverse(new DeepSearchVisitor(instance, enumType, ""));
 	}
 
 	private void searchForScanner(int itemSelected, PackageElement rootPackage) {
