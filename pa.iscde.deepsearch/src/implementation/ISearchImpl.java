@@ -12,13 +12,23 @@ public class ISearchImpl implements ISearch {
 	}
 
 	@Override
-	public void addSearchInComboOption(String option_name) {
+	public void addComboElement(String option_name) {
 		search.getSearchInCombo().getComboBox_search().add(option_name);
 	}
 
 	@Override
-	public void addSearchInSpecificOption(String specific_name) {
-		search.getSearchInCombo().getComboBox_search().add(specific_name);
+	public void addSpecificElement(String specific_name) {
+		search.getSearchInCombo().getComboBox_searchSpecific().add(specific_name);
+	}
+	
+	@Override
+	public void addArrayElementsToCombo(String[] combo_elements) {
+		search.getSearchInCombo().getComboBox_search().setItems(combo_elements);
+	}
+
+	@Override
+	public void addArrayElementsToSpecific(String[] specific_elements) {
+		search.getSearchInCombo().getComboBox_searchSpecific().setItems(specific_elements);
 	}
 
 	@Override
@@ -34,9 +44,18 @@ public class ISearchImpl implements ISearch {
 	public String[] getComboElements() {
 		return search.getSearchInCombo().getComboBox_search().getItems();
 	}
+	
+	@Override
+	public String getSpecificElement(int index) {
+		if (index < getSpecificElements().length) {
+			return getSpecificElements()[index];
+		} else {
+			return null;
+		}
+	}
 
 	@Override
-	public String[] getSpecificElements(String combo_element) {
+	public String[] getSpecificElements() {
 		return search.getSearchInCombo().getComboBox_searchSpecific().getItems();
 	}
 

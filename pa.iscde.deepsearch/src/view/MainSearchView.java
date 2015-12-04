@@ -50,8 +50,6 @@ public class MainSearchView implements PidescoView {
 
 	private Map<String, Image> images;
 	private TreeMap<TreeEnum, TreeInstance> tree_map;
-	
-	//private ISearchImpl search_implementation;
 
 	public MainSearchView() {
 		instance = this;
@@ -71,9 +69,6 @@ public class MainSearchView implements PidescoView {
 
 		search_composite = new SearchComposite(viewArea, SWT.BORDER);
 		preview_composite = new PreviewComposite(viewArea, SWT.BORDER);
-		
-		//search_implementation = new ISearchImpl(search_composite);
-		//search_implementation.addSearchInComboOption("Zeca");
 
 		search_composite.getSearchButton().addSelectionListener(new SelectionAdapter() {
 
