@@ -152,6 +152,10 @@ public class SearchComposite extends Composite {
 			return myItemsNames_asArray;
 		}
 		
+		public Combo getComboBox_searchSpecific() {
+			return comboBox_searchSpecific;
+		}
+		
 		public String getText_ofSearchSpecific(){
 			return comboBox_searchSpecific.getText();
 		}
