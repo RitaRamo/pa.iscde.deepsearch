@@ -19,7 +19,6 @@ public class AutoCompletionCombo {
 	private Combo combo;
 
 	public AutoCompletionCombo(Composite parent, int style, String[] combo_items) {
-
 		this.combo_items = combo_items;
 
 		combo = new Combo(parent, style);
@@ -61,7 +60,6 @@ public class AutoCompletionCombo {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String text = combo.getText();
-				updateSuggestions(text);
 				combo.setText(text);
 			}
 
@@ -88,7 +86,7 @@ public class AutoCompletionCombo {
 	public String getText() {
 		return combo.getText();
 	}
-	
+
 	public Combo getCombo() {
 		return combo;
 	}

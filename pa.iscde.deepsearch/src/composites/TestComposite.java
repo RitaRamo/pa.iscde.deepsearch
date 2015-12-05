@@ -2,6 +2,7 @@ package composites;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 
 import auxiliary.AutoCompletionCombo;
@@ -18,7 +19,8 @@ public class TestComposite extends Composite {
 	private void createContents() {
 		setLayout(new GridLayout(2, false));
 
-		new AutoCompletionCombo(this, SWT.NONE, items);
+		@SuppressWarnings("unused")
+		Combo s = new AutoCompletionCombo(this, SWT.NONE, items).getCombo();
 
 	}
 

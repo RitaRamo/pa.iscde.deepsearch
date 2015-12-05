@@ -25,6 +25,7 @@ import composites.AdvancedComposite.SearchFor;
 import composites.PreviewComposite;
 import composites.SearchComposite;
 import composites.SearchComposite.SearchIn;
+import composites.TestComposite;
 import enums.SearchEnumType;
 import enums.TreeEnum;
 import pt.iscte.pidesco.extensibility.PidescoView;
@@ -70,8 +71,8 @@ public class MainSearchView implements PidescoView {
 		search_composite = new SearchComposite(viewArea, SWT.BORDER);
 		preview_composite = new PreviewComposite(viewArea, SWT.BORDER);
 
-		//new TestComposite(viewArea, SWT.NONE);
-		
+		new TestComposite(viewArea, SWT.BORDER);
+
 		search_composite.getSearchButton().addSelectionListener(new SelectionAdapter() {
 
 			@Override
