@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyAdapter;
 import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
@@ -22,8 +23,21 @@ public class AutoCompletionCombo {
 		this.combo_items = combo_items;
 
 		combo = new Combo(parent, style);
-		combo.addKeyListener(new KeyAdapter() {
-
+		
+		combo.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+//				if (e.character == 0) {
+//					return;
+//				}
+//				String text = combo.getText();
+//				List<String> matchingSuggestions = updateSuggestions(text);
+//				if(matchingSuggestions.isEmpty()) {
+//					return;
+//				}
+			}
+			
 			@Override
 			public void keyReleased(KeyEvent e) {
 				if (e.character == 0) {
@@ -43,6 +57,7 @@ public class AutoCompletionCombo {
 						Point selection;
 						if (matchingSuggestions.isEmpty()) {
 							combo.setText(text);
+							
 							selection = new Point(length, length);
 						} else {
 							String suggestion = matchingSuggestions.get(0);
