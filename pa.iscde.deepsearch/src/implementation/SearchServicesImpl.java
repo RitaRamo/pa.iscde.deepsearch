@@ -1,13 +1,13 @@
 package implementation;
 
-import api.ISearch;
+import api.SearchServices;
 import composites.SearchComposite;
 
-public class ISearchImpl implements ISearch {
+public class SearchServicesImpl implements SearchServices {
 
 	private SearchComposite search;
 
-	public ISearchImpl(SearchComposite search) {
+	public SearchServicesImpl(SearchComposite search) {
 		this.search = search;
 	}
 

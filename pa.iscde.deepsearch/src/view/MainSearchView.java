@@ -25,7 +25,6 @@ import composites.AdvancedComposite.SearchFor;
 import composites.PreviewComposite;
 import composites.SearchComposite;
 import composites.SearchComposite.SearchIn;
-import composites.TestComposite;
 import enums.SearchEnumType;
 import enums.TreeEnum;
 import pt.iscte.pidesco.extensibility.PidescoView;

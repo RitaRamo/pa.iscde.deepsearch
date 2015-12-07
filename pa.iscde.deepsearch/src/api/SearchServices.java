@@ -1,6 +1,6 @@
 package api;
 
-public interface ISearch {
+public interface SearchServices {
 
 	/**
 	 * Invoked to add new Combo options to search.
