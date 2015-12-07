@@ -22,7 +22,7 @@ import view.ComboBox_Autocompleted;
 
 public class SearchComposite extends Composite {
 
-	private SearchComposite instance;
+	private static SearchComposite instance;
 	private Button search_button;
 	private ProjectBrowserServices browser_search;
 	private Text search_field;
@@ -36,6 +36,7 @@ public class SearchComposite extends Composite {
 
 	public SearchComposite(Composite parent, int style) {
 		super(parent, style);
+		System.out.println("Spin the weel");
 		instance = this;
 		browser_search = SearchActivator.getActivatorInstance().getBrowserService();
 		createContents();
@@ -75,6 +76,9 @@ public class SearchComposite extends Composite {
 
 	public Button getAdvanced() {
 		return advanced_button;
+	}
+	public static SearchComposite getSearchCompositeInstance() {
+		return instance;
 	}
 
 	public class SearchIn extends ComboBox_Autocompleted {

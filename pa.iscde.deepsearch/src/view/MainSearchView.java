@@ -58,8 +58,6 @@ public class MainSearchView implements PidescoView {
 	@Override
 	public void createContents(final Composite viewArea, Map<String, Image> imageMap) {
 
-		checkExtensions();
-
 		images = imageMap;
 		tree_map = new TreeMap<TreeEnum, TreeInstance>();
 		browser_search = SearchActivator.getActivatorInstance().getBrowserService();
@@ -137,6 +135,8 @@ public class MainSearchView implements PidescoView {
 			}
 
 		});
+		
+		checkExtensions();
 	}
 
 	private void searchInScanner(int itemSelected) {
@@ -240,7 +240,7 @@ public class MainSearchView implements PidescoView {
 
 	private void checkExtensions() {
 		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
-		IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.deepsearch.output_preview");
+		IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.deepsearch.combo_search");
 		IExtension[] extensions = extensionPoint.getExtensions();
 		for (IExtension e : extensions) {
 			IConfigurationElement[] confElements = e.getConfigurationElements();
