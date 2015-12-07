@@ -2,6 +2,8 @@ package api;
 
 public interface ISearchEvent {
 
-	public void getSearchedParameters(String searched, String combo_element, String specific_element);
-	
+	public void addListener(ISearchEventListener listener);
+
+	public void removeListener(ISearchEventListener listener);
+
 }

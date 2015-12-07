@@ -1,12 +1,20 @@
 package implementation;
 
+import activator.SearchActivator;
 import api.ISearchEvent;
+import api.ISearchEventListener;
 
 public class ISearchEventImpl implements ISearchEvent {
 
 	@Override
-	public void getSearchedParameters(String searched, String combo_element, String specific_element) {
+	public void addListener(ISearchEventListener listener) {
+		SearchActivator.getActivatorInstance().addListener(listener);
 	}
-	
+
+	@Override
+	public void removeListener(ISearchEventListener listener) {
+		SearchActivator.getActivatorInstance().removeListener(listener);
+
+	}
 
 }
