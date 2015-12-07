@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeItem;
 
 import activator.SearchActivator;
+import api.ISearchEventListener;
 import auxiliary.TreeInstance;
 import composites.AdvancedComposite;
 import composites.AdvancedComposite.SearchFor;
@@ -68,7 +69,7 @@ public class MainSearchView implements PidescoView {
 		search_composite = new SearchComposite(viewArea, SWT.BORDER);
 		preview_composite = new PreviewComposite(viewArea, SWT.BORDER);
 
-		//new TestComposite(viewArea, SWT.BORDER);
+		// new TestComposite(viewArea, SWT.BORDER);
 
 		search_composite.getSearchButton().addSelectionListener(new SelectionAdapter() {
 
@@ -135,8 +136,27 @@ public class MainSearchView implements PidescoView {
 			}
 
 		});
-		
+
+		addWidgetSelected();
+
 		checkExtensions();
+	}
+
+	private void addWidgetSelected() {
+		search_composite.getSearchButton().addSelectionListener(new SelectionAdapter() {
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String temp = "";
+				if (search_composite.getSearchInCombo().getComboBox_searchSpecific() != null) {
+					temp = search_composite.getSearchInCombo().getComboBox_searchSpecific().getText();
+				}
+				for (ISearchEventListener l : SearchActivator.getActivatorInstance().getListeners()) {
+					l.widgetSelected(search_composite.getSearchField().getText(),
+							search_composite.getSearchInCombo().getComboBox_search().getText(), temp);
+				}
+			}
+		});
 	}
 
 	private void searchInScanner(int itemSelected) {

@@ -22,8 +22,8 @@ public class SearchActivator implements BundleActivator {
 	private ProjectBrowserServices browser_service;
 
 	private Set<ISearchEventListener> listeners;
-	private ServiceRegistration<SearchServices> service_one;
-	private ServiceRegistration<ISearchEvent> service_two;
+	private ServiceRegistration<SearchServices> search_service_registry;
+	private ServiceRegistration<ISearchEvent> search_event_registry;
 
 	private static SearchActivator activator;
 
@@ -38,16 +38,15 @@ public class SearchActivator implements BundleActivator {
 				.getServiceReference(ProjectBrowserServices.class);
 		browser_service = context.getService(ref_browser);
 
-		service_one = context.registerService(SearchServices.class, new SearchServicesImpl(), null);
-
-		service_two = context.registerService(ISearchEvent.class, new ISearchEventImpl(), null);
+		search_service_registry = context.registerService(SearchServices.class, new SearchServicesImpl(), null);
+		search_event_registry = context.registerService(ISearchEvent.class, new ISearchEventImpl(), null);
 	}
 
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		activator = null;
-		service_one.unregister();
-		service_two.unregister();
+		search_service_registry.unregister();
+		search_event_registry.unregister();
 		listeners.clear();
 	}
 
