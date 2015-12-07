@@ -2,8 +2,7 @@ package api;
 
 public interface ISearchEvent {
 
-	public void getSearchedParametres(String searching, String searchIn_message, String search_specific_element);
-	
-	//Todas as extensoes vao ser notificadas que isto aconteceu
+	public void getSearchedParameters(String searched, String combo_element, String specific_element);
+	//Todas as extensoes vao ser notificadas que esta procura foi feita
 	
 }
