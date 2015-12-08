@@ -14,7 +14,6 @@ public class ISearchEventImpl implements ISearchEvent {
 	@Override
 	public void removeListener(ISearchEventListener listener) {
 		SearchActivator.getActivatorInstance().removeListener(listener);
-
 	}
 
 }

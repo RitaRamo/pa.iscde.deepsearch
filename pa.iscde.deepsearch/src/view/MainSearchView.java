@@ -146,7 +146,7 @@ public class MainSearchView implements PidescoView {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String temp = "";
-				if (search_composite.getSearchInCombo().getComboBox_searchSpecific() != null) {
+				if (!search_composite.getSearchInCombo().getComboBox_searchSpecific().isDisposed()) {
 					temp = search_composite.getSearchInCombo().getComboBox_searchSpecific().getText();
 				}
 				for (ISearchEventListener l : SearchActivator.getActivatorInstance().getListeners()) {
