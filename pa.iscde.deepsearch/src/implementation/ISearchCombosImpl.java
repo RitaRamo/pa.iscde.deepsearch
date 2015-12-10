@@ -4,11 +4,18 @@ import api.ISearchCombos;
 import composites.SearchComposite;
 
 public class ISearchCombosImpl implements ISearchCombos {
-	
-	private SearchComposite search_composite;
 
 	public ISearchCombosImpl() {
-		search_composite = SearchComposite.getSearchCompositeInstance();
+	}
+
+	@Override
+	public void setComboElements(String[] elements) {
+
+	}
+
+	@Override
+	public void setSpecificComboElements(String[] elements) {
+
 	}
 
 	@Override
@@ -21,8 +28,10 @@ public class ISearchCombosImpl implements ISearchCombos {
 
 	@Override
 	public String[] getComboElements() {
-		if (search_composite != null) {
-			return search_composite.getSearchInCombo().getComboBox_search().getItems();
+		if (SearchComposite.getSearchCompositeInstance() != null) {
+			return SearchComposite.getSearchCompositeInstance().getSearchInCombo().getComboBox_search().getItems();
+		} else {
+			System.out.println("I am Null 1");
 		}
 		return new String[0];
 	}
@@ -37,21 +46,23 @@ public class ISearchCombosImpl implements ISearchCombos {
 
 	@Override
 	public String[] getSpecificElements() {
-		if (search_composite != null) {
-			if (search_composite.getSearchInCombo().getComboBox_searchSpecific() != null) {
-				if (!search_composite.getSearchInCombo().getComboBox_searchSpecific()
+		if (SearchComposite.getSearchCompositeInstance() != null) {
+			if (SearchComposite.getSearchCompositeInstance().getSearchInCombo().getComboBox_searchSpecific() != null) {
+				if (!SearchComposite.getSearchCompositeInstance().getSearchInCombo().getComboBox_searchSpecific()
 						.isDisposed()) {
-					return search_composite.getSearchInCombo().getComboBox_searchSpecific()
+					return SearchComposite.getSearchCompositeInstance().getSearchInCombo().getComboBox_searchSpecific()
 							.getItems();
 				}
 			}
+		} else {
+			System.out.println("I am Null 2");
 		}
 		return new String[0];
 	}
 
 	@Override
 	public boolean advancedButtonIsSelected() {
-		return search_composite.getAdvanced().getSelection();
+		return SearchComposite.getSearchCompositeInstance().getAdvanced().getSelection();
 	}
 
 }

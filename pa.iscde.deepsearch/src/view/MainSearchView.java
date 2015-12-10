@@ -68,7 +68,7 @@ public class MainSearchView implements PidescoView {
 
 		search_composite = new SearchComposite(viewArea, SWT.BORDER);
 		preview_composite = new PreviewComposite(viewArea, SWT.BORDER);
-
+		
 		search_composite.getSearchButton().addSelectionListener(new SelectionAdapter() {
 
 			@Override

@@ -2,6 +2,11 @@ package api;
 
 public interface ISearchCombos {
 
+	
+	public void setComboElements(String[] elements);
+	
+	public void setSpecificComboElements(String[] elements);
+	
 	/**
 	 * Invoked to get an element from Combo.
 	 * 
