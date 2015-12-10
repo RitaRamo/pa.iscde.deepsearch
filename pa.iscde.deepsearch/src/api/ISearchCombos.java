@@ -1,6 +1,6 @@
 package api;
 
-public interface SearchServices {
+public interface ISearchCombos {
 
 	/**
 	 * Invoked to get an element from Combo.
