@@ -10,9 +10,7 @@ import org.osgi.framework.ServiceRegistration;
 
 import api.ISearchEvent;
 import api.ISearchEventListener;
-import api.ISearchCombos;
 import implementation.ISearchEventImpl;
-import implementation.ISearchCombosImpl;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 
@@ -22,7 +20,6 @@ public class SearchActivator implements BundleActivator {
 	private ProjectBrowserServices browser_service;
 
 	private Set<ISearchEventListener> listeners;
-	private ServiceRegistration<ISearchCombos> search_service_registry;
 	private ServiceRegistration<ISearchEvent> search_event_registry;
 
 	private static SearchActivator activator;
@@ -38,14 +35,12 @@ public class SearchActivator implements BundleActivator {
 				.getServiceReference(ProjectBrowserServices.class);
 		browser_service = context.getService(ref_browser);
 
-		search_service_registry = context.registerService(ISearchCombos.class, new ISearchCombosImpl(), null);
 		search_event_registry = context.registerService(ISearchEvent.class, new ISearchEventImpl(), null);
 	}
 
 	@Override
 	public void stop(BundleContext context) throws Exception {
 		activator = null;
-		search_service_registry.unregister();
 		search_event_registry.unregister();
 		listeners.clear();
 	}

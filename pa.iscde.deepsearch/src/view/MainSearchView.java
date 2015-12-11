@@ -153,7 +153,7 @@ public class MainSearchView implements PidescoView {
 				}
 				for (ISearchEventListener l : SearchActivator.getActivatorInstance().getListeners()) {
 					l.widgetSelected(search_composite.getSearchField().getText(),
-							search_composite.getSearchInCombo().getComboBox_search().getText(), temp);
+							search_composite.getSearchInCombo().getComboBox_search().getText(), "", "", "");
 				}
 			}
 		});

@@ -8,12 +8,19 @@ public interface ISearchEventListener {
 	 * 
 	 * @param searched
 	 *            String to be searched
-	 * @param combo_element
-	 *            Element of Combo used in the search
+	 * @param searchIn_element
+	 *            Element of SearchIn used in the search
 	 * @param specific_element
-	 *            Element of Specific Combo used in the search
+	 *            Element of Specific Combo used in the search (empty if
+	 *            disposed)
+	 * @param searchFor_element
+	 *            Element of SearchFor in the advanced search (empty if
+	 *            disposed)
+	 * @param search_atribute
+	 *            Atribute of SearchFor element (empty if disposed)
 	 * 
 	 */
-	public void widgetSelected(String searched, String combo_element, String specific_element);
+	public void widgetSelected(String searched, String searchIn_element, String specific_element,
+			String searchFor_element, String search_atribute);
 
 }

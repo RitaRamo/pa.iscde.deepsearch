@@ -3,6 +3,8 @@ package implementation;
 import activator.SearchActivator;
 import api.ISearchEvent;
 import api.ISearchEventListener;
+import composites.AdvancedComposite;
+import composites.SearchComposite;
 
 public class ISearchEventImpl implements ISearchEvent {
 
@@ -14,6 +16,52 @@ public class ISearchEventImpl implements ISearchEvent {
 	@Override
 	public void removeListener(ISearchEventListener listener) {
 		SearchActivator.getActivatorInstance().removeListener(listener);
+	}
+
+	@Override
+	public String[] getSearchInElements() {
+		return SearchComposite.getSearchCompositeInstance().getSearchInCombo().getComboBox_search().getItems();
+	}
+
+	@Override
+	public String[] getSearchSpecificElements() {
+		if (!isSearchSpecificDisposed()) {
+			return SearchComposite.getSearchCompositeInstance().getSearchInCombo().getComboBox_searchSpecific()
+					.getItems();
+		}
+		return new String[0];
+	}
+
+	@Override
+	public boolean isAdvanceSelected() {
+		return SearchComposite.getSearchCompositeInstance().getAdvanced().getSelection();
+	}
+
+	@Override
+	public boolean isSearchSpecificDisposed() {
+		return SearchComposite.getSearchCompositeInstance().getSearchInCombo().getComboBox_searchSpecific()
+				.isDisposed();
+	}
+
+	@Override
+	public String[] getSearchForElements() {
+		if (isAdvanceSelected()) {
+			return AdvancedComposite.getAdvancedInstance().getComboSearchFor().getComboBox_search().getItems();
+		}
+		return new String[0];
+	}
+
+	@Override
+	public String[] getSearchForAtributes() {
+		if (isAdvanceSelected() && !isAtributesDisposed()) {
+			return AdvancedComposite.getAdvancedInstance().getComboSearchFor().getMyButtons();
+		}
+		return new String[0];
+	}
+
+	@Override
+	public boolean isAtributesDisposed() {
+		return AdvancedComposite.getAdvancedInstance().getComboSearchFor().getIsDisposed();
 	}
 
 }

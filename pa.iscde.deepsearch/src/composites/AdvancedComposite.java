@@ -12,7 +12,7 @@ import view.ComboBox_Autocompleted;
 
 public class AdvancedComposite extends Composite {
 
-	private AdvancedComposite instance = this;
+	private static AdvancedComposite instance;
 	private static final String NULL = "";
 	private static final String PACKAGE = SearchInEnum.Package.toString();
 	private static final String CLASS = SearchInEnum.Class.toString();
@@ -23,6 +23,7 @@ public class AdvancedComposite extends Composite {
 
 	public AdvancedComposite(Composite parent, int style) {
 		super(parent, style);
+		instance = this;
 		createContents();
 	}
 
@@ -36,6 +37,10 @@ public class AdvancedComposite extends Composite {
 		return comboSearchFor;
 	}
 
+	public static AdvancedComposite getAdvancedInstance() {
+		return instance;
+	}
+
 	public class SearchFor extends ComboBox_Autocompleted {
 		private final String[] ButtonsName_Class = new String[] { "abstract", "interface", "enum" };
 		private final String[] ButtonsName_Method = new String[] { PACKAGE, CLASS, METHOD, ATRIBUTE };
@@ -44,6 +49,7 @@ public class AdvancedComposite extends Composite {
 		private Composite parent;
 		private ArrayList<Button> myButtons = new ArrayList<Button>();
 		private ArrayList<String> itemsSelected = new ArrayList<String>();
+		private boolean disposed = true;
 
 		public SearchFor(Composite parent, String[] comboItems) {
 			super(parent, "Search For: ", comboItems);
@@ -72,6 +78,7 @@ public class AdvancedComposite extends Composite {
 		}
 
 		private void addButtons(String[] checkButtons_Name) {
+			disposed = false;
 			for (int i = 0; i < checkButtons_Name.length; i++) {
 				Button newButton = new Button(parent, SWT.CHECK);
 				newButton.setText(checkButtons_Name[i]);
@@ -87,7 +94,7 @@ public class AdvancedComposite extends Composite {
 			}
 			return itemsSelected;
 		}
-		
+
 		public void clearSelected() {
 			itemsSelected.clear();
 		}
@@ -103,6 +110,19 @@ public class AdvancedComposite extends Composite {
 				}
 			}
 			myButtons.clear();
+			disposed = true;
+		}
+		
+		public boolean getIsDisposed() {
+			return disposed;
+		}
+		
+		public String[] getMyButtons() {
+			String[] buttons = new String[myButtons.size()];
+			for(int i = 0; i < myButtons.size(); i++) {
+				buttons[i] = myButtons.get(i).getText();
+			}
+			return buttons;
 		}
 	}
 }
