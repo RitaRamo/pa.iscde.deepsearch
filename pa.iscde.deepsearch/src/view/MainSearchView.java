@@ -40,22 +40,25 @@ import visitor.DeepSearchVisitor;
 
 public class MainSearchView implements PidescoView {
 
-	private static MainSearchView instance;
+	private static MainSearchView MAIN_SEARCH_VIEW_INSTANCE;
+
 	private ProjectBrowserServices browser_search;
 	private JavaEditorServices editor_search;
+
 	private SearchComposite search_composite;
 	private PreviewComposite preview_composite;
 	private AdvancedComposite advanced_composite;
+
 	private PackageElement root_package;
 
-	private String data_search;
+	private String searched_data;
 	private boolean advancedButtonIsSelected;
 
 	private Map<String, Image> images;
 	private TreeMap<TreeEnum, TreeInstance> tree_map;
 
 	public MainSearchView() {
-		instance = this;
+		MAIN_SEARCH_VIEW_INSTANCE = this;
 	}
 
 	@Override
@@ -78,7 +81,7 @@ public class MainSearchView implements PidescoView {
 				preview_composite.getPreview().setText("");
 				preview_composite.getHierarquies().removeAll();
 				root_package = (PackageElement) browser_search.getRootPackage();
-				data_search = search_composite.getSearchField().getText();
+				searched_data = search_composite.getSearchField().getText();
 				if (!tree_map.isEmpty()) {
 					tree_map.clear();
 				}
@@ -88,7 +91,8 @@ public class MainSearchView implements PidescoView {
 				} else if (search_composite.getSearchInCombo().hasAlreadySelected) {
 					searchInScanner(search_composite.getSearchInCombo().itemSelected);
 				} else {
-					root_package.traverse(new DeepSearchVisitor(instance, SearchEnumType.SearchInPackage, ""));
+					root_package.traverse(
+							new DeepSearchVisitor(MAIN_SEARCH_VIEW_INSTANCE, SearchEnumType.SearchInPackage, ""));
 				}
 				if (!checkFound()) {
 					new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0), "Not Found", "help.gif",
@@ -124,7 +128,7 @@ public class MainSearchView implements PidescoView {
 				TreeItem ti = (TreeItem) e.item;
 				if (ti.getData() != null) {
 					preview_composite.styleText(ti.getData().toString(), ti.getData("searched").toString(),
-							data_search);
+							searched_data);
 				}
 			}
 
@@ -186,15 +190,15 @@ public class MainSearchView implements PidescoView {
 	private void searchInClass_orSearchFor(SearchEnumType enumType, String advancedSpecifications) {
 		SearchIn comboSearchIn = search_composite.getSearchInCombo();
 		if (comboSearchIn.hasAlreadySelected && !comboSearchIn.getText_ofSearchSpecific().equals("")) {
-			new DeepSearchVisitor(instance, enumType, advancedSpecifications)
+			new DeepSearchVisitor(MAIN_SEARCH_VIEW_INSTANCE, enumType, advancedSpecifications)
 					.visitClass(getClass(comboSearchIn.getText_ofSearchSpecific(), root_package));
 		} else {
-			root_package.traverse(new DeepSearchVisitor(instance, enumType, advancedSpecifications));
+			root_package.traverse(new DeepSearchVisitor(MAIN_SEARCH_VIEW_INSTANCE, enumType, advancedSpecifications));
 		}
 	}
 
 	private void searchIn_orForMethod(SearchEnumType enumType, String advancedSpecifications) {
-		root_package.traverse(new DeepSearchVisitor(instance, enumType, advancedSpecifications));
+		root_package.traverse(new DeepSearchVisitor(MAIN_SEARCH_VIEW_INSTANCE, enumType, advancedSpecifications));
 	}
 
 	private void searchIn_orForPackage(SearchEnumType enumType) {
@@ -202,17 +206,18 @@ public class MainSearchView implements PidescoView {
 		if (comboSearchIn.hasAlreadySelected && !comboSearchIn.getText_ofSearchSpecific().equals("")) {
 			for (SourceElement sourcePackage : root_package.getChildren()) {
 				if (sourcePackage.getName().equals(comboSearchIn.getText_ofSearchSpecific())) {
-					((PackageElement) sourcePackage).traverse(new DeepSearchVisitor(instance, enumType, ""));
+					((PackageElement) sourcePackage)
+							.traverse(new DeepSearchVisitor(MAIN_SEARCH_VIEW_INSTANCE, enumType, ""));
 					break;
 				}
 			}
 		} else {
-			root_package.traverse(new DeepSearchVisitor(instance, enumType, ""));
+			root_package.traverse(new DeepSearchVisitor(MAIN_SEARCH_VIEW_INSTANCE, enumType, ""));
 		}
 	}
 
 	private void searchIn_adHoc(SearchEnumType enumType) {
-		root_package.traverse(new DeepSearchVisitor(instance, enumType, ""));
+		root_package.traverse(new DeepSearchVisitor(MAIN_SEARCH_VIEW_INSTANCE, enumType, ""));
 	}
 
 	private void searchForScanner(int itemSelected, PackageElement rootPackage) {
@@ -290,7 +295,7 @@ public class MainSearchView implements PidescoView {
 	}
 
 	public static MainSearchView getInstance() {
-		return instance;
+		return MAIN_SEARCH_VIEW_INSTANCE;
 	}
 
 	public JavaEditorServices getEditorSearch() {
@@ -298,7 +303,7 @@ public class MainSearchView implements PidescoView {
 	}
 
 	public String getDataSearch() {
-		return data_search;
+		return searched_data;
 	}
 
 }
