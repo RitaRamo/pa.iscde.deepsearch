@@ -29,8 +29,8 @@ public class SearchActivator implements BundleActivator {
 		activator = this;
 		listeners = new HashSet<ISearchEventListener>();
 
-		ServiceReference<JavaEditorServices> ref_editor = context.getServiceReference(JavaEditorServices.class);
-		editor_service = context.getService(ref_editor);
+		ServiceReference<JavaEditorServices> ref_javaeditor = context.getServiceReference(JavaEditorServices.class);
+		editor_service = context.getService(ref_javaeditor);
 		ServiceReference<ProjectBrowserServices> ref_browser = context
 				.getServiceReference(ProjectBrowserServices.class);
 		browser_service = context.getService(ref_browser);

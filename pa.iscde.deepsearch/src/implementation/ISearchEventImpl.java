@@ -37,7 +37,7 @@ public class ISearchEventImpl implements ISearchEvent {
 	}
 
 	@Override
-	public boolean isAdvanceSelected() {
+	public boolean isAdvancedSelected() {
 		return SearchComposite.getSearchCompositeInstance().getAdvanced().getSelection();
 	}
 
@@ -49,7 +49,7 @@ public class ISearchEventImpl implements ISearchEvent {
 
 	@Override
 	public String[] getSearchForElements() {
-		if (isAdvanceSelected()) {
+		if (isAdvancedSelected()) {
 			return AdvancedComposite.getAdvancedInstance().getComboSearchFor().getComboBox_search().getItems();
 		}
 		return null;
@@ -57,7 +57,7 @@ public class ISearchEventImpl implements ISearchEvent {
 
 	@Override
 	public String[] getSearchForAtributes() {
-		if (isAdvanceSelected() && !isAtributesDisposed()) {
+		if (isAdvancedSelected() && !isAtributesDisposed()) {
 			return AdvancedComposite.getAdvancedInstance().getComboSearchFor().getMyButtons();
 		}
 		return null;

@@ -22,7 +22,7 @@ public interface ISearchEvent {
 	 * 
 	 * @return boolean Advanced Button Checked
 	 */
-	public boolean isAdvanceSelected();
+	public boolean isAdvancedSelected();
 
 	/**
 	 * Checks if SearchSpecific Combo is Disposed
