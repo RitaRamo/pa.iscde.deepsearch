@@ -112,17 +112,21 @@ public class AdvancedComposite extends Composite {
 			myButtons.clear();
 			disposed = true;
 		}
-		
+
 		public boolean getIsDisposed() {
 			return disposed;
 		}
-		
+
 		public String[] getMyButtons() {
 			String[] buttons = new String[myButtons.size()];
-			for(int i = 0; i < myButtons.size(); i++) {
+			for (int i = 0; i < myButtons.size(); i++) {
 				buttons[i] = myButtons.get(i).getText();
 			}
 			return buttons;
+		}
+
+		public ArrayList<String> getItemsSelected() {
+			return itemsSelected;
 		}
 	}
 }

@@ -1,6 +1,8 @@
 package view;
 
 import java.io.File;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -68,7 +70,7 @@ public class MainSearchView implements PidescoView {
 
 		search_composite = new SearchComposite(viewArea, SWT.BORDER);
 		preview_composite = new PreviewComposite(viewArea, SWT.BORDER);
-		
+
 		search_composite.getSearchButton().addSelectionListener(new SelectionAdapter() {
 
 			@Override
@@ -146,14 +148,24 @@ public class MainSearchView implements PidescoView {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				String temp = "";
+				String temp_2 = "";
+				Collection<String> temp_3 = null;
 				if (search_composite.getSearchInCombo().getComboBox_searchSpecific() != null) {
 					if (!search_composite.getSearchInCombo().getComboBox_searchSpecific().isDisposed()) {
 						temp = search_composite.getSearchInCombo().getComboBox_searchSpecific().getText();
 					}
 				}
+				if (advancedButtonIsSelected) {
+					temp_2 = advanced_composite.getComboSearchFor().getComboBox_search().getText();
+					if (!advanced_composite.getComboSearchFor().getIsDisposed()) {
+						temp_3 = advanced_composite.getComboSearchFor().getItemsSelected();
+					} else {
+						temp_3 = new LinkedList<>();
+					}
+				}
 				for (ISearchEventListener l : SearchActivator.getActivatorInstance().getListeners()) {
 					l.widgetSelected(search_composite.getSearchField().getText(),
-							search_composite.getSearchInCombo().getComboBox_search().getText(), "", "", "");
+							search_composite.getSearchInCombo().getComboBox_search().getText(), temp, temp_2, temp_3);
 				}
 			}
 		});

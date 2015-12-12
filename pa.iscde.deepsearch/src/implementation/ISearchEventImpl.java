@@ -1,5 +1,7 @@
 package implementation;
 
+import org.eclipse.core.runtime.Assert;
+
 import activator.SearchActivator;
 import api.ISearchEvent;
 import api.ISearchEventListener;
@@ -10,11 +12,13 @@ public class ISearchEventImpl implements ISearchEvent {
 
 	@Override
 	public void addListener(ISearchEventListener listener) {
+		Assert.isNotNull(listener, "argument cannot be null");
 		SearchActivator.getActivatorInstance().addListener(listener);
 	}
 
 	@Override
 	public void removeListener(ISearchEventListener listener) {
+		Assert.isNotNull(listener, "argument cannot be null");
 		SearchActivator.getActivatorInstance().removeListener(listener);
 	}
 
@@ -29,7 +33,7 @@ public class ISearchEventImpl implements ISearchEvent {
 			return SearchComposite.getSearchCompositeInstance().getSearchInCombo().getComboBox_searchSpecific()
 					.getItems();
 		}
-		return new String[0];
+		return null;
 	}
 
 	@Override
@@ -48,7 +52,7 @@ public class ISearchEventImpl implements ISearchEvent {
 		if (isAdvanceSelected()) {
 			return AdvancedComposite.getAdvancedInstance().getComboSearchFor().getComboBox_search().getItems();
 		}
-		return new String[0];
+		return null;
 	}
 
 	@Override
@@ -56,7 +60,7 @@ public class ISearchEventImpl implements ISearchEvent {
 		if (isAdvanceSelected() && !isAtributesDisposed()) {
 			return AdvancedComposite.getAdvancedInstance().getComboSearchFor().getMyButtons();
 		}
-		return new String[0];
+		return null;
 	}
 
 	@Override
