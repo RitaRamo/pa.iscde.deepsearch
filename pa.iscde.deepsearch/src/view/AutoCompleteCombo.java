@@ -8,7 +8,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-public abstract class ComboBox_Autocompleted {
+public abstract class AutoCompleteCombo {
 	protected Combo comboBox_search;
 	protected int itemSelected;
 	protected boolean hasAlreadySelected;
@@ -17,7 +17,7 @@ public abstract class ComboBox_Autocompleted {
 	private Label search_label;
 	private String comboName;
 
-	public ComboBox_Autocompleted(Composite parent, String comboName, String[] comboItems) {
+	public AutoCompleteCombo(Composite parent, String comboName, String[] comboItems) {
 		this.comboName = comboName;
 		this.parent = parent;
 		this.comboItems = comboItems;

@@ -18,7 +18,7 @@ import pt.iscte.pidesco.projectbrowser.model.PackageElement;
 import pt.iscte.pidesco.projectbrowser.model.SourceElement;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserListener;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
-import view.ComboBox_Autocompleted;
+import view.AutoCompleteCombo;
 
 public class SearchComposite extends Composite {
 
@@ -81,7 +81,7 @@ public class SearchComposite extends Composite {
 		return instance;
 	}
 
-	public class SearchIn extends ComboBox_Autocompleted {
+	public class SearchIn extends AutoCompleteCombo {
 		private Combo comboBox_searchSpecific = null;
 		private Label searchSpecific_Label;
 		private Composite parent;
