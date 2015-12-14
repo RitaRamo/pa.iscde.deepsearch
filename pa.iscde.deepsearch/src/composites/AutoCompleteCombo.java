@@ -55,8 +55,9 @@ public abstract class AutoCompleteCombo {
 					}
 				}
 				comboBox_search.select(itemSelected);
-				if (itemSelected == 0)
+				if (itemSelected == 0) {
 					hasAlreadySelected = false;
+				}
 				showRelatedSpecifications();
 			}
 		});

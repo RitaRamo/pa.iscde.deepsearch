@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.TreeMap;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
@@ -21,38 +20,29 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeItem;
 
 import activator.SearchActivator;
-import auxiliary.TreeInstance;
-import composites.AdvancedComposite.SearchFor;
-import composites.SearchComposite.SearchIn;
-import enums.SearchEnumType;
-import enums.TreeEnum;
 import extensionpoints.ISearchEventListener;
+import extensionpoints.Item;
+import extensionpoints.OutputPreview;
+import implementation.OutputItem;
 import pt.iscte.pidesco.extensibility.PidescoView;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
-import pt.iscte.pidesco.projectbrowser.model.ClassElement;
-import pt.iscte.pidesco.projectbrowser.model.PackageElement;
-import pt.iscte.pidesco.projectbrowser.model.SourceElement;
-import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
-import visitor.DeepSearchVisitor;
 
 public class MainSearchView implements PidescoView {
 
 	private static MainSearchView MAIN_SEARCH_VIEW_INSTANCE;
 
-	private ProjectBrowserServices browser_search;
 	private JavaEditorServices editor_search;
 
 	private SearchComposite search_composite;
 	private PreviewComposite preview_composite;
 	private AdvancedComposite advanced_composite;
 
-	private PackageElement root_package;
-
 	private String searched_data;
 	private boolean advancedButtonIsSelected;
 
-	private Map<String, Image> images;
-	private TreeMap<TreeEnum, TreeInstance> tree_map;
+	private LinkedList<OutputPreview> extensionResult;
+
+	// private Map<String, Image> images;
 
 	public MainSearchView() {
 		MAIN_SEARCH_VIEW_INSTANCE = this;
@@ -60,10 +50,8 @@ public class MainSearchView implements PidescoView {
 
 	@Override
 	public void createContents(final Composite viewArea, Map<String, Image> imageMap) {
+		extensionResult = new LinkedList<OutputPreview>();
 
-		images = imageMap;
-		tree_map = new TreeMap<TreeEnum, TreeInstance>();
-		browser_search = SearchActivator.getActivatorInstance().getBrowserService();
 		editor_search = SearchActivator.getActivatorInstance().getEditorService();
 
 		viewArea.setLayout(new FillLayout(SWT.VERTICAL));
@@ -71,34 +59,28 @@ public class MainSearchView implements PidescoView {
 		search_composite = new SearchComposite(viewArea, SWT.BORDER);
 		preview_composite = new PreviewComposite(viewArea, SWT.BORDER);
 
+		checkExtensionsOutput();
+
 		search_composite.getSearchButton().addSelectionListener(new SelectionAdapter() {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				preview_composite.getPreview().setText("");
 				preview_composite.getHierarquies().removeAll();
-				root_package = (PackageElement) browser_search.getRootPackage();
 				searched_data = search_composite.getSearchField().getText();
-				if (!tree_map.isEmpty()) {
-					tree_map.clear();
+				for (OutputPreview o : extensionResult) {
+					if (advancedButtonIsSelected) {
+						o.searchForScanner(searched_data, advanced_composite.getComboSearchFor().itemSelected,
+								advanced_composite.getComboSearchFor().getButtonsSelected(),
+								search_composite.getSearchIn().itemSelected,
+								search_composite.getSearchIn().getText_ofSearchSpecific());
+						advanced_composite.getComboSearchFor().clearSelected();
+					} else {
+						o.searchForScanner(searched_data, -1, null, search_composite.getSearchIn().itemSelected,
+								search_composite.getSearchIn().getText_ofSearchSpecific());
+					}
+					createTree(o);
 				}
-				if (advancedButtonIsSelected) {
-					advanced_composite.getComboSearchFor().clearSelected();
-					searchForScanner(advanced_composite.getComboSearchFor().itemSelected, root_package);
-				} else if (search_composite.getSearchInCombo().hasAlreadySelected) {
-					searchInScanner(search_composite.getSearchInCombo().itemSelected);
-				} else {
-					root_package.traverse(
-							new DeepSearchVisitor(MAIN_SEARCH_VIEW_INSTANCE, SearchEnumType.SearchInPackage, ""));
-				}
-				if (!checkFound()) {
-					new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0), "Not Found", "help.gif",
-							images);
-				}
-			}
-
-			private boolean checkFound() {
-				return tree_map.size() > 0;
 			}
 		});
 		search_composite.getAdvanced().addSelectionListener(new SelectionAdapter() {
@@ -122,25 +104,50 @@ public class MainSearchView implements PidescoView {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				TreeItem ti = (TreeItem) e.item;
-				if (ti.getData() != null) {
-					preview_composite.styleText(ti.getData().toString(), ti.getData("searched").toString(),
-							searched_data);
+				for (@SuppressWarnings("unused")
+				OutputPreview o : extensionResult) {
+					TreeItem tree_item = (TreeItem) e.item;
+					OutputItem item = new OutputItem(tree_item.getText(), tree_item.getImage(),
+							tree_item.getData("previewText").toString(),
+							tree_item.getData("highlightedText").toString(), (File) tree_item.getData("File"));
+					if (item.getPreviewText() != "") {
+						// CUIDADO
+						preview_composite.styleText(item.getPreviewText(), item.getHighlightText(), "");
+					}
 				}
 			}
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
-				TreeItem ti = (TreeItem) e.item;
-				File f = (File) ti.getData("file");
-				editor_search.openFile(f);
+				for (OutputPreview o : extensionResult) {
+					TreeItem tree_item = (TreeItem) e.item;
+					OutputItem item = new OutputItem(tree_item.getText(), tree_item.getImage(),
+							tree_item.getData("previewText").toString(),
+							tree_item.getData("highlightedText").toString(), (File) tree_item.getData("File"));
+					o.doubleClick(item);
+				}
 			}
 
 		});
 
 		addWidgetSelected();
+	}
 
-		checkExtensions();
+	public void createTree(OutputPreview outputPreview) {
+		for (String parentName : outputPreview.getParents()) {
+			TreeItem newParent = new TreeItem(preview_composite.getHierarquies(), 0);
+			newParent.setText(parentName);
+			for (Item child : outputPreview.getChildren(parentName)) {
+				TreeItem newChild = new TreeItem(newParent, 0);
+				newChild.setText(child.getName());
+				newChild.setData("previewText", child.getPreviewText());
+				System.out.println(child.getHighlightText());
+				newChild.setData("highlightedText", child.getHighlightText());
+				newChild.setData("File", child.getFile());
+				newChild.setData("SpecialData", child.getSpecialData());
+			}
+
+		}
 	}
 
 	private void addWidgetSelected() {
@@ -151,9 +158,9 @@ public class MainSearchView implements PidescoView {
 				String temp = "";
 				String temp_2 = "";
 				Collection<String> temp_3 = null;
-				if (search_composite.getSearchInCombo().getComboBox_searchSpecific() != null) {
-					if (!search_composite.getSearchInCombo().getComboBox_searchSpecific().isDisposed()) {
-						temp = search_composite.getSearchInCombo().getComboBox_searchSpecific().getText();
+				if (search_composite.getSearchIn().getComboBox_searchSpecific() != null) {
+					if (!search_composite.getSearchIn().getComboBox_searchSpecific().isDisposed()) {
+						temp = search_composite.getSearchIn().getComboBox_searchSpecific().getText();
 					}
 				}
 				if (advancedButtonIsSelected) {
@@ -166,127 +173,25 @@ public class MainSearchView implements PidescoView {
 				}
 				for (ISearchEventListener l : SearchActivator.getActivatorInstance().getListeners()) {
 					l.widgetSelected(search_composite.getSearchField().getText(),
-							search_composite.getSearchInCombo().getComboBox_search().getText(), temp, temp_2, temp_3);
+							search_composite.getSearchIn().getComboBox_search().getText(), temp, temp_2, temp_3);
 				}
 			}
 		});
 	}
 
-	private void searchInScanner(int itemSelected) {
-		if (itemSelected == 1) {
-			searchIn_orForPackage(SearchEnumType.SearchInPackage);
-		} else if (itemSelected == 2) {
-			searchInClass_orSearchFor(SearchEnumType.SearchInClass, "");
-		} else if (itemSelected == 3) {
-			searchIn_orForMethod(SearchEnumType.SearchInMethod, "");
-		} else if (itemSelected > 3) {
-			searchIn_adHoc(SearchEnumType.SearchInAdHoc);
-		}
-	}
-
-	private void searchInClass_orSearchFor(SearchEnumType enumType, String advancedSpecifications) {
-		SearchIn comboSearchIn = search_composite.getSearchInCombo();
-		if (comboSearchIn.hasAlreadySelected && !comboSearchIn.getText_ofSearchSpecific().equals("")) {
-			new DeepSearchVisitor(MAIN_SEARCH_VIEW_INSTANCE, enumType, advancedSpecifications)
-					.visitClass(getClass(comboSearchIn.getText_ofSearchSpecific(), root_package));
-		} else {
-			root_package.traverse(new DeepSearchVisitor(MAIN_SEARCH_VIEW_INSTANCE, enumType, advancedSpecifications));
-		}
-	}
-
-	private void searchIn_orForMethod(SearchEnumType enumType, String advancedSpecifications) {
-		root_package.traverse(new DeepSearchVisitor(MAIN_SEARCH_VIEW_INSTANCE, enumType, advancedSpecifications));
-	}
-
-	private void searchIn_orForPackage(SearchEnumType enumType) {
-		SearchIn comboSearchIn = search_composite.getSearchInCombo();
-		if (comboSearchIn.hasAlreadySelected && !comboSearchIn.getText_ofSearchSpecific().equals("")) {
-			for (SourceElement sourcePackage : root_package.getChildren()) {
-				if (sourcePackage.getName().equals(comboSearchIn.getText_ofSearchSpecific())) {
-					((PackageElement) sourcePackage)
-							.traverse(new DeepSearchVisitor(MAIN_SEARCH_VIEW_INSTANCE, enumType, ""));
-					break;
-				}
-			}
-		} else {
-			root_package.traverse(new DeepSearchVisitor(MAIN_SEARCH_VIEW_INSTANCE, enumType, ""));
-		}
-	}
-
-	private void searchIn_adHoc(SearchEnumType enumType) {
-		root_package.traverse(new DeepSearchVisitor(MAIN_SEARCH_VIEW_INSTANCE, enumType, ""));
-	}
-
-	private void searchForScanner(int itemSelected, PackageElement rootPackage) {
-		if (itemSelected == 1) {
-			searchIn_orForPackage(SearchEnumType.SearchForPackage);
-		} else if (itemSelected == 2) {
-			searchAdvanced(SearchEnumType.SearchForClass);
-		} else if (itemSelected == 3) {
-			searchAdvanced(SearchEnumType.SearchForMethod);
-		} else if (itemSelected == 4) {
-			searchAdvanced(SearchEnumType.SearchForField);
-		}
-	}
-
-	private void searchAdvanced(SearchEnumType enumType) {
-		SearchFor comboSearchFor = advanced_composite.getComboSearchFor();
-		for (String advancedSpecification : comboSearchFor.getButtonsSelected()) {
-			searchInClass_orSearchFor(enumType, advancedSpecification);
-		}
-		if (!comboSearchFor.buttonsSelected()) {
-			searchInClass_orSearchFor(enumType, "");
-		}
-	}
-
-	public void addTreeElement(TreeEnum parent, String name, File file, String result, String searched) {
-		if (!tree_map.containsKey(parent)) {
-			tree_map.put(parent, new TreeInstance(new TreeItem(preview_composite.getHierarquies(), 0),
-					parent.toString(), parent.toString().toLowerCase() + ".gif", images));
-		}
-		tree_map.get(parent).addChildElement(name, file, result, searched);
-	}
-
-	public ClassElement getClass(String className, PackageElement rootPackage) {
-		for (SourceElement source_package : rootPackage) {
-			ClassElement c = getClassOfSearchIn(className, (PackageElement) source_package);
-			if (c != null) {
-				return c;
-			}
-		}
-		return null;
-	}
-
-	private ClassElement getClassOfSearchIn(String className, PackageElement source_package) {
-		for (SourceElement e : ((PackageElement) source_package).getChildren()) {
-			if (e.isClass()) {
-				if (className.equals(e.getParent().getName() + "." + e.getName())) {
-					return (ClassElement) e;
-				}
-			} else {
-				ClassElement c = getClassOfSearchIn(className, (PackageElement) e);
-				if (c != null)
-					return c;
-			}
-		}
-		return null;
-	}
-
-	private void checkExtensions() {
+	private void checkExtensionsOutput() {
 		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
-		IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.deepsearch.combo_search");
+		IExtensionPoint extensionPoint = extRegistry.getExtensionPoint("pa.iscde.deepsearch.output_preview");
 		IExtension[] extensions = extensionPoint.getExtensions();
 		for (IExtension e : extensions) {
 			IConfigurationElement[] confElements = e.getConfigurationElements();
 			for (IConfigurationElement c : confElements) {
-				String s = c.getAttribute("name");
-				System.out.println(s + " is Connected to US");
 				try {
-					Object o = c.createExecutableExtension("class");
-					System.out.println("And it is using this class reference -> " + o);
+					extensionResult.add((OutputPreview) c.createExecutableExtension("class"));
 				} catch (CoreException e1) {
 					e1.printStackTrace();
 				}
+
 			}
 		}
 	}

@@ -2,7 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="output_preview" name="OutputAndPreview" schema="schema/output_preview.exsd"/>
-   <extension-point id="combo_search" name="ComboAndSearch" schema="schema/combo_search.exsd"/>
    <extension
          id="id1"
          name="DeepSearch"

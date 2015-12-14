@@ -60,7 +60,7 @@ public class SearchComposite extends Composite {
 		search_button.setText("Search");
 	}
 
-	public SearchIn getSearchInCombo() {
+	public SearchIn getSearchIn() {
 		return search_in_combo;
 	}
 
@@ -101,10 +101,8 @@ public class SearchComposite extends Composite {
 				if (itemSelected == 1 || itemSelected == 2) {
 					searchSpecific_Label = new Label(parent, SWT.NONE);
 					searchSpecific_Label.setText("Search Specific:");
-
 					comboBox_searchSpecific = new Combo(parent, SWT.BORDER);
 					comboBox_searchSpecific.setItems(comboItems());
-
 					comboBox_searchSpecific.moveBelow(this.getComboBox_search());
 					searchSpecific_Label.moveBelow(this.getComboBox_search());
 					fillSearchSpecific();
@@ -118,13 +116,13 @@ public class SearchComposite extends Composite {
 
 				@Override
 				public void selectionChanged(Collection<SourceElement> selection) {
-					SourceElement element = (SourceElement) selection.toArray()[0];
-					if (itemSelected == 1 && element.isPackage()) {
-						comboBox_searchSpecific.setText(element.getName());
-					} else if (itemSelected == 2 && element.isClass()) {
-						comboBox_searchSpecific.setText(element.getName());
-					} else {
-						comboBox_searchSpecific.setText("");
+					if (!selection.isEmpty()) {
+						SourceElement element = (SourceElement) selection.toArray()[0];
+						if (itemSelected == 1 && element.isPackage()) {
+							comboBox_searchSpecific.setText(element.getParent().getName() + "." + element.getName());
+						} else if (itemSelected == 2 && element.isClass()) {
+							comboBox_searchSpecific.setText(element.getParent().getName() + "." + element.getName());
+						}
 					}
 				}
 
@@ -134,14 +132,12 @@ public class SearchComposite extends Composite {
 		private LinkedList<String> comboItems(PackageElement myPackage, LinkedList<String> comboItemsNames) {
 			for (SourceElement e : myPackage) {
 				if (e.isPackage()) {
-					if (itemSelected == 1) {
-						comboItemsNames.add(e.getName());
-					}
+					if (itemSelected == 1)
+						comboItemsNames.add(e.getParent().getName() + "." + e.getName());
 					comboItems((PackageElement) e, comboItemsNames);
 				} else if (e.isClass()) {
-					if (itemSelected == 2) {
+					if (itemSelected == 2)
 						comboItemsNames.add(e.getParent().getName() + "." + e.getName());
-					}
 				}
 			}
 			return comboItemsNames;
@@ -161,7 +157,11 @@ public class SearchComposite extends Composite {
 		}
 
 		public String getText_ofSearchSpecific() {
-			return comboBox_searchSpecific.getText();
+			if (itemSelected == 1 || itemSelected == 2) {
+				return comboBox_searchSpecific.getText();
+			} else {
+				return "";
+			}
 		}
 	}
 

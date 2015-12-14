@@ -24,13 +24,13 @@ public class ISearchEventImpl implements ISearchEvent {
 
 	@Override
 	public String[] getSearchInElements() {
-		return SearchComposite.getSearchCompositeInstance().getSearchInCombo().getComboBox_search().getItems();
+		return SearchComposite.getSearchCompositeInstance().getSearchIn().getComboBox_search().getItems();
 	}
 
 	@Override
 	public String[] getSearchSpecificElements() {
 		if (!isSearchSpecificDisposed()) {
-			return SearchComposite.getSearchCompositeInstance().getSearchInCombo().getComboBox_searchSpecific()
+			return SearchComposite.getSearchCompositeInstance().getSearchIn().getComboBox_searchSpecific()
 					.getItems();
 		}
 		return null;
@@ -43,7 +43,7 @@ public class ISearchEventImpl implements ISearchEvent {
 
 	@Override
 	public boolean isSearchSpecificDisposed() {
-		return SearchComposite.getSearchCompositeInstance().getSearchInCombo().getComboBox_searchSpecific()
+		return SearchComposite.getSearchCompositeInstance().getSearchIn().getComboBox_searchSpecific()
 				.isDisposed();
 	}
 
