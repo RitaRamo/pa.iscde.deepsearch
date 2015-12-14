@@ -6,7 +6,7 @@ import org.eclipse.swt.graphics.Image;
 
 public interface Item {
 
-	public void setItem(String name, Image img, String text_ToShowOnPreview, String text_ToHightlightOnPreview);
+	public void setItem(String item_name, Image image, String preview_text, String highlight_text);
 
 	public String getName();
 
@@ -20,8 +20,8 @@ public interface Item {
 
 	public Object getSpecialData();
 
-	public void setFile(File f);
+	public void setFile(File file);
 
-	public void setSpecialData(Object obj);
+	public void setSpecialData(Object special_data);
 
 }
