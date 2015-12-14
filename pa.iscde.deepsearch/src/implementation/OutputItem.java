@@ -19,7 +19,6 @@ public class OutputItem implements Item {
 		this.img = img;
 		this.text_ToShowOnPreview = text_ToShowOnPreview;
 		this.text_ToHightlightOnPreview = text_ToHightlightOnPreview;
-		System.out.println(text_ToHightlightOnPreview);
 		this.f = f;
 	}
 

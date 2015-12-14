@@ -14,7 +14,7 @@ import pt.iscte.pidesco.projectbrowser.model.SourceElement;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 import visitor.DeepSearchVisitor;
 
-public class TestImplementationOutput implements OutputPreview {
+public class ImplementationOutput implements OutputPreview {
 
 	String[] split;
 	ProjectBrowserServices browser_search = SearchActivator.getActivatorInstance().getBrowserService();;
@@ -36,7 +36,6 @@ public class TestImplementationOutput implements OutputPreview {
 		parents.add("Interface");
 		parents.add("Method");
 		parents.add("Field");
-
 		return parents;
 	}
 
@@ -60,7 +59,6 @@ public class TestImplementationOutput implements OutputPreview {
 			return visitor.getASTVisitor_deepSearchMy().getFieldItems();
 		default:
 			return visitor.getASTVisitor_deepSearchMy().getClassItems();
-
 		}
 	}
 

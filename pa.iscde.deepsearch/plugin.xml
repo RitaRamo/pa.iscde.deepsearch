@@ -11,5 +11,12 @@
             icon="map_glass.png">
       </view>
    </extension>
+   <extension
+         point="pa.iscde.deepsearch.output_preview">
+      <item
+            class="auxiliary.ImplementationOutput"
+            name="OutputImpl">
+      </item>
+   </extension>
 
 </plugin>

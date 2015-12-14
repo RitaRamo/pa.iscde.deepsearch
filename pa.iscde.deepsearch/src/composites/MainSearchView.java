@@ -40,7 +40,7 @@ public class MainSearchView implements PidescoView {
 	private String searched_data;
 	private boolean advancedButtonIsSelected;
 
-	private LinkedList<OutputPreview> extensionResult;
+	private LinkedList<OutputPreview> extensionResult = new LinkedList<OutputPreview>();
 
 	// private Map<String, Image> images;
 
@@ -50,7 +50,6 @@ public class MainSearchView implements PidescoView {
 
 	@Override
 	public void createContents(final Composite viewArea, Map<String, Image> imageMap) {
-		extensionResult = new LinkedList<OutputPreview>();
 
 		editor_search = SearchActivator.getActivatorInstance().getEditorService();
 
@@ -141,7 +140,6 @@ public class MainSearchView implements PidescoView {
 				TreeItem newChild = new TreeItem(newParent, 0);
 				newChild.setText(child.getName());
 				newChild.setData("previewText", child.getPreviewText());
-				System.out.println(child.getHighlightText());
 				newChild.setData("highlightedText", child.getHighlightText());
 				newChild.setData("File", child.getFile());
 				newChild.setData("SpecialData", child.getSpecialData());

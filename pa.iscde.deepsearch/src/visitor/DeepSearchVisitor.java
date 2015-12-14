@@ -25,10 +25,8 @@ public class DeepSearchVisitor extends Visitor.Adapter {
 	public void visitClass(ClassElement c) {
 		if (c != null) {
 			File f = c.getFile();
-
 			astVisitor_deepSearch.setFile(f);
 			editor_search.parseFile(f, astVisitor_deepSearch);
-
 		}
 	}
 

@@ -33,8 +33,7 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 	private LinkedList<Item> methodItems = new LinkedList<Item>();
 	private LinkedList<Item> fieldItems = new LinkedList<Item>();
 
-	public ASTVisitorDeepSearch(String searchText, SearchEnumType myEnm,
-			String advancedSpecification) {
+	public ASTVisitorDeepSearch(String searchText, SearchEnumType myEnm, String advancedSpecification) {
 		this.searchText = searchText.toLowerCase();
 		this.myEnum = myEnm.toString();
 		this.advancedSpecification = advancedSpecification;
@@ -49,8 +48,6 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 	public boolean visit(PackageDeclaration node) {
 		if (isToSearchFor_orIn_Pachage() && !packageName.equals("" + node.getName())) {
 			String search_result = "" + node.getName();
-
-			//String result = node.toString();
 			if (search_result.contains(searchText)) {
 				packageName = "" + node.getName();
 				packageItems.add(new OutputItem(packageName, null, node.toString(), searchText, file));
@@ -64,7 +61,6 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 	public boolean visit(TypeDeclaration node) {
 		full_class = node.toString();
 		if (searcForClass_orInPachage_orClass()) {
-
 			String search_result = node.modifiers().toString() + node.getName();
 			if (node.getSuperclassType() != null)
 				search_result += " extends " + node.getSuperclassType();
@@ -75,31 +71,22 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 			if (!(node.getParent() instanceof TypeDeclaration)) {
 				full_class = result;
 			}
-
 			if (search_result.toLowerCase().contains(searchText)) {
 				String typeDeclarationName = node.getName() + "";
 				if (isArgumentDefined(advancedSpecification)) {
-
 					if ((search_result).contains(advancedSpecification)) {
-						System.out.println("entrei aqui!");
 						classItems.add(new OutputItem(typeDeclarationName, null, node.toString(), searchText, file));
-
 					} else if (advancedSpecification.equals("interface") && node.isInterface()) {
 						interfaceItems
 								.add(new OutputItem(typeDeclarationName, null, node.toString(), searchText, file));
 					}
-
 				} else {
-
 					if (node.isInterface()) {
-
 						interfaceItems
 								.add(new OutputItem(typeDeclarationName, null, node.toString(), searchText, file));
 					} else {
 						classItems.add(new OutputItem(typeDeclarationName, null, node.toString(), searchText, file));
-
 					}
-
 				}
 			}
 		}
@@ -108,13 +95,10 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 
 	@Override
 	public boolean visit(ImportDeclaration node) {
-
 		if (isToSearchInPackage_orClass()) {
 			String importName = node.toString();
 			if (importName.contains(searchText)) {
-
 				importItems.add(new OutputItem(importName, null, "hey" + full_class, searchText, file));
-
 			}
 		}
 		return true;
@@ -122,15 +106,12 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 
 	@Override
 	public boolean visit(EnumDeclaration node) {
-
 		if (isToSearchInPackage_orClass() || isToSearchForClass_or_InClass_orPackage()) {
-
 			String enumName = node.getName() + "";
 			if (enumName.toLowerCase().contains(searchText)) {
 				if (isArgumentDefined(advancedSpecification)) {
 					if (advancedSpecification.equals("enum")) {
 						enumItems.add(new OutputItem(enumName, null, node.toString(), searchText, file));
-
 					}
 				} else {
 					enumItems.add(new OutputItem(enumName, null, node.toString(), searchText, file));
@@ -142,23 +123,16 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 
 	@Override
 	public boolean visit(FieldDeclaration node) {
-
 		if (isToSearchForField_orInPachage_orClass()) {
 			String fielName = node.fragments().get(0).toString().split("=")[0] + "";
 			if (fielName.toLowerCase().contains(searchText)) {
 				if (isArgumentDefined(advancedSpecification)) {
-
 					if (node.modifiers().toString().contains(advancedSpecification)) {
-
 						fieldItems.add(new OutputItem(fielName, null, full_class, searchText, file));
-
 					}
-
 				} else {
 					fieldItems.add(new OutputItem(fielName, null, full_class, searchText, file));
 				}
-				// searchView.addTreeElement(TreeEnum.Field, equals, temp_file,
-				// full_class, search_result);
 			}
 		}
 		return true;
@@ -167,23 +141,16 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 	@Override
 	public boolean visit(MethodDeclaration node) {
 		if (isToSearchForMethod_or_InMethod_Class_orPackage()) {
-
 			String methodName = node.getName() + "";
 			if (methodName.toLowerCase().contains(searchText)) {
 				if (isArgumentDefined(advancedSpecification)) {
-
 					if (node.modifiers().toString().contains(advancedSpecification)) {
-
 						methodItems.add(new OutputItem(methodName, null, full_class, searchText, file));
-
 					}
-
 				} else {
 					methodItems.add(new OutputItem(methodName, null, full_class, searchText, file));
 				}
-
 			}
-
 		}
 		return true;
 	}
@@ -196,7 +163,7 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 				search_result += workStatement(node.statements());
 			}
 			if (search_result.contains(searchText)) {
-
+				// ??? Fazer
 			}
 		}
 		return true;
