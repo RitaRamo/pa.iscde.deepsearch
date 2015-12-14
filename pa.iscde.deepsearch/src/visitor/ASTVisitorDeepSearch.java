@@ -12,9 +12,9 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
+import composites.MainSearchView;
 import enums.SearchEnumType;
 import enums.TreeEnum;
-import view.MainSearchView;
 
 public class ASTVisitorDeepSearch extends ASTVisitor {
 

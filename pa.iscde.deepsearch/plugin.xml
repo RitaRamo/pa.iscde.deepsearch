@@ -8,7 +8,7 @@
          name="DeepSearch"
          point="pt.iscte.pidesco.view">
       <view
-            class="view.MainSearchView"
+            class="composites.MainSearchView"
             icon="map_glass.png">
       </view>
    </extension>

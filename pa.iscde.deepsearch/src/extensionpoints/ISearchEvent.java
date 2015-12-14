@@ -1,4 +1,4 @@
-package api;
+package extensionpoints;
 
 public interface ISearchEvent {
 

@@ -1,4 +1,4 @@
-package api;
+package extensionpoints;
 
 import java.util.Collection;
 

@@ -1,4 +1,4 @@
-package view;
+package composites;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.ModifyEvent;

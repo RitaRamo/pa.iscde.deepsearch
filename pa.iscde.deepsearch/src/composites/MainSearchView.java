@@ -1,4 +1,4 @@
-package view;
+package composites;
 
 import java.io.File;
 import java.util.Collection;
@@ -21,15 +21,12 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TreeItem;
 
 import activator.SearchActivator;
-import api.ISearchEventListener;
 import auxiliary.TreeInstance;
-import composites.AdvancedComposite;
 import composites.AdvancedComposite.SearchFor;
-import composites.PreviewComposite;
-import composites.SearchComposite;
 import composites.SearchComposite.SearchIn;
 import enums.SearchEnumType;
 import enums.TreeEnum;
+import extensionpoints.ISearchEventListener;
 import pt.iscte.pidesco.extensibility.PidescoView;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
 import pt.iscte.pidesco.projectbrowser.model.ClassElement;

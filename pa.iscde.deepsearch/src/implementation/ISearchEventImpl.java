@@ -3,10 +3,10 @@ package implementation;
 import org.eclipse.core.runtime.Assert;
 
 import activator.SearchActivator;
-import api.ISearchEvent;
-import api.ISearchEventListener;
 import composites.AdvancedComposite;
 import composites.SearchComposite;
+import extensionpoints.ISearchEvent;
+import extensionpoints.ISearchEventListener;
 
 public class ISearchEventImpl implements ISearchEvent {
 

@@ -8,8 +8,8 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 
-import api.ISearchEvent;
-import api.ISearchEventListener;
+import extensionpoints.ISearchEvent;
+import extensionpoints.ISearchEventListener;
 import implementation.ISearchEventImpl;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;

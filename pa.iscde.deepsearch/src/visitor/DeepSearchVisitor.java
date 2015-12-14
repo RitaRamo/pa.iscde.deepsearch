@@ -1,9 +1,9 @@
 package visitor;
 
+import composites.MainSearchView;
 import enums.SearchEnumType;
 import pt.iscte.pidesco.projectbrowser.model.ClassElement;
 import pt.iscte.pidesco.projectbrowser.model.PackageElement.Visitor;
-import view.MainSearchView;
 
 public class DeepSearchVisitor extends Visitor.Adapter {
 

@@ -8,7 +8,6 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
 import enums.SearchInEnum;
-import view.AutoCompleteCombo;
 
 public class AdvancedComposite extends Composite {
 
