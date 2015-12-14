@@ -2,6 +2,7 @@ package composites;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
@@ -42,7 +43,8 @@ public class MainSearchView implements PidescoView {
 
 	private LinkedList<OutputPreview> extensionResult = new LinkedList<OutputPreview>();
 
-	// private Map<String, Image> images;
+	private LinkedList<String> parent_results = new LinkedList<String>();
+	private Map<String, LinkedList<Item>> results = new HashMap<String, LinkedList<Item>>();
 
 	public MainSearchView() {
 		MAIN_SEARCH_VIEW_INSTANCE = this;
@@ -136,6 +138,8 @@ public class MainSearchView implements PidescoView {
 		for (String parentName : outputPreview.getParents()) {
 			TreeItem newParent = new TreeItem(preview_composite.getHierarquies(), 0);
 			newParent.setText(parentName);
+			results.put(parentName, (LinkedList<Item>) outputPreview.getChildren(parentName));
+			parent_results.add(parentName);
 			for (Item child : outputPreview.getChildren(parentName)) {
 				TreeItem newChild = new TreeItem(newParent, 0);
 				newChild.setText(child.getName());
@@ -204,6 +208,14 @@ public class MainSearchView implements PidescoView {
 
 	public String getDataSearch() {
 		return searched_data;
+	}
+
+	public Map<String, LinkedList<Item>> getResults() {
+		return results;
+	}
+
+	public LinkedList<String> getParentResults() {
+		return parent_results;
 	}
 
 }

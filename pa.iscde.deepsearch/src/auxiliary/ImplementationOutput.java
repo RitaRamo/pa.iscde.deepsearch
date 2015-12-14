@@ -29,7 +29,7 @@ public class ImplementationOutput implements OutputPreview {
 	@Override
 	public LinkedList<String> getParents() {
 		LinkedList<String> parents = new LinkedList<String>();
-		parents.add("Parent");
+		parents.add("Package");
 		parents.add("Import");
 		parents.add("Class");
 		parents.add("Enum");
@@ -41,9 +41,8 @@ public class ImplementationOutput implements OutputPreview {
 
 	@Override
 	public LinkedList<Item> getChildren(String parent) {
-
 		switch (parent) {
-		case "Parent":
+		case "Package":
 			return visitor.getASTVisitor_deepSearchMy().getPackageItems();
 		case "Class":
 			return visitor.getASTVisitor_deepSearchMy().getClassItems();

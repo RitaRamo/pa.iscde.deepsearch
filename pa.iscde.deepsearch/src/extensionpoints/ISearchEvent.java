@@ -1,5 +1,9 @@
 package extensionpoints;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.Map;
+
 public interface ISearchEvent {
 
 	/**
@@ -54,7 +58,21 @@ public interface ISearchEvent {
 	 * @return boolean Attributes are Disposed
 	 */
 	public boolean isAtributesDisposed();
-
+	
+	/**
+	 * Returns all Items per Parent
+	 * 
+	 * @return Map<String, LinkedList<Item>> Results per parent
+	 */
+	public Map<String, LinkedList<Item>> getResults();
+	
+	/**
+	 * Returns only the result parents
+	 * 
+	 * @return Collection<String> Parent Elements of results
+	 */
+	public Collection<String> getResultParents();
+	
 	/**
 	 * Adds a new ISearchEventListener element
 	 * 

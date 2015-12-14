@@ -1,12 +1,18 @@
 package implementation;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.Map;
+
 import org.eclipse.core.runtime.Assert;
 
 import activator.SearchActivator;
 import composites.AdvancedComposite;
+import composites.MainSearchView;
 import composites.SearchComposite;
 import extensionpoints.ISearchEvent;
 import extensionpoints.ISearchEventListener;
+import extensionpoints.Item;
 
 public class ISearchEventImpl implements ISearchEvent {
 
@@ -30,8 +36,7 @@ public class ISearchEventImpl implements ISearchEvent {
 	@Override
 	public String[] getSearchSpecificElements() {
 		if (!isSearchSpecificDisposed()) {
-			return SearchComposite.getSearchCompositeInstance().getSearchIn().getComboBox_searchSpecific()
-					.getItems();
+			return SearchComposite.getSearchCompositeInstance().getSearchIn().getComboBox_searchSpecific().getItems();
 		}
 		return null;
 	}
@@ -43,8 +48,7 @@ public class ISearchEventImpl implements ISearchEvent {
 
 	@Override
 	public boolean isSearchSpecificDisposed() {
-		return SearchComposite.getSearchCompositeInstance().getSearchIn().getComboBox_searchSpecific()
-				.isDisposed();
+		return SearchComposite.getSearchCompositeInstance().getSearchIn().getComboBox_searchSpecific().isDisposed();
 	}
 
 	@Override
@@ -66,6 +70,16 @@ public class ISearchEventImpl implements ISearchEvent {
 	@Override
 	public boolean isAtributesDisposed() {
 		return AdvancedComposite.getAdvancedInstance().getComboSearchFor().getIsDisposed();
+	}
+
+	@Override
+	public Map<String, LinkedList<Item>> getResults() {
+		return MainSearchView.getInstance().getResults();
+	}
+
+	@Override
+	public Collection<String> getResultParents() {
+		return MainSearchView.getInstance().getParentResults();
 	}
 
 }

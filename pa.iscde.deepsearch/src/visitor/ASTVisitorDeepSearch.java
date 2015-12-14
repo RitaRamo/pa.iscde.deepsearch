@@ -98,7 +98,7 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 		if (isToSearchInPackage_orClass()) {
 			String importName = node.toString();
 			if (importName.contains(searchText)) {
-				importItems.add(new OutputItem(importName, null, "hey" + full_class, searchText, file));
+				importItems.add(new OutputItem(importName, null, full_class, searchText, file));
 			}
 		}
 		return true;
