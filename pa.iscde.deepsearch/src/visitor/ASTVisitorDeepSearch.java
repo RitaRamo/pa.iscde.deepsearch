@@ -13,6 +13,7 @@ import org.eclipse.jdt.core.dom.MethodDeclaration;
 import org.eclipse.jdt.core.dom.PackageDeclaration;
 import org.eclipse.jdt.core.dom.TypeDeclaration;
 
+import activator.SearchActivator;
 import enums.SearchEnumType;
 import extensionpoints.Item;
 import implementation.OutputItem;
@@ -49,11 +50,12 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 			String search_result = "" + node.getName();
 			if (search_result.contains(searchText)) {
 				packageName = "" + node.getName();
-				packageItems.add(new OutputItem(packageName, null, node.toString(), searchText, file));
+				packageItems.add(
+						new OutputItem(packageName, SearchActivator.getActivatorInstance().getImageFromURL("package"),
+								node.toString(), searchText, file));
 			}
 		}
 		return true;
-
 	}
 
 	@Override
@@ -74,17 +76,23 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 				String typeDeclarationName = node.getName() + "";
 				if (isArgumentDefined(advancedSpecification)) {
 					if ((search_result).contains(advancedSpecification)) {
-						classItems.add(new OutputItem(typeDeclarationName, null, node.toString(), searchText, file));
+						classItems.add(new OutputItem(typeDeclarationName,
+								SearchActivator.getActivatorInstance().getImageFromURL("class"), node.toString(),
+								searchText, file));
 					} else if (advancedSpecification.equals("interface") && node.isInterface()) {
-						interfaceItems
-								.add(new OutputItem(typeDeclarationName, null, node.toString(), searchText, file));
+						interfaceItems.add(new OutputItem(typeDeclarationName,
+								SearchActivator.getActivatorInstance().getImageFromURL("interface"), node.toString(),
+								searchText, file));
 					}
 				} else {
 					if (node.isInterface()) {
-						interfaceItems
-								.add(new OutputItem(typeDeclarationName, null, node.toString(), searchText, file));
+						interfaceItems.add(new OutputItem(typeDeclarationName,
+								SearchActivator.getActivatorInstance().getImageFromURL("interface"), node.toString(),
+								searchText, file));
 					} else {
-						classItems.add(new OutputItem(typeDeclarationName, null, node.toString(), searchText, file));
+						classItems.add(new OutputItem(typeDeclarationName,
+								SearchActivator.getActivatorInstance().getImageFromURL("class"), node.toString(),
+								searchText, file));
 					}
 				}
 			}
@@ -97,7 +105,9 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 		if (isToSearchInPackage_orClass()) {
 			String importName = node.toString();
 			if (importName.contains(searchText)) {
-				importItems.add(new OutputItem(importName, null, full_class, searchText, file));
+				importItems.add(
+						new OutputItem(importName, SearchActivator.getActivatorInstance().getImageFromURL("import"),
+								full_class, searchText, file));
 			}
 		}
 		return true;
@@ -110,10 +120,14 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 			if (enumName.toLowerCase().contains(searchText)) {
 				if (isArgumentDefined(advancedSpecification)) {
 					if (advancedSpecification.equals("enum")) {
-						enumItems.add(new OutputItem(enumName, null, node.toString(), searchText, file));
+						enumItems.add(
+								new OutputItem(enumName, SearchActivator.getActivatorInstance().getImageFromURL("enum"),
+										node.toString(), searchText, file));
 					}
 				} else {
-					enumItems.add(new OutputItem(enumName, null, node.toString(), searchText, file));
+					enumItems.add(
+							new OutputItem(enumName, SearchActivator.getActivatorInstance().getImageFromURL("enum"),
+									node.toString(), searchText, file));
 				}
 			}
 		}
@@ -127,10 +141,14 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 			if (fielName.toLowerCase().contains(searchText)) {
 				if (isArgumentDefined(advancedSpecification)) {
 					if (node.modifiers().toString().contains(advancedSpecification)) {
-						fieldItems.add(new OutputItem(fielName, null, full_class, searchText, file));
+						fieldItems.add(new OutputItem(fielName,
+								SearchActivator.getActivatorInstance().getImageFromURL("field"), full_class, searchText,
+								file));
 					}
 				} else {
-					fieldItems.add(new OutputItem(fielName, null, full_class, searchText, file));
+					fieldItems.add(
+							new OutputItem(fielName, SearchActivator.getActivatorInstance().getImageFromURL("field"),
+									full_class, searchText, file));
 				}
 			}
 		}
@@ -144,10 +162,14 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 			if (methodName.toLowerCase().contains(searchText)) {
 				if (isArgumentDefined(advancedSpecification)) {
 					if (node.modifiers().toString().contains(advancedSpecification)) {
-						methodItems.add(new OutputItem(methodName, null, full_class, searchText, file));
+						methodItems.add(new OutputItem(methodName,
+								SearchActivator.getActivatorInstance().getImageFromURL("method"), full_class,
+								searchText, file));
 					}
 				} else {
-					methodItems.add(new OutputItem(methodName, null, full_class, searchText, file));
+					methodItems.add(
+							new OutputItem(methodName, SearchActivator.getActivatorInstance().getImageFromURL("method"),
+									full_class, searchText, file));
 				}
 			}
 		}

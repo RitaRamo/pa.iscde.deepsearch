@@ -1,9 +1,14 @@
 package activator;
 
+import java.net.URL;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.FileLocator;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.resource.ImageDescriptor;
+import org.eclipse.swt.graphics.Image;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -73,5 +78,13 @@ public class SearchActivator implements BundleActivator {
 
 	public Bundle getBundle() {
 		return Platform.getBundle("pa.iscde.deepsearch");
+	}
+	
+	public Image getImageFromURL(String parent) {
+		URL fullPathString = FileLocator.find(getBundle(),
+				new Path("images/" + parent.toLowerCase() + ".gif"), null);
+		ImageDescriptor imageDesc = ImageDescriptor.createFromURL(fullPathString);
+		Image image = imageDesc.createImage();
+		return image;
 	}
 }
