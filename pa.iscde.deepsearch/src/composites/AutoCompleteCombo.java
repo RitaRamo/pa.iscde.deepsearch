@@ -26,14 +26,11 @@ public abstract class AutoCompleteCombo {
 	}
 
 	private void createContents() {
-
 		search_label = new Label(parent, SWT.NONE);
 		search_label.setText(comboName);
-
 		comboBox_search = new Combo(parent, SWT.BORDER);
 		comboBox_search.setItems(comboItems);
 		comboBox_search.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
-
 		comboBox_search.addModifyListener(new ModifyListener() {
 
 			@Override
@@ -60,14 +57,13 @@ public abstract class AutoCompleteCombo {
 				}
 				showRelatedSpecifications();
 			}
+			
 		});
-
 	}
 
 	abstract protected void showRelatedSpecifications();
 
 	private void autoCompleteText(String textInserted) {
-
 		if (hasSelectedItemWithMouse()) {
 			itemSelected = comboBox_search.getSelectionIndex();
 			if (itemSelected > 0) {
@@ -82,11 +78,11 @@ public abstract class AutoCompleteCombo {
 						break;
 					}
 				}
-				if (!hasAlreadySelected)
+				if (!hasAlreadySelected) {
 					itemSelected = 0;
+				}
 			}
 		}
-
 	}
 
 	private boolean hasSelectedItemWithMouse() {

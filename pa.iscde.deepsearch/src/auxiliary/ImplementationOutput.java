@@ -16,9 +16,8 @@ import visitor.DeepSearchVisitor;
 
 public class ImplementationOutput implements OutputPreview {
 
-	String[] split;
-	ProjectBrowserServices browser_search = SearchActivator.getActivatorInstance().getBrowserService();;
-	JavaEditorServices editor_search = SearchActivator.getActivatorInstance().getEditorService();
+	private ProjectBrowserServices browser_search = SearchActivator.getActivatorInstance().getBrowserService();;
+	private JavaEditorServices editor_search = SearchActivator.getActivatorInstance().getEditorService();
 	private String searchText;
 	private int itemSelected_ComboSearchIn = -1;
 	private String specificText_ComboSearchIn;
@@ -117,7 +116,6 @@ public class ImplementationOutput implements OutputPreview {
 	private void searchIn_orForMethod(SearchEnumType enumType, String advancedSpecifications) {
 		visitor = new DeepSearchVisitor(searchText, enumType, "");
 		root_package.traverse(visitor);
-
 	}
 
 	private void searchIn_orForPackage(SearchEnumType enumType) {

@@ -34,8 +34,6 @@ public class PreviewComposite extends Composite {
 	public void styleText(String full, String result, String data_search) {
 		getPreview().setText(full);
 		if (!data_search.equals("")) {
-			getPreview().setStyleRange(new StyleRange(full.indexOf(result), result.length(), null,
-					getDisplay().getSystemColor(SWT.COLOR_YELLOW)));
 			for (int i = result.indexOf(data_search); i >= 0; i = result.indexOf(data_search, i + 1)) {
 				getPreview().setStyleRange(new StyleRange(full.indexOf(result) + i, data_search.length(), null,
 						getDisplay().getSystemColor(SWT.COLOR_GREEN)));
