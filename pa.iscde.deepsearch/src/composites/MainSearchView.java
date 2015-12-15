@@ -157,25 +157,26 @@ public class MainSearchView implements PidescoView {
 
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				String temp = "";
-				String temp_2 = "";
-				Collection<String> temp_3 = null;
+				String combo_specific = "";
+				String searchFor_combo = "";
+				Collection<String> selected_items = null;
 				if (search_composite.getSearchIn().getComboBox_searchSpecific() != null) {
 					if (!search_composite.getSearchIn().getComboBox_searchSpecific().isDisposed()) {
-						temp = search_composite.getSearchIn().getComboBox_searchSpecific().getText();
+						combo_specific = search_composite.getSearchIn().getComboBox_searchSpecific().getText();
 					}
 				}
 				if (advancedButtonIsSelected) {
-					temp_2 = advanced_composite.getComboSearchFor().getComboBox_search().getText();
+					searchFor_combo = advanced_composite.getComboSearchFor().getComboBox_search().getText();
 					if (!advanced_composite.getComboSearchFor().getIsDisposed()) {
-						temp_3 = advanced_composite.getComboSearchFor().getItemsSelected();
+						selected_items = advanced_composite.getComboSearchFor().getItemsSelected();
 					} else {
-						temp_3 = new LinkedList<>();
+						selected_items = new LinkedList<String>();
 					}
 				}
 				for (ISearchEventListener l : SearchActivator.getActivatorInstance().getListeners()) {
 					l.widgetSelected(search_composite.getSearchField().getText(),
-							search_composite.getSearchIn().getComboBox_search().getText(), temp, temp_2, temp_3);
+							search_composite.getSearchIn().getComboBox_search().getText(), combo_specific,
+							searchFor_combo, selected_items);
 				}
 			}
 		});
