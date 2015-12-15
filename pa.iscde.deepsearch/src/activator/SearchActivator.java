@@ -3,6 +3,8 @@ package activator;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.eclipse.core.runtime.Platform;
+import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -67,6 +69,9 @@ public class SearchActivator implements BundleActivator {
 
 	public void removeListener(ISearchEventListener listener) {
 		listeners.remove(listener);
+	}
 
+	public Bundle getBundle() {
+		return Platform.getBundle("pa.iscde.deepsearch");
 	}
 }

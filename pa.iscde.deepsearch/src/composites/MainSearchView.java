@@ -1,17 +1,21 @@
 package composites;
 
 import java.io.File;
+import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
 import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
 import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -137,18 +141,27 @@ public class MainSearchView implements PidescoView {
 		for (String parentName : outputPreview.getParents()) {
 			TreeItem newParent = new TreeItem(preview_composite.getHierarquies(), 0);
 			newParent.setText(parentName);
+			newParent.setImage(getImageFromURL(parentName));
 			results.put(parentName, (LinkedList<Item>) outputPreview.getChildren(parentName));
 			parent_results.add(parentName);
 			for (Item child : outputPreview.getChildren(parentName)) {
 				TreeItem newChild = new TreeItem(newParent, 0);
 				newChild.setText(child.getName());
+				newChild.setImage(getImageFromURL(parentName));
 				newChild.setData("previewText", child.getPreviewText());
 				newChild.setData("highlightedText", child.getHighlightText());
 				newChild.setData("File", child.getFile());
 				newChild.setData("SpecialData", child.getSpecialData());
 			}
-
 		}
+	}
+
+	private Image getImageFromURL(String parent) {
+		URL fullPathString = FileLocator.find(SearchActivator.getActivatorInstance().getBundle(),
+				new Path("images/" + parent.toLowerCase() + ".gif"), null);
+		ImageDescriptor imageDesc = ImageDescriptor.createFromURL(fullPathString);
+		Image image = imageDesc.createImage();
+		return image;
 	}
 
 	private void addWidgetSelected() {

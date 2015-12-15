@@ -8,15 +8,16 @@ import extensionpoints.Item;
 
 public class OutputItem implements Item {
 	private String name;
-	private Image img;
+	private Image image;
 	private String text_ToShowOnPreview;
 	private String text_ToHightlightOnPreview;
 	private File f;
 	private Object obj;
 
-	public OutputItem(String name, Image img, String text_ToShowOnPreview, String text_ToHightlightOnPreview, File f) {
+	public OutputItem(String name, Image image, String text_ToShowOnPreview, String text_ToHightlightOnPreview,
+			File f) {
 		this.name = name;
-		this.img = img;
+		this.image = image;
 		this.text_ToShowOnPreview = text_ToShowOnPreview;
 		this.text_ToHightlightOnPreview = text_ToHightlightOnPreview;
 		this.f = f;
@@ -29,7 +30,7 @@ public class OutputItem implements Item {
 
 	@Override
 	public Image getImg() {
-		return img;
+		return image;
 	}
 
 	@Override
@@ -63,9 +64,9 @@ public class OutputItem implements Item {
 	}
 
 	@Override
-	public void setItem(String name, Image img, String text_ToShowOnPreview, String text_ToHightlightOnPreview) {
+	public void setItem(String name, Image image, String text_ToShowOnPreview, String text_ToHightlightOnPreview) {
 		this.name = name;
-		this.img = img;
+		this.image = image;
 		this.text_ToShowOnPreview = text_ToShowOnPreview;
 		this.text_ToHightlightOnPreview = text_ToHightlightOnPreview;
 	}

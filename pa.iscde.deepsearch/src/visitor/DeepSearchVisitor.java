@@ -32,7 +32,6 @@ public class DeepSearchVisitor extends Visitor.Adapter {
 
 	public ASTVisitorDeepSearch getASTVisitor_deepSearchMy() {
 		return astVisitor_deepSearch;
-
 	}
 
 	public ClassElement getClass(String className, PackageElement rootPackage) {

@@ -41,7 +41,6 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 
 	public void setFile(File file) {
 		this.file = file;
-
 	}
 
 	@Override
