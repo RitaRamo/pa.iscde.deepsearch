@@ -15,7 +15,7 @@ Detailed description:
 
 Descrição breve:
 
-No nosso componente, o utilizador pode fazer uma procura através do campo de pesquisa, pode fazer pesquisas dentro de pacotes,classes ou métodos e, pode ainda, fazer uma pesquisa avançada, pesquisando por pacotes, classes,métodos ou atributos.
+No nosso componente, o utilizador pode fazer uma procura através do campo de pesquisa, pode também fazer pesquisas dentro de pacotes,classes ou métodos e, pode ainda, fazer uma pesquisa avançada, pesquisando por pacotes, classes,métodos ou atributos.
 
 
 Descrição detalhada:
@@ -46,7 +46,7 @@ Search In
 Search For
 [image]
 
-Depois de se clicar no botão de pesquisar, search, aparece o output da pesquisa do lado esquerdo, isto é, os resultados. Caso se selecione um determinado resultado ou se faça doble-cliking nele, aparece do lado direito o preview desse resultado.
+Depois de se clicar no botão de pesquisar (search), aparece o output da pesquisa do lado esquerdo, isto é, os resultados. Caso se selecione um determinado resultado ou se faça doble-cliking nele, aparece do lado direito o preview desse resultado.
 
 Output
 [image]
