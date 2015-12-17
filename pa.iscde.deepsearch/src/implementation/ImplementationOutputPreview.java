@@ -1,5 +1,6 @@
-package auxiliary;
+package implementation;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -14,16 +15,16 @@ import pt.iscte.pidesco.projectbrowser.model.SourceElement;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 import visitor.DeepSearchVisitor;
 
-public class ImplementationOutput implements OutputPreview {
+public class ImplementationOutputPreview implements OutputPreview {
 
 	private ProjectBrowserServices browser_search = SearchActivator.getActivatorInstance().getBrowserService();;
 	private JavaEditorServices editor_search = SearchActivator.getActivatorInstance().getEditorService();
 	private String searchText;
-	private int itemSelected_ComboSearchIn = -1;
+	private String text_SearchInCombo = "";
 	private String specificText_ComboSearchIn;
 	private DeepSearchVisitor visitor;
 	private PackageElement root_package = (PackageElement) browser_search.getRootPackage();
-	private int itemSelected_ComboSearchFor = -1;
+	private String text_AdvancedCombo = "";
 
 	@Override
 	public LinkedList<String> getParents() {
@@ -61,15 +62,16 @@ public class ImplementationOutput implements OutputPreview {
 	}
 
 	@Override
-	public void searchForScanner(String searchText, int itemSelected_AdvancedCombo, ArrayList<String> buttonsSelected,
-			int itemSelected_ComboSearchIn, String specificText_ComboSearchIn) {
-		this.itemSelected_ComboSearchIn = itemSelected_ComboSearchIn;
+	public void searchForScanner(String searchText, String text_AdvancedCombo, ArrayList<String> buttonsSelected,
+			String text_SearchInCombo, String specificText_ComboSearchIn) {
+		this.text_SearchInCombo = text_SearchInCombo;
 		this.searchText = searchText;
 		this.specificText_ComboSearchIn = specificText_ComboSearchIn;
-		this.itemSelected_ComboSearchFor = itemSelected_AdvancedCombo;
-		if (itemSelected_AdvancedCombo > 0) {
+		this.text_AdvancedCombo = text_AdvancedCombo;
+		
+		if (text_AdvancedCombo!="") {
 			searchFor(buttonsSelected);
-		} else if (itemSelected_ComboSearchIn > 0) {
+		} else if (text_SearchInCombo !="" ) {
 			searchIn();
 		} else {
 			visitor = new DeepSearchVisitor(searchText, SearchEnumType.SearchInPackage, "");
@@ -78,24 +80,24 @@ public class ImplementationOutput implements OutputPreview {
 	}
 
 	private void searchIn() {
-		if (itemSelected_ComboSearchIn == 1) {
+		if (text_SearchInCombo.equals("Package")) {
 			searchIn_orForPackage(SearchEnumType.SearchInPackage);
-		} else if (itemSelected_ComboSearchIn == 2) {
+		} else if (text_SearchInCombo.equals("Class")) {
 			visitor = new DeepSearchVisitor(searchText, SearchEnumType.SearchInClass, "");
 			searchInClass_orSearchFor();
-		} else if (itemSelected_ComboSearchIn == 3) {
+		} else if (text_SearchInCombo.equals("Method")) {
 			searchIn_orForMethod(SearchEnumType.SearchInMethod, "");
 		}
 	}
 
 	private void searchFor(ArrayList<String> buttonsSelected) {
-		if (itemSelected_ComboSearchFor == 1) {
+		if (text_AdvancedCombo.equals("Package")) {
 			searchIn_orForPackage(SearchEnumType.SearchForPackage);
-		} else if (itemSelected_ComboSearchFor == 2) {
+		} else if (text_AdvancedCombo.equals("TypeDeclaration")) {
 			searchAdvanced(SearchEnumType.SearchForClass, buttonsSelected);
-		} else if (itemSelected_ComboSearchFor == 3) {
+		} else if (text_AdvancedCombo.equals("Method")) {
 			searchAdvanced(SearchEnumType.SearchForMethod, buttonsSelected);
-		} else if (itemSelected_ComboSearchFor == 4) {
+		} else if (text_AdvancedCombo.equals("Field")) {
 			searchAdvanced(SearchEnumType.SearchForField, buttonsSelected);
 		}
 	}
@@ -121,7 +123,7 @@ public class ImplementationOutput implements OutputPreview {
 	private void searchIn_orForPackage(SearchEnumType enumType) {
 		visitor = new DeepSearchVisitor(searchText, enumType, "");
 		if (isComboSearchFor_CoherentWith_ComboSearchIn()) {
-			if (itemSelected_ComboSearchIn != -1 && !specificText_ComboSearchIn.equals("")) {
+			if (!text_SearchInCombo.equals("") && !specificText_ComboSearchIn.equals("")) {
 				for (SourceElement sourcePackage : root_package.getChildren()) {
 					String packageName = sourcePackage.getParent().getName() + "." + sourcePackage.getName();
 					if (packageName.equals(specificText_ComboSearchIn)) {
@@ -137,10 +139,10 @@ public class ImplementationOutput implements OutputPreview {
 
 	private void searchInClass_orSearchFor() {
 		if (isComboSearchFor_CoherentWith_ComboSearchIn()) {
-			if (itemSelected_ComboSearchIn == 2 && !specificText_ComboSearchIn.equals("")) {
+			if (text_SearchInCombo.equals("Class") && !specificText_ComboSearchIn.equals("")) {
 				ClassElement classToVisit = visitor.getClass(specificText_ComboSearchIn, root_package);
 				visitor.visitClass(classToVisit);
-			} else if (itemSelected_ComboSearchIn == 1 && !specificText_ComboSearchIn.equals("")) {
+			} else if (text_SearchInCombo.equals("Package") && !specificText_ComboSearchIn.equals("")) {
 				for (SourceElement sourcePackage : root_package.getChildren()) {
 					String packageName = sourcePackage.getParent().getName() + "." + sourcePackage.getName();
 					if (packageName.equals(specificText_ComboSearchIn)) {
@@ -155,14 +157,16 @@ public class ImplementationOutput implements OutputPreview {
 	}
 
 	private boolean isComboSearchFor_CoherentWith_ComboSearchIn() {
-		return itemSelected_ComboSearchFor <= 0 || itemSelected_ComboSearchFor >= itemSelected_ComboSearchIn;
+		//return text_SearchInCombo.equals("") ||  
+		return true;
+		//itemSelected_ComboSearchFor <= 0 || itemSelected_ComboSearchFor >= text_SearchInCombo;
 	}
 
 	@Override
 	public void doubleClick(Item e) {
-		editor_search.openFile(e.getFile());
-		editor_search.selectText(e.getFile(), e.getPreviewText().indexOf(searchText),
-				e.getPreviewText().indexOf(searchText) + searchText.length());
+		editor_search.openFile((File) e.getSpecialData());
+		//editor_search.selectText(e.getFile(), e.getPreviewText().indexOf(searchText),
+			//	e.getPreviewText().indexOf(searchText) + searchText.length());
 	}
 
 }

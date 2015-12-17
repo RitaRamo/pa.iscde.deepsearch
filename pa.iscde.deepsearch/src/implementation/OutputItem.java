@@ -8,16 +8,15 @@ import extensionpoints.Item;
 
 public class OutputItem implements Item {
 	private String name;
-	private Image image;
+	private Image img;
 	private String text_ToShowOnPreview;
 	private String text_ToHightlightOnPreview;
 	private File f;
-	private Object obj;
 
 	public OutputItem(String name, Image image, String text_ToShowOnPreview, String text_ToHightlightOnPreview,
 			File f) {
 		this.name = name;
-		this.image = image;
+		this.img = image;
 		this.text_ToShowOnPreview = text_ToShowOnPreview;
 		this.text_ToHightlightOnPreview = text_ToHightlightOnPreview;
 		this.f = f;
@@ -30,7 +29,7 @@ public class OutputItem implements Item {
 
 	@Override
 	public Image getImg() {
-		return image;
+		return img;
 	}
 
 	@Override
@@ -43,31 +42,26 @@ public class OutputItem implements Item {
 		return text_ToHightlightOnPreview;
 	}
 
+
 	@Override
-	public File getFile() {
+	public Object getSpecialData() {
 		return f;
 	}
 
 	@Override
-	public Object getSpecialData() {
-		return obj;
-	}
-
-	@Override
-	public void setFile(File f) {
-		this.f = f;
-	}
-
-	@Override
 	public void setSpecialData(Object obj) {
-		this.obj = obj;
+		this.f = (File)obj;
 	}
 
 	@Override
-	public void setItem(String name, Image image, String text_ToShowOnPreview, String text_ToHightlightOnPreview) {
+	public void setItem(String name,  String text_ToShowOnPreview, String text_ToHightlightOnPreview) {
 		this.name = name;
-		this.image = image;
 		this.text_ToShowOnPreview = text_ToShowOnPreview;
 		this.text_ToHightlightOnPreview = text_ToHightlightOnPreview;
+	}
+
+	@Override
+	public void setImg(Image img) {
+		this.img=img;
 	}
 }

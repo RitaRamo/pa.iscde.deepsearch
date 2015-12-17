@@ -14,7 +14,7 @@
    <extension
          point="pa.iscde.deepsearch.output_preview">
       <item
-            class="auxiliary.ImplementationOutput"
+            class="implementation.ImplementationOutputPreview"
             name="OutputImpl">
       </item>
    </extension>

@@ -71,13 +71,15 @@ public class MainSearchView implements PidescoView {
 				searched_data = search_composite.getSearchField().getText();
 				for (OutputPreview o : extensionResult) {
 					if (advancedButtonIsSelected) {
-						o.searchForScanner(searched_data, advanced_composite.getComboSearchFor().itemSelected,
+						o.searchForScanner(searched_data,
+								advanced_composite.getComboSearchFor().getComboBox_search().getText(),
 								advanced_composite.getComboSearchFor().getButtonsSelected(),
-								search_composite.getSearchIn().itemSelected,
+								search_composite.getSearchIn().getComboBox_search().getText(),
 								search_composite.getSearchIn().getText_ofSearchSpecific());
 						advanced_composite.getComboSearchFor().clearSelected();
 					} else {
-						o.searchForScanner(searched_data, -1, null, search_composite.getSearchIn().itemSelected,
+						o.searchForScanner(searched_data, "", null,
+								search_composite.getSearchIn().getComboBox_search().getText(),
 								search_composite.getSearchIn().getText_ofSearchSpecific());
 					}
 					createTree(o);
@@ -146,7 +148,6 @@ public class MainSearchView implements PidescoView {
 				newChild.setImage(child.getImg());
 				newChild.setData("previewText", child.getPreviewText());
 				newChild.setData("highlightedText", child.getHighlightText());
-				newChild.setData("File", child.getFile());
 				newChild.setData("SpecialData", child.getSpecialData());
 			}
 		}
