@@ -17,7 +17,7 @@ import org.osgi.framework.ServiceRegistration;
 
 import extensionpoints.ISearchEvent;
 import extensionpoints.ISearchEventListener;
-import implementation.ISearchEventImpl;
+import implementation.SearchEvent_Implementation;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 
@@ -42,7 +42,7 @@ public class SearchActivator implements BundleActivator {
 				.getServiceReference(ProjectBrowserServices.class);
 		browser_service = context.getService(ref_browser);
 
-		search_event_registry = context.registerService(ISearchEvent.class, new ISearchEventImpl(), null);
+		search_event_registry = context.registerService(ISearchEvent.class, new SearchEvent_Implementation(), null);
 	}
 
 	@Override

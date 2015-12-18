@@ -71,16 +71,14 @@ public class MainSearchView implements PidescoView {
 				searched_data = search_composite.getSearchField().getText();
 				for (OutputPreview o : extensionResult) {
 					if (advancedButtonIsSelected) {
-						o.searchForScanner(searched_data,
+						o.search(searched_data, search_composite.getSearchIn().getComboBox_search().getText(),
+								search_composite.getSearchIn().getText_ofSearchSpecific(),
 								advanced_composite.getComboSearchFor().getComboBox_search().getText(),
-								advanced_composite.getComboSearchFor().getButtonsSelected(),
-								search_composite.getSearchIn().getComboBox_search().getText(),
-								search_composite.getSearchIn().getText_ofSearchSpecific());
+								advanced_composite.getComboSearchFor().getButtonsSelected());
 						advanced_composite.getComboSearchFor().clearSelected();
 					} else {
-						o.searchForScanner(searched_data, "", null,
-								search_composite.getSearchIn().getComboBox_search().getText(),
-								search_composite.getSearchIn().getText_ofSearchSpecific());
+						o.search(searched_data, search_composite.getSearchIn().getComboBox_search().getText(),
+								search_composite.getSearchIn().getText_ofSearchSpecific(), "", null);
 					}
 					createTree(o);
 				}
@@ -135,14 +133,16 @@ public class MainSearchView implements PidescoView {
 		addWidgetSelected();
 	}
 
-	public void createTree(OutputPreview outputPreview) {
-		for (String parentName : outputPreview.getParents()) {
+	private void createTree(OutputPreview outputPreview) {
+		for (Item parent : outputPreview.getParents()) {
 			TreeItem newParent = new TreeItem(preview_composite.getHierarquies(), 0);
-			newParent.setText(parentName);
-			newParent.setImage(SearchActivator.getActivatorInstance().getImageFromURL(parentName));
-			results.put(parentName, (LinkedList<Item>) outputPreview.getChildren(parentName));
-			parent_results.add(parentName);
-			for (Item child : outputPreview.getChildren(parentName)) {
+			newParent.setText(parent.getName());
+			if (parent.getImg() != null) {
+				newParent.setImage(parent.getImg());
+			}
+			newParent.setData("previewText", parent.getPreviewText());
+			newParent.setData("highlightedText", parent.getHighlightText());
+			for (Item child : outputPreview.getChildren(parent.getName())) {
 				TreeItem newChild = new TreeItem(newParent, 0);
 				newChild.setText(child.getName());
 				newChild.setImage(child.getImg());
@@ -153,7 +153,7 @@ public class MainSearchView implements PidescoView {
 		}
 	}
 
-	private void addWidgetSelected() {
+	private void addWidgetSelected() { // MUDAR
 		search_composite.getSearchButton().addSelectionListener(new SelectionAdapter() {
 
 			@Override

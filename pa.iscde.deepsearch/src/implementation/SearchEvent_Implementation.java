@@ -14,7 +14,7 @@ import extensionpoints.ISearchEvent;
 import extensionpoints.ISearchEventListener;
 import extensionpoints.Item;
 
-public class ISearchEventImpl implements ISearchEvent {
+public class SearchEvent_Implementation implements ISearchEvent {
 
 	@Override
 	public void addListener(ISearchEventListener listener) {

@@ -15,11 +15,11 @@ import pt.iscte.pidesco.projectbrowser.model.SourceElement;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 import visitor.DeepSearchVisitor;
 
-public class ImplementationOutputPreview implements OutputPreview {
+public class OutputPreview_Implementation implements OutputPreview {
 
 	private ProjectBrowserServices browser_search = SearchActivator.getActivatorInstance().getBrowserService();;
 	private JavaEditorServices editor_search = SearchActivator.getActivatorInstance().getEditorService();
-	private String searchText;
+	private String text_Search;
 	private String text_SearchInCombo = "";
 	private String specificText_ComboSearchIn;
 	private DeepSearchVisitor visitor;
@@ -27,15 +27,22 @@ public class ImplementationOutputPreview implements OutputPreview {
 	private String text_AdvancedCombo = "";
 
 	@Override
-	public LinkedList<String> getParents() {
-		LinkedList<String> parents = new LinkedList<String>();
-		parents.add("Package");
-		parents.add("Import");
-		parents.add("Class");
-		parents.add("Enum");
-		parents.add("Interface");
-		parents.add("Method");
-		parents.add("Field");
+	public LinkedList<Item> getParents() {
+		LinkedList<Item> parents = new LinkedList<Item>();
+		parents.add(new OutputItem("Package", SearchActivator.getActivatorInstance().getImageFromURL("package"), "", "",
+				null));
+		parents.add(new OutputItem("Import", SearchActivator.getActivatorInstance().getImageFromURL("import"), "", "",
+				null));
+		parents.add(
+				new OutputItem("Class", SearchActivator.getActivatorInstance().getImageFromURL("class"), "", "", null));
+		parents.add(new OutputItem("Interface", SearchActivator.getActivatorInstance().getImageFromURL("interface"), "",
+				"", null));
+		parents.add(
+				new OutputItem("Enum", SearchActivator.getActivatorInstance().getImageFromURL("enum"), "", "", null));
+		parents.add(new OutputItem("Method", SearchActivator.getActivatorInstance().getImageFromURL("method"), "", "",
+				null));
+		parents.add(
+				new OutputItem("Field", SearchActivator.getActivatorInstance().getImageFromURL("field"), "", "", null));
 		return parents;
 	}
 
@@ -57,33 +64,35 @@ public class ImplementationOutputPreview implements OutputPreview {
 		case "Field":
 			return visitor.getASTVisitor_deepSearchMy().getFieldItems();
 		default:
-			return visitor.getASTVisitor_deepSearchMy().getClassItems();
+			return new LinkedList<Item>();
 		}
 	}
 
 	@Override
-	public void searchForScanner(String searchText, String text_AdvancedCombo, ArrayList<String> buttonsSelected,
-			String text_SearchInCombo, String specificText_ComboSearchIn) {
+	public void search(String text_Search, String text_SearchInCombo, String specificText_ComboSearchIn,
+			String text_AdvancedCombo, ArrayList<String> buttonsSelected_AdvancedCombo) {
 		this.text_SearchInCombo = text_SearchInCombo;
-		this.searchText = searchText;
+		this.text_Search = text_Search;
 		this.specificText_ComboSearchIn = specificText_ComboSearchIn;
 		this.text_AdvancedCombo = text_AdvancedCombo;
-		
 		if (text_AdvancedCombo!="") {
-			searchFor(buttonsSelected);
+			searchFor(buttonsSelected_AdvancedCombo);
 		} else if (text_SearchInCombo !="" ) {
 			searchIn();
 		} else {
-			visitor = new DeepSearchVisitor(searchText, SearchEnumType.SearchInPackage, "");
+			visitor = new DeepSearchVisitor(text_Search, SearchEnumType.SearchInPackage, "");
 			root_package.traverse(visitor);
 		}
+
+		
 	}
+
 
 	private void searchIn() {
 		if (text_SearchInCombo.equals("Package")) {
 			searchIn_orForPackage(SearchEnumType.SearchInPackage);
 		} else if (text_SearchInCombo.equals("Class")) {
-			visitor = new DeepSearchVisitor(searchText, SearchEnumType.SearchInClass, "");
+			visitor = new DeepSearchVisitor(text_Search, SearchEnumType.SearchInClass, "");
 			searchInClass_orSearchFor();
 		} else if (text_SearchInCombo.equals("Method")) {
 			searchIn_orForMethod(SearchEnumType.SearchInMethod, "");
@@ -104,24 +113,24 @@ public class ImplementationOutputPreview implements OutputPreview {
 
 	private void searchAdvanced(SearchEnumType enumType, ArrayList<String> buttonsSelected) {
 		if (buttonsSelected.size() > 0) {
-			visitor = new DeepSearchVisitor(searchText, enumType, buttonsSelected.get(0));
+			visitor = new DeepSearchVisitor(text_Search, enumType, buttonsSelected.get(0));
 			for (String advancedSpecification : buttonsSelected) {
 				visitor.getASTVisitor_deepSearchMy().setAdvancedSpecifications(advancedSpecification);
 				searchInClass_orSearchFor();
 			}
 		} else {
-			visitor = new DeepSearchVisitor(searchText, enumType, "");
+			visitor = new DeepSearchVisitor(text_Search, enumType, "");
 			searchInClass_orSearchFor();
 		}
 	}
 
 	private void searchIn_orForMethod(SearchEnumType enumType, String advancedSpecifications) {
-		visitor = new DeepSearchVisitor(searchText, enumType, "");
+		visitor = new DeepSearchVisitor(text_Search, enumType, "");
 		root_package.traverse(visitor);
 	}
 
 	private void searchIn_orForPackage(SearchEnumType enumType) {
-		visitor = new DeepSearchVisitor(searchText, enumType, "");
+		visitor = new DeepSearchVisitor(text_Search, enumType, "");
 		if (isComboSearchFor_CoherentWith_ComboSearchIn()) {
 			if (!text_SearchInCombo.equals("") && !specificText_ComboSearchIn.equals("")) {
 				for (SourceElement sourcePackage : root_package.getChildren()) {
@@ -157,16 +166,26 @@ public class ImplementationOutputPreview implements OutputPreview {
 	}
 
 	private boolean isComboSearchFor_CoherentWith_ComboSearchIn() {
-		//return text_SearchInCombo.equals("") ||  
-		return true;
-		//itemSelected_ComboSearchFor <= 0 || itemSelected_ComboSearchFor >= text_SearchInCombo;
+		if (text_AdvancedCombo.equals("Package")) {
+			if (text_SearchInCombo.equals("Package"))
+				return true;
+			else
+				return false;
+		} else if (text_AdvancedCombo.equals("TypeDeclaration")) {
+			if (!text_SearchInCombo.equals("Method"))
+				return true;
+			else
+				return false;
+		} else if (text_AdvancedCombo.equals("") || text_AdvancedCombo.equals("Method")
+				|| text_AdvancedCombo.equals("Field"))
+			return true;
+		else
+			return false;
 	}
 
 	@Override
 	public void doubleClick(Item e) {
 		editor_search.openFile((File) e.getSpecialData());
-		//editor_search.selectText(e.getFile(), e.getPreviewText().indexOf(searchText),
-			//	e.getPreviewText().indexOf(searchText) + searchText.length());
 	}
 
 }
