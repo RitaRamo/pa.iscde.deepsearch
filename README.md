@@ -11,6 +11,6 @@ Plug-In para o ISCDE - DeepSearch Programação Avançada
 Tradução em português:
 - Ler wiki DeepSearch Component para saber mais sobre este componente
 - Ler wiki OutputPreview para saber mais sobre extension point
-- Read wiki Item para saber mais sobre esta interface
+- Ler wiki Item para saber mais sobre esta interface
 - Ler wiki SearchEvent para saber mais sobre este evento
 
