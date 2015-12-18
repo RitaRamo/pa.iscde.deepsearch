@@ -112,7 +112,9 @@ public class MainSearchView implements PidescoView {
 							tree_item.getData("previewText").toString(),
 							tree_item.getData("highlightedText").toString(), (File) tree_item.getData("File"));
 					if (item.getPreviewText() != "") {
-						preview_composite.styleText(item.getPreviewText(), item.getHighlightText(), searched_data);
+						System.out.println("Pre = " + item.getPreviewText().length() + " :: HIGH = "
+								+ item.getHighlightText() + " :: searched = " + searched_data);
+						preview_composite.styleText(item.getPreviewText(), item.getHighlightText(), searched_data.toLowerCase());
 					}
 				}
 			}
