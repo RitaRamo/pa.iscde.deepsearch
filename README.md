@@ -7,6 +7,7 @@ Plug-In para o ISCDE - DeepSearch Programação Avançada
 - Read wiki Item to know more about this interface
 - Read wiki SearchEvent to know more about this service
 
+[Learn more by visiting the Wiki] (../../wiki)
 
 Tradução em português:
 - Ler wiki [DeepSearch Component] (../../wiki/DeepSearch-Component) para saber mais sobre este componente
@@ -14,3 +15,4 @@ Tradução em português:
 - Ler wiki Item para saber mais sobre esta interface
 - Ler wiki SearchEvent para saber mais sobre este evento
 
+[Aprenda mais visitando a Wiki] (../../wiki)
