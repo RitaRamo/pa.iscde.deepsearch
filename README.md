@@ -2,7 +2,7 @@
 
 Plug-In para o ISCDE - DeepSearch Programação Avançada
 
-- Read wiki [DeepSearch Componenent] (../wiki/DeepSearch-Component) to know more about this component
+- Read wiki [DeepSearch Componenent] (../../wiki/DeepSearch-Component) to know more about this component
 - Read wiki [OutputPreview] (https://github.com/RitaRamo/pa.iscde.deepsearch/wiki/OutputPreview-ExtensionPoint) to know more about this extension point
 - Read wiki Item to know more about this interface
 - Read wiki SearchEvent to know more about this service
