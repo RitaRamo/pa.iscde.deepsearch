@@ -12,13 +12,15 @@ public class OutputItem implements Item {
 	private String text_ToShowOnPreview;
 	private String text_ToHightlightOnPreview;
 	private File f;
+	private Object obj;
 
-	public OutputItem(String name, Image image, String text_ToShowOnPreview, String text_ToHightlightOnPreview,
+	
+	public OutputItem(String name_item, Image image, String text_Preview, String text_Highlighted,
 			File f) {
-		this.name = name;
+		this.name = name_item;
 		this.img = image;
-		this.text_ToShowOnPreview = text_ToShowOnPreview;
-		this.text_ToHightlightOnPreview = text_ToHightlightOnPreview;
+		this.text_ToShowOnPreview = text_Preview;
+		this.text_ToHightlightOnPreview = text_Highlighted;
 		this.f = f;
 	}
 
@@ -54,14 +56,15 @@ public class OutputItem implements Item {
 	}
 
 	@Override
-	public void setItem(String name,  String text_ToShowOnPreview, String text_ToHightlightOnPreview) {
-		this.name = name;
-		this.text_ToShowOnPreview = text_ToShowOnPreview;
-		this.text_ToHightlightOnPreview = text_ToHightlightOnPreview;
+	public void setItem(String name_item,  String text_Preview, String text_Highlighted) {
+		this.name = name_item;
+		this.text_ToShowOnPreview = text_Preview;
+		this.text_ToHightlightOnPreview = text_Highlighted;
 	}
 
 	@Override
 	public void setImg(Image img) {
 		this.img=img;
 	}
+
 }

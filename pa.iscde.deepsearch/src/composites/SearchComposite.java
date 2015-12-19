@@ -13,7 +13,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import activator.SearchActivator;
-import enums.SearchInEnum;
+import enums.Enum_SearchIn;
 import pt.iscte.pidesco.projectbrowser.model.PackageElement;
 import pt.iscte.pidesco.projectbrowser.model.SourceElement;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserListener;
@@ -28,9 +28,9 @@ public class SearchComposite extends Composite {
 	private Button advanced_button;
 	private SearchIn search_in_combo;
 	private static final String NULL = "";
-	private static final String PACKAGE = SearchInEnum.Package.toString();
-	private static final String CLASS = SearchInEnum.Class.toString();
-	private static final String METHOD = SearchInEnum.Method.toString();
+	private static final String PACKAGE = Enum_SearchIn.Package.toString();
+	private static final String CLASS = Enum_SearchIn.Class.toString();
+	private static final String METHOD = Enum_SearchIn.Method.toString();
 	private static final String[] comboItems = new String[] { NULL, PACKAGE, CLASS, METHOD };
 
 	public SearchComposite(Composite parent, int style) {
@@ -154,6 +154,13 @@ public class SearchComposite extends Composite {
 
 		public Combo getComboBox_searchSpecific() {
 			return comboBox_searchSpecific;
+		}
+		
+		public String getName_ItemSelected(){
+			if(itemSelected<1){
+				return "";
+			}
+				return search_in_combo.getComboBox_search().getText();
 		}
 
 		public String getText_ofSearchSpecific() {

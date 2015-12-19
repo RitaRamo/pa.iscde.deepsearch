@@ -7,17 +7,17 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-import enums.SearchInEnum;
+import enums.Enum_SearchFor;
 
 public class AdvancedComposite extends Composite {
 
 	private static AdvancedComposite instance;
 	private static final String NULL = "";
-	private static final String PACKAGE = SearchInEnum.Package.toString();
-	private static final String CLASS = SearchInEnum.Class.toString();
-	private static final String METHOD = SearchInEnum.Method.toString();
-	private static final String ATRIBUTE = SearchInEnum.Atribute.toString();
-	private static final String[] comboItems = new String[] { NULL, PACKAGE, CLASS, METHOD, ATRIBUTE };
+	private static final String PACKAGE = Enum_SearchFor.Package.toString();
+	private static final String TYPEDECLARATION = Enum_SearchFor.TypeDeclaration.toString();
+	private static final String METHOD = Enum_SearchFor.Method.toString();
+	private static final String FIELD = Enum_SearchFor.Field.toString();
+	private static final String[] comboItems = new String[] { NULL, PACKAGE, TYPEDECLARATION, METHOD, FIELD };
 	private SearchFor comboSearchFor;
 
 	public AdvancedComposite(Composite parent, int style) {
@@ -117,6 +117,13 @@ public class AdvancedComposite extends Composite {
 			return disposed;
 		}
 
+		public String getName_ItemSelected() {
+			if (itemSelected < 1) {
+				return "";
+			}
+			return comboSearchFor.getComboBox_search().getText();
+		}
+
 		public String[] getMyButtons() {
 			String[] buttons = new String[myButtons.size()];
 			for (int i = 0; i < myButtons.size(); i++) {
@@ -129,4 +136,5 @@ public class AdvancedComposite extends Composite {
 			return itemsSelected;
 		}
 	}
+
 }

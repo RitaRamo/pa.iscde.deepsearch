@@ -25,24 +25,20 @@ public class OutputPreview_Implementation implements OutputPreview {
 	private DeepSearchVisitor visitor;
 	private PackageElement root_package = (PackageElement) browser_search.getRootPackage();
 	private String text_AdvancedCombo = "";
-
+	
+			
+			
 	@Override
 	public LinkedList<Item> getParents() {
 		LinkedList<Item> parents = new LinkedList<Item>();
-		parents.add(new OutputItem("Package", SearchActivator.getActivatorInstance().getImageFromURL("package"), "", "",
-				null));
-		parents.add(new OutputItem("Import", SearchActivator.getActivatorInstance().getImageFromURL("import"), "", "",
-				null));
-		parents.add(
-				new OutputItem("Class", SearchActivator.getActivatorInstance().getImageFromURL("class"), "", "", null));
-		parents.add(new OutputItem("Interface", SearchActivator.getActivatorInstance().getImageFromURL("interface"), "",
-				"", null));
-		parents.add(
-				new OutputItem("Enum", SearchActivator.getActivatorInstance().getImageFromURL("enum"), "", "", null));
-		parents.add(new OutputItem("Method", SearchActivator.getActivatorInstance().getImageFromURL("method"), "", "",
-				null));
-		parents.add(
-				new OutputItem("Field", SearchActivator.getActivatorInstance().getImageFromURL("field"), "", "", null));
+		parents.add(new OutputItem("Package", SearchActivator.getActivatorInstance().getImageFromURL("package"), "", "", null));
+		parents.add(new OutputItem("Import", SearchActivator.getActivatorInstance().getImageFromURL("import"), "", "", null));
+		parents.add(new OutputItem("Class", SearchActivator.getActivatorInstance().getImageFromURL("class"), "", "", null));
+		parents.add(new OutputItem("Interface", SearchActivator.getActivatorInstance().getImageFromURL("interface"), "", "", null));
+		parents.add(new OutputItem("Enum", SearchActivator.getActivatorInstance().getImageFromURL("enum"), "", "", null));
+		parents.add(new OutputItem("Method", SearchActivator.getActivatorInstance().getImageFromURL("method"), "", "", null));
+		parents.add(new OutputItem("Field", SearchActivator.getActivatorInstance().getImageFromURL("field"), "", "", null));
+		
 		return parents;
 	}
 
@@ -68,26 +64,32 @@ public class OutputPreview_Implementation implements OutputPreview {
 		}
 	}
 
+	
+
 	@Override
 	public void search(String text_Search, String text_SearchInCombo, String specificText_ComboSearchIn,
 			String text_AdvancedCombo, ArrayList<String> buttonsSelected_AdvancedCombo) {
+		// TODO Auto-generated method stub
+		
 		this.text_SearchInCombo = text_SearchInCombo;
 		this.text_Search = text_Search;
 		this.specificText_ComboSearchIn = specificText_ComboSearchIn;
 		this.text_AdvancedCombo = text_AdvancedCombo;
+		
 		if (text_AdvancedCombo!="") {
+			
 			searchFor(buttonsSelected_AdvancedCombo);
 		} else if (text_SearchInCombo !="" ) {
+			
 			searchIn();
 		} else {
+			
 			visitor = new DeepSearchVisitor(text_Search, SearchEnumType.SearchInPackage, "");
 			root_package.traverse(visitor);
 		}
-
-		
 	}
-
-
+	
+	
 	private void searchIn() {
 		if (text_SearchInCombo.equals("Package")) {
 			searchIn_orForPackage(SearchEnumType.SearchInPackage);
@@ -132,7 +134,8 @@ public class OutputPreview_Implementation implements OutputPreview {
 	private void searchIn_orForPackage(SearchEnumType enumType) {
 		visitor = new DeepSearchVisitor(text_Search, enumType, "");
 		if (isComboSearchFor_CoherentWith_ComboSearchIn()) {
-			if (!text_SearchInCombo.equals("") && !specificText_ComboSearchIn.equals("")) {
+		
+			if (text_SearchInCombo !="" && !specificText_ComboSearchIn.equals("")) {
 				for (SourceElement sourcePackage : root_package.getChildren()) {
 					String packageName = sourcePackage.getParent().getName() + "." + sourcePackage.getName();
 					if (packageName.equals(specificText_ComboSearchIn)) {
@@ -148,7 +151,7 @@ public class OutputPreview_Implementation implements OutputPreview {
 
 	private void searchInClass_orSearchFor() {
 		if (isComboSearchFor_CoherentWith_ComboSearchIn()) {
-			if (text_SearchInCombo.equals("Class") && !specificText_ComboSearchIn.equals("")) {
+			if (text_SearchInCombo.equals( "Class") && !specificText_ComboSearchIn.equals("")) {
 				ClassElement classToVisit = visitor.getClass(specificText_ComboSearchIn, root_package);
 				visitor.visitClass(classToVisit);
 			} else if (text_SearchInCombo.equals("Package") && !specificText_ComboSearchIn.equals("")) {
@@ -166,25 +169,28 @@ public class OutputPreview_Implementation implements OutputPreview {
 	}
 
 	private boolean isComboSearchFor_CoherentWith_ComboSearchIn() {
-		if (text_AdvancedCombo.equals("Package")) {
-			if (text_SearchInCombo.equals("Package"))
-				return true;
-			else
-				return false;
-		} else if (text_AdvancedCombo.equals("TypeDeclaration")) {
-			if (!text_SearchInCombo.equals("Method"))
-				return true;
-			else
-				return false;
-		} else if (text_AdvancedCombo.equals("") || text_AdvancedCombo.equals("Method")
-				|| text_AdvancedCombo.equals("Field"))
+		if( text_AdvancedCombo.equals("Package")){
+				if( text_SearchInCombo.equals("Package") || text_SearchInCombo.equals("")  )
+					return true;
+				else return false;
+		}else if(text_AdvancedCombo.equals("TypeDeclaration")) {
+				if(!text_SearchInCombo.equals("Method"))
+					return true;
+				else return false;
+		}
+		
+		else if( text_AdvancedCombo.equals("")||text_AdvancedCombo.equals("Method") || text_AdvancedCombo.equals("Field") )
 			return true;
 		else
 			return false;
 	}
+	
+	
 
 	@Override
 	public void doubleClick(Item e) {
+		File a=(File) e.getSpecialData();
+		System.out.println(a);
 		editor_search.openFile((File) e.getSpecialData());
 	}
 

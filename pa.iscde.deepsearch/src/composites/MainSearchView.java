@@ -71,13 +71,14 @@ public class MainSearchView implements PidescoView {
 				searched_data = search_composite.getSearchField().getText();
 				for (OutputPreview o : extensionResult) {
 					if (advancedButtonIsSelected) {
-						o.search(searched_data, search_composite.getSearchIn().getComboBox_search().getText(),
+						o.search(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
 								search_composite.getSearchIn().getText_ofSearchSpecific(),
-								advanced_composite.getComboSearchFor().getComboBox_search().getText(),
+								advanced_composite.getComboSearchFor().getName_ItemSelected(),
 								advanced_composite.getComboSearchFor().getButtonsSelected());
+
 						advanced_composite.getComboSearchFor().clearSelected();
 					} else {
-						o.search(searched_data, search_composite.getSearchIn().getComboBox_search().getText(),
+						o.search(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
 								search_composite.getSearchIn().getText_ofSearchSpecific(), "", null);
 					}
 					createTree(o);
@@ -110,11 +111,9 @@ public class MainSearchView implements PidescoView {
 					TreeItem tree_item = (TreeItem) e.item;
 					OutputItem item = new OutputItem(tree_item.getText(), tree_item.getImage(),
 							tree_item.getData("previewText").toString(),
-							tree_item.getData("highlightedText").toString(), (File) tree_item.getData("File"));
+							tree_item.getData("highlightedText").toString(), (File) tree_item.getData("SpecialData"));
 					if (item.getPreviewText() != "") {
-						System.out.println("Pre = " + item.getPreviewText().length() + " :: HIGH = "
-								+ item.getHighlightText() + " :: searched = " + searched_data);
-						preview_composite.styleText(item.getPreviewText(), item.getHighlightText(), searched_data.toLowerCase());
+						preview_composite.styleText(item.getPreviewText(), item.getHighlightText(), searched_data);
 					}
 				}
 			}
@@ -125,7 +124,7 @@ public class MainSearchView implements PidescoView {
 					TreeItem tree_item = (TreeItem) e.item;
 					OutputItem item = new OutputItem(tree_item.getText(), tree_item.getImage(),
 							tree_item.getData("previewText").toString(),
-							tree_item.getData("highlightedText").toString(), (File) tree_item.getData("File"));
+							tree_item.getData("highlightedText").toString(), (File) tree_item.getData("SpecialData"));
 					o.doubleClick(item);
 				}
 			}
@@ -144,6 +143,9 @@ public class MainSearchView implements PidescoView {
 			}
 			newParent.setData("previewText", parent.getPreviewText());
 			newParent.setData("highlightedText", parent.getHighlightText());
+			// results.put(newParent, (LinkedList<Item>)
+			// outputPreview.getChildren(parentName));
+			// parent_results.add(newParent);
 			for (Item child : outputPreview.getChildren(parent.getName())) {
 				TreeItem newChild = new TreeItem(newParent, 0);
 				newChild.setText(child.getName());
