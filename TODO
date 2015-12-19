@@ -6,8 +6,12 @@
 -Fazer wiki do Item
 -Pormos nas nossas extension points a documentação (schema)
 
+-Acabar wiki SearchEvent
+-double click para abrir ficheiro não funciona
+-Algumas procuras resultam NPException com getChildren() = null
+-Refresh de procuras não funciona
 
 Dúvidas:
-Queria pôr o guava. Sabes como ponho caçador?
+Queria pôr o guava. Sabes como ponho caçador? R: Népia
 
 ps-não esquecer de pôr check à frente quando a tarefa tá completada
