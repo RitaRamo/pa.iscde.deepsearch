@@ -1,12 +1,12 @@
 package extensionpoints;
 
-import java.util.Collection;
+import java.util.ArrayList;
 
 public interface ISearchEventListener {
 
 	/**
-	 * Invoked when button is selected and gives the information that was
-	 * used in the search
+	 * Invoked when button is selected and gives the information that was used
+	 * in the search
 	 * 
 	 * @param searched
 	 *            String to be searched
@@ -19,10 +19,11 @@ public interface ISearchEventListener {
 	 *            Element of SearchFor in the advanced search (empty if
 	 *            disposed)
 	 * @param search_atributes
-	 *            Collection of Attributes of SearchFor element (empty if disposed)
+	 *            Collection of Attributes of SearchFor element (can be null if
+	 *            disposed or no buttons selected)
 	 * 
 	 */
-	public void widgetSelected(String searched, String searchIn_element, String specific_element,
-			String searchFor_element, Collection<String> search_atribute);
+	public void widgetSelected(String text_Search, String text_SearchInCombo, String specificText_ComboSearchIn,
+			String text_AdvancedCombo, ArrayList<String> buttonsSelected_AdvancedCombo);
 
 }

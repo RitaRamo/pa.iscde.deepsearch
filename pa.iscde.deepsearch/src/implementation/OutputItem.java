@@ -12,11 +12,8 @@ public class OutputItem implements Item {
 	private String text_ToShowOnPreview;
 	private String text_ToHightlightOnPreview;
 	private File f;
-	private Object obj;
 
-	
-	public OutputItem(String name_item, Image image, String text_Preview, String text_Highlighted,
-			File f) {
+	public OutputItem(String name_item, Image image, String text_Preview, String text_Highlighted, File f) {
 		this.name = name_item;
 		this.img = image;
 		this.text_ToShowOnPreview = text_Preview;
@@ -44,7 +41,6 @@ public class OutputItem implements Item {
 		return text_ToHightlightOnPreview;
 	}
 
-
 	@Override
 	public Object getSpecialData() {
 		return f;
@@ -52,11 +48,11 @@ public class OutputItem implements Item {
 
 	@Override
 	public void setSpecialData(Object obj) {
-		this.f = (File)obj;
+		this.f = (File) obj;
 	}
 
 	@Override
-	public void setItem(String name_item,  String text_Preview, String text_Highlighted) {
+	public void setItem(String name_item, String text_Preview, String text_Highlighted) {
 		this.name = name_item;
 		this.text_ToShowOnPreview = text_Preview;
 		this.text_ToHightlightOnPreview = text_Highlighted;
@@ -64,7 +60,7 @@ public class OutputItem implements Item {
 
 	@Override
 	public void setImg(Image img) {
-		this.img=img;
+		this.img = img;
 	}
 
 }
