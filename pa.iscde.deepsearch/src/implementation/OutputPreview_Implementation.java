@@ -69,21 +69,15 @@ public class OutputPreview_Implementation implements OutputPreview {
 	@Override
 	public void search(String text_Search, String text_SearchInCombo, String specificText_ComboSearchIn,
 			String text_AdvancedCombo, ArrayList<String> buttonsSelected_AdvancedCombo) {
-		// TODO Auto-generated method stub
-		
 		this.text_SearchInCombo = text_SearchInCombo;
 		this.text_Search = text_Search;
 		this.specificText_ComboSearchIn = specificText_ComboSearchIn;
 		this.text_AdvancedCombo = text_AdvancedCombo;
-		
 		if (text_AdvancedCombo!="") {
-			
 			searchFor(buttonsSelected_AdvancedCombo);
 		} else if (text_SearchInCombo !="" ) {
-			
 			searchIn();
 		} else {
-			
 			visitor = new DeepSearchVisitor(text_Search, SearchEnumType.SearchInPackage, "");
 			root_package.traverse(visitor);
 		}

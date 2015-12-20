@@ -1,6 +1,5 @@
 package composites;
 
-import java.io.File;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -68,7 +67,6 @@ public class MainSearchView implements PidescoView {
 				preview_composite.getPreview().setText("");
 				preview_composite.getHierarquies().removeAll();
 				searched_data = search_composite.getSearchField().getText();
-				System.out.println("Hello " + extensionResult.size());
 				for (OutputPreview o : extensionResult) {
 					if (advancedButtonIsSelected) {
 						o.search(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
@@ -133,14 +131,12 @@ public class MainSearchView implements PidescoView {
 					TreeItem tree_item = (TreeItem) e.item;
 					OutputItem item = new OutputItem(tree_item.getText(), tree_item.getImage(),
 							tree_item.getData("previewText").toString(),
-							tree_item.getData("highlightedText").toString(), (File) tree_item.getData("SpecialData"));
+							tree_item.getData("highlightedText").toString(), tree_item.getData("SpecialData"));
 					o.doubleClick(item);
 				}
 			}
 
 		});
-
-		// addWidgetSelected();
 	}
 
 	private void createTree(OutputPreview outputPreview) {
@@ -162,31 +158,6 @@ public class MainSearchView implements PidescoView {
 			}
 		}
 	}
-
-	/*
-	 * private void addWidgetSelected() { // MUDAR
-	 * search_composite.getSearchButton().addSelectionListener(new
-	 * SelectionAdapter() {
-	 * 
-	 * @Override public void widgetSelected(SelectionEvent e) { String
-	 * combo_specific = ""; String searchFor_combo = ""; Collection<String>
-	 * selected_items = null; if
-	 * (search_composite.getSearchIn().getComboBox_searchSpecific() != null) {
-	 * if
-	 * (!search_composite.getSearchIn().getComboBox_searchSpecific().isDisposed(
-	 * )) { combo_specific =
-	 * search_composite.getSearchIn().getComboBox_searchSpecific().getText(); }
-	 * } if (advancedButtonIsSelected) { searchFor_combo =
-	 * advanced_composite.getComboSearchFor().getComboBox_search().getText(); if
-	 * (!advanced_composite.getComboSearchFor().getIsDisposed()) {
-	 * selected_items =
-	 * advanced_composite.getComboSearchFor().getItemsSelected(); } else {
-	 * selected_items = new LinkedList<String>(); } } for (ISearchEventListener
-	 * l : SearchActivator.getActivatorInstance().getListeners()) {
-	 * l.widgetSelected(search_composite.getSearchField().getText(),
-	 * search_composite.getSearchIn().getComboBox_search().getText(),
-	 * combo_specific, searchFor_combo, selected_items); } } }); }
-	 */
 
 	private void checkExtensionsOutput() {
 		IExtensionRegistry extRegistry = Platform.getExtensionRegistry();
