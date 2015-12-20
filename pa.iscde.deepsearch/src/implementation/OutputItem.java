@@ -11,14 +11,14 @@ public class OutputItem implements Item {
 	private Image img;
 	private String text_ToShowOnPreview;
 	private String text_ToHightlightOnPreview;
-	private File f;
+	private Object f;
 
-	public OutputItem(String name_item, Image image, String text_Preview, String text_Highlighted, File f) {
+	public OutputItem(String name_item, Image image, String text_Preview, String text_Highlighted, Object F) {
 		this.name = name_item;
 		this.img = image;
 		this.text_ToShowOnPreview = text_Preview;
 		this.text_ToHightlightOnPreview = text_Highlighted;
-		this.f = f;
+		this.f = F;
 	}
 
 	@Override

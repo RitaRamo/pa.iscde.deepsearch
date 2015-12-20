@@ -120,7 +120,7 @@ public class MainSearchView implements PidescoView {
 					TreeItem tree_item = (TreeItem) e.item;
 					OutputItem item = new OutputItem(tree_item.getText(), tree_item.getImage(),
 							tree_item.getData("previewText").toString(),
-							tree_item.getData("highlightedText").toString(), (File) tree_item.getData("SpecialData"));
+							tree_item.getData("highlightedText").toString(), tree_item.getData("SpecialData"));
 					if (item.getPreviewText() != "") {
 						preview_composite.styleText(item.getPreviewText(), item.getHighlightText(), searched_data);
 					}
