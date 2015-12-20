@@ -183,7 +183,9 @@ public class OutputPreview_Implementation implements OutputPreview {
 
 	@Override
 	public void doubleClick(Item e) {
-		editor_search.openFile((File) e.getSpecialData());
+		if (e.getSpecialData() instanceof File) {
+			editor_search.openFile((File) e.getSpecialData());
+		}
 	}
 
 }
