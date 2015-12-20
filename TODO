@@ -2,16 +2,39 @@
 -Recursiva dos packages
 -Mudar os nomes para haver conformidades
 -Mudar a combo do search specific do Search In para não dar para a pessoa escrever
--Pôr as wikis em ingles
--Fazer wiki do Item
+-Pôr as wikis em ingles 
+-Fazer wiki do Item-CHECK :)
 -Pormos nas nossas extension points a documentação (schema)
 
--Acabar wiki SearchEvent
--double click para abrir ficheiro não funciona
--Algumas procuras resultam NPException com getChildren() = null
--Refresh de procuras não funciona
+-Acabar wiki SearchEvent  
+-double click para abrir ficheiro não funciona. ->Funciona sim-> a mim dá . Mesmo com o último código q te enviei?
+-Algumas procuras resultam NPException com getChildren() = null ->Check já nao acontece caças :)
+-Refresh de procuras não funciona ->Já resolvi caças
 
 Dúvidas:
 Queria pôr o guava. Sabes como ponho caçador? R: Népia
 
 ps-não esquecer de pôr check à frente quando a tarefa tá completada
+
+Caçador tens de retir aquele metodo do addWidgetSelected, para além de ser código repetido, não está correcto. põe onde é invocado o buttãoSearch, onde eu invoco o search do meu ponto extensao-> Aqui tá:
+if (advancedButtonIsSelected) {
+						 o.search(searched_data,search_composite.getSearchIn().getName_ItemSelected(),
+									search_composite.getSearchIn().getText_ofSearchSpecific(), advanced_composite.getComboSearchFor().getName_ItemSelected(),
+									advanced_composite.getComboSearchFor().getButtonsSelected());
+						 for (ISearchEventListener l : SearchActivator.getActivatorInstance().getListeners()) {
+								l.widgetSelected(searched_data,
+										search_composite.getSearchIn().getName_ItemSelected(),
+										search_composite.getSearchIn().getText_ofSearchSpecific(), advanced_composite.getComboSearchFor().getName_ItemSelected(),
+										advanced_composite.getComboSearchFor().getButtonsSelected());
+							}
+						advanced_composite.getComboSearchFor().clearSelected();
+					} else {
+						o.search(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
+								search_composite.getSearchIn().getText_ofSearchSpecific(), "", null);
+						 for (ISearchEventListener l : SearchActivator.getActivatorInstance().getListeners()) {
+								l.widgetSelected(searched_data,
+										search_composite.getSearchIn().getName_ItemSelected(),
+										search_composite.getSearchIn().getText_ofSearchSpecific(), "",
+										null);
+							}
+					}
