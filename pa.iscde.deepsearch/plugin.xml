@@ -18,5 +18,12 @@
             name="OutputImpl">
       </item>
    </extension>
+   <extension
+         point="pt.iscte.pidesco.classdiagram.Filter">
+      <FilterClass
+            filter="pa.iscde.deepsearch.ClassDiagramFilter1"
+            filterName="pa.iscde.deepsearch.FilterClass1">
+      </FilterClass>
+   </extension>
 
 </plugin>
