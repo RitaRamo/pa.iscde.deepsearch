@@ -3,6 +3,13 @@ package extensionpoints;
 import java.util.ArrayList;
 import java.util.Collection;
 
+/**
+ * 
+ * @author Rita Ramos
+ *
+ *         ExtensionPoint for populating results from the search and show them
+ *         in preview for each selection/double-click
+ */
 public interface OutputPreview {
 
 	/**
@@ -12,50 +19,50 @@ public interface OutputPreview {
 	 * @param text_Search
 	 *            (non-null) Text of the Search field
 	 * 
-	 * @param text_AdvancedCombo
-	 *            (non-null) Text of the AdvancedCombo field (if empty is
+	 * @param text_SearchInCombo
+	 *            Text of the SearchInCombo field (if empty is represented by
+	 *            "")
+	 * @param specificText_SearchInCombo
+	 *            specific class or package selected for SearchIn
+	 * 
+	 * @param text_SearchForCombo
+	 *            (non-null) Text of the SearchForCombo field (if empty is
 	 *            represented by "")
 	 * 
-	 * @param buttonsSelected_AdvancedCombo
-	 *            (can be null, if no button selected) Represents the buttons
-	 *            selected of the AdvancedCombo ex:interface,abstract and enum
-	 *            for textAdvancedCombo field with Class
-	 * 
-	 * @param text_SearchInCombo
-	 *            Text of the AdvancedCombo field (if empty is represented by
-	 *            "")
-	 * @param specificText_ComboSearchIn
-	 *            specific class or package selected for SearchIn
+	 * @param buttonsSelected_SearchForCombo
+	 *            (can be empty, if no button selected) Represents the buttons
+	 *            selected of the SearchForCombo ex:interface, abstract and enum
+	 *            for text_SearchForCombo field with Class
 	 * 
 	 */
 
-	public void search(String text_Search, String text_SearchInCombo, String specificText_ComboSearchIn,
-			String text_AdvancedCombo, ArrayList<String> buttonsSelected_AdvancedCombo);
+	public void search(String text_Search, String text_SearchInCombo, String specificText_SearchInCombo,
+			String text_SearchForCombo, ArrayList<String> buttonsSelected_SearchForCombo);
 
 	/**
-	 * obtain the parents for hierarchy output
+	 * Obtains the parents for output hierarchy
 	 * 
-	 * @return Collection<Item> (non-null) parents items (ex: Package)
+	 * @return Collection<Item> (non-null) parent Items (ex: Package)
 	 */
 	public Collection<Item> getParents();
 
 	/**
-	 * obtain the children of the parent item
+	 * Obtains the children of the parent Item
 	 * 
 	 * @param parent
-	 *            (non-null) parent item (ex:Package)
-	 * @return Collection<Item> (non-null) children of the parent item (ex:
-	 *         pt.iscte.pidesco.javaeditor, pa.iscde.test)
+	 *            (non-null) parent Item (ex:Package)
+	 * @return Collection<Item> (non-null) children of the parent Item (ex:
+	 *         pt.iscte.pidesco.javaeditor)
 	 */
 	public Collection<Item> getChildren(String parent);
 
 	/**
-	 * defines what is to be showed when double-clicking the item
+	 * Defines what is to be shown when double-clicking the Item
 	 * 
-	 * @return Item selected with double-click. The attributes of the item (ex:
-	 *         getImage) can be used to what should be showed when
-	 *         double-clicking the item
+	 * @return Item selected with double-click. The attributes of the Item (ex:
+	 *         getImage) can be used to what should be shown when
+	 *         double-clicking the Item
 	 */
-	public void doubleClick(Item e);
+	public void doubleClick(Item item);
 
 }
