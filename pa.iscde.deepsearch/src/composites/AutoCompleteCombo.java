@@ -28,7 +28,7 @@ public abstract class AutoCompleteCombo {
 	private void createContents() {
 		search_label = new Label(parent, SWT.NONE);
 		search_label.setText(comboName);
-		comboBox_search = new Combo(parent, SWT.BORDER);
+		comboBox_search = new Combo(parent, SWT.BORDER | SWT.READ_ONLY);
 		comboBox_search.setItems(comboItems);
 		comboBox_search.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false));
 		comboBox_search.addModifyListener(new ModifyListener() {

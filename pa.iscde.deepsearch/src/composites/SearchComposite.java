@@ -101,7 +101,7 @@ public class SearchComposite extends Composite {
 				if (itemSelected == 1 || itemSelected == 2) {
 					searchSpecific_Label = new Label(parent, SWT.NONE);
 					searchSpecific_Label.setText("Search Specific:");
-					comboBox_searchSpecific = new Combo(parent, SWT.BORDER);
+					comboBox_searchSpecific = new Combo(parent, SWT.BORDER | SWT.READ_ONLY);
 					comboBox_searchSpecific.setItems(comboItems());
 					comboBox_searchSpecific.moveBelow(this.getComboBox_search());
 					searchSpecific_Label.moveBelow(this.getComboBox_search());

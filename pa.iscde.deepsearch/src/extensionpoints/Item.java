@@ -48,7 +48,7 @@ public interface Item {
 	public void setImg(Image image);
 
 	/**
-	 * Obtains the image of the Item
+	 * Obtains the image of the Item (can be null if no Image was defined)
 	 * 
 	 * @return Image
 	 */
@@ -63,7 +63,8 @@ public interface Item {
 	public void setSpecialData(Object special_data);
 
 	/**
-	 * Obtains the special_data of the Item
+	 * Obtains the special_data of the Item (can be null if no Object was
+	 * defined)
 	 * 
 	 * @param Object
 	 *            -> a specialData defined of the Item that can be used when

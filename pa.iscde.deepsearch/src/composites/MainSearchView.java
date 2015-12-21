@@ -23,6 +23,7 @@ import activator.SearchActivator;
 import extensionpoints.ISearchEventListener;
 import extensionpoints.Item;
 import extensionpoints.OutputPreview;
+import extensions.FilterDiagramClass_Implementation;
 import implementation.OutputItem;
 import pt.iscte.pidesco.extensibility.PidescoView;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
@@ -68,6 +69,12 @@ public class MainSearchView implements PidescoView {
 				preview_composite.getPreview().setText("");
 				preview_composite.getHierarquies().removeAll();
 				searched_data = search_composite.getSearchField().getText();
+				if (advancedButtonIsSelected) {
+					if (FilterDiagramClass_Implementation.getInstance() != null)
+						FilterDiagramClass_Implementation.getInstance().setTypesToSearch(
+								advanced_composite.getComboSearchFor().getName_ItemSelected(),
+								advanced_composite.getComboSearchFor().getButtonsSelected());
+				}
 				for (OutputPreview o : extensionResult) {
 					if (advancedButtonIsSelected) {
 						o.search(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
@@ -154,8 +161,14 @@ public class MainSearchView implements PidescoView {
 				TreeItem newChild = new TreeItem(newParent, 0);
 				newChild.setText(child.getName());
 				newChild.setImage(child.getImg());
-				newChild.setData("previewText", child.getPreviewText());
-				newChild.setData("highlightedText", child.getHighlightText());
+				if (child.getPreviewText() != null)
+					newChild.setData("previewText", child.getPreviewText());
+				else
+					newChild.setData("previewText", "");
+				if (child.getHighlightText() != null)
+					newChild.setData("highlightedText", child.getHighlightText());
+				else
+					newChild.setData("highlightedText", "");
 				newChild.setData("SpecialData", child.getSpecialData());
 			}
 		}

@@ -107,11 +107,12 @@ public class ASTVisitorDeepSearch extends ASTVisitor {
 			if (importName.contains(searchText)) {
 				importItems.add(
 						new OutputItem(importName, SearchActivator.getActivatorInstance().getImageFromURL("import"),
-								full_class, searchText, file));
+								importName, searchText, ""));
 			}
 		}
 		return true;
 	}
+
 
 	@Override
 	public boolean visit(EnumDeclaration node) {
