@@ -10,6 +10,7 @@
 
 
 
+
 -Acabar wiki SearchEvent  
 -double click para abrir ficheiro não funciona. ->Funciona sim-> a mim dá . Mesmo com o último código q te enviei?
 -Algumas procuras resultam NPException com getChildren() = null ->Check já nao acontece caças :)
