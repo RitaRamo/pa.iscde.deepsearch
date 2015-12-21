@@ -1,4 +1,3 @@
--Ver as excepções Null pointer exception relativas ao search- DONE (já enviei-te o código caçador,passa para o git sff)
 -Recursiva dos packages
 -Mudar os nomes para haver conformidades
 -Mudar a combo do search specific do Search In para não dar para a pessoa escrever
@@ -7,6 +6,8 @@
 -Pormos nas nossas extension points a documentação (schema)
 -Por A CENA NAO A NULL (ADVANCED)
 -Rever Wikis ex:item!
+->ver a cena de tarmos a procurar classes que tenham packages!
+
 
 
 
@@ -20,25 +21,3 @@ Queria pôr o guava. Sabes como ponho caçador? R: Népia
 
 ps-não esquecer de pôr check à frente quando a tarefa tá completada
 
-Caçador tens de retir aquele metodo do addWidgetSelected, para além de ser código repetido, não está correcto. põe onde é invocado o buttãoSearch, onde eu invoco o search do meu ponto extensao-> Aqui tá:
-if (advancedButtonIsSelected) {
-						 o.search(searched_data,search_composite.getSearchIn().getName_ItemSelected(),
-									search_composite.getSearchIn().getText_ofSearchSpecific(), advanced_composite.getComboSearchFor().getName_ItemSelected(),
-									advanced_composite.getComboSearchFor().getButtonsSelected());
-						 for (ISearchEventListener l : SearchActivator.getActivatorInstance().getListeners()) {
-								l.widgetSelected(searched_data,
-										search_composite.getSearchIn().getName_ItemSelected(),
-										search_composite.getSearchIn().getText_ofSearchSpecific(), advanced_composite.getComboSearchFor().getName_ItemSelected(),
-										advanced_composite.getComboSearchFor().getButtonsSelected());
-							}
-						advanced_composite.getComboSearchFor().clearSelected();
-					} else {
-						o.search(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
-								search_composite.getSearchIn().getText_ofSearchSpecific(), "", null);
-						 for (ISearchEventListener l : SearchActivator.getActivatorInstance().getListeners()) {
-								l.widgetSelected(searched_data,
-										search_composite.getSearchIn().getName_ItemSelected(),
-										search_composite.getSearchIn().getText_ofSearchSpecific(), "",
-										null);
-							}
-					}
