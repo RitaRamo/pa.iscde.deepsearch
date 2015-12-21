@@ -29,46 +29,46 @@ public class SearchEvent_Implementation implements ISearchEvent {
 	}
 
 	@Override
-	public String[] getSearchInElements() {
+	public String[] getElements_SearchInCombo() {
 		return SearchComposite.getSearchCompositeInstance().getSearchIn().getComboBox_search().getItems();
 	}
 
 	@Override
-	public String[] getSearchSpecificElements() {
-		if (!isSearchSpecificDisposed()) {
+	public String[] getSearchSpecificElements_SearchInCombo() {
+		if (!isDisposedSearchSpecific_SearchInCombo()) {
 			return SearchComposite.getSearchCompositeInstance().getSearchIn().getComboBox_searchSpecific().getItems();
 		}
 		return null;
 	}
 
 	@Override
-	public boolean isAdvancedSelected() {
+	public boolean isAdvancedButtonSelected() {
 		return SearchComposite.getSearchCompositeInstance().getAdvanced().getSelection();
 	}
 
 	@Override
-	public boolean isSearchSpecificDisposed() {
+	public boolean isDisposedSearchSpecific_SearchInCombo() {
 		return SearchComposite.getSearchCompositeInstance().getSearchIn().getComboBox_searchSpecific().isDisposed();
 	}
 
 	@Override
-	public String[] getSearchForElements() {
-		if (isAdvancedSelected()) {
+	public String[] getElements_SearchForCombo() {
+		if (isAdvancedButtonSelected()) {
 			return AdvancedComposite.getAdvancedInstance().getComboSearchFor().getComboBox_search().getItems();
 		}
 		return null;
 	}
 
 	@Override
-	public String[] getSearchForAtributes() {
-		if (isAdvancedSelected() && !isAtributesDisposed()) {
+	public String[] getButtonsSelected_SearchForCombo() {
+		if (isAdvancedButtonSelected() && !isDisposedButtons_SearchForCombo()) {
 			return AdvancedComposite.getAdvancedInstance().getComboSearchFor().getMyButtons();
 		}
 		return null;
 	}
 
 	@Override
-	public boolean isAtributesDisposed() {
+	public boolean isDisposedButtons_SearchForCombo() {
 		return AdvancedComposite.getAdvancedInstance().getComboSearchFor().getIsDisposed();
 	}
 

@@ -2,13 +2,16 @@ package extensionpoints;
 
 import org.eclipse.swt.graphics.Image;
 
+/**
+ * 
+ * @author Rita Ramos
+ *
+ */
 public interface Item {
 
 	/**
-	 * defines the mandatory items to be showed on the preview when selecting
-	 * (one-click) the item
-	 * 
-	 * @return Collection<Item> (non-null) parents items (ex: Package)
+	 * Defines the mandatory items to be shown on the preview when selecting
+	 * (one-click) the Item´
 	 */
 	public void setItem(String name_item, String text_Preview, String text_Highlighted);
 
@@ -20,16 +23,16 @@ public interface Item {
 	public String getName();
 
 	/**
-	 * Obtains the mandatory attribute text_Preview to be showed on the preview
-	 * when selecting (one-click) the item
+	 * Obtains the mandatory attribute text_Preview to be shown on the preview
+	 * when selecting (one-click) the Item
 	 * 
 	 * @return text_Preview (non-null)-> (ex:the content of a class)
 	 */
 	public String getPreviewText();
 
 	/**
-	 * Obtains the mandatory attribute text_Highlighted to be showed on the
-	 * preview when selecting (one-click) the item
+	 * Obtains the mandatory attribute text_Highlighted to be shown on the
+	 * preview when selecting (one-click) the Item
 	 * 
 	 * @return text_Highlighted (non-null)->(ex: being the text_Preview the
 	 *         content of class, the text_Highlighted can be the name of the
@@ -38,33 +41,33 @@ public interface Item {
 	public String getHighlightText();
 
 	/**
-	 * Defines the image of the item
+	 * Defines the image of the Item
 	 * 
 	 * @param Image
 	 */
-	public void setImg(Image img);
+	public void setImg(Image image);
 
 	/**
-	 * Obtains the image of the item
+	 * Obtains the image of the Item
 	 * 
 	 * @return Image
 	 */
 	public Image getImg();
 
 	/**
-	 * defines a special data of the item
+	 * Defines a special_data for the Item
 	 * 
-	 * @return Object -> a specialData defined of the item that can be used when
-	 *         double-clicking the item(ex: file of a class)
+	 * @return Object -> a specialData defined of the Item that can be used when
+	 *         double-clicking it (ex: File of a class)
 	 */
 	public void setSpecialData(Object special_data);
 
 	/**
-	 * Obtains the special data of the item
+	 * Obtains the special_data of the Item
 	 * 
 	 * @param Object
-	 *            -> a specialData defined of the item that can be used when
-	 *            double-clicking the item(ex: file of a class)
+	 *            -> a specialData defined of the Item that can be used when
+	 *            double-clicking it (ex: File of a class)
 	 */
 	public Object getSpecialData();
 

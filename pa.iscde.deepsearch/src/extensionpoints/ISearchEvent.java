@@ -4,88 +4,94 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
 
+/**
+ * 
+ * @author Filipe Caçador
+ *
+ *         Service to be applied to get either results from after the Search
+ *         Button is select (null if otherwise) or parameters used in the Searchs
+ */
 public interface ISearchEvent {
 
 	/**
-	 * Returns all the elements existing in the SearchIn Combo
+	 * Returns all the elements existing in SearchInCombo
 	 * 
-	 * @return String[] SearchIn Elements
+	 * @return String[] SearchInCombo Elements
 	 */
-	public String[] getSearchInElements();
+	public String[] getElements_SearchInCombo();
 
 	/**
-	 * Returns all the elements existing in the SearchSpecific Combo if
-	 * SearchSpecific is not disposed, else returns null
+	 * Returns all the elements existing in the SearchSpecificCombo if it is not
+	 * disposed, else returns null
 	 * 
-	 * @return String[] SearchSpecific Elements
+	 * @return String[] SearchSpecificCombo Elements
 	 */
-	public String[] getSearchSpecificElements();
+	public String[] getSearchSpecificElements_SearchInCombo();
 
 	/**
-	 * Checks if Advanced button is checked
+	 * Checks if SearchSpecificCombo is Disposed
 	 * 
-	 * @return boolean Advanced Button Checked
+	 * @return boolean SearchSpecificCombo is Disposed
 	 */
-	public boolean isAdvancedSelected();
+	public boolean isDisposedSearchSpecific_SearchInCombo();
 
 	/**
-	 * Checks if SearchSpecific Combo is Disposed
+	 * Checks if AdvancedButton is checked
 	 * 
-	 * @return boolean SearchSpecific is Disposed
+	 * @return boolean AdvancedButton checked
 	 */
-	public boolean isSearchSpecificDisposed();
+	public boolean isAdvancedButtonSelected();
 
 	/**
-	 * Returns all the elements existing is the SearchFor Combo if advanced
-	 * button is checked, else returns null
+	 * Returns all the elements existing is the SearchForCombo if AdvancedButton
+	 * is checked, else returns null
 	 * 
-	 * @return String[] SearchFor Elements
+	 * @return String[] SearchForCombo Elements
 	 */
-	public String[] getSearchForElements();
+	public String[] getElements_SearchForCombo();
 
 	/**
-	 * Returns all Attributes checked of element of SearchFor Combo if advanced
-	 * button is checked and attributes buttons are not disposed, else return
-	 * null
+	 * Returns all Selected Buttons of SearchForCombo if AdvancedButton is
+	 * checked and selected buttons are not disposed, else returns null
 	 * 
-	 * @return String[] Attributes of SearchFor Elements
+	 * @return String[] SelectedButtons of SearchForCombo
 	 */
-	public String[] getSearchForAtributes();
+	public String[] getButtonsSelected_SearchForCombo();
 
 	/**
-	 * Checks if elements attributes are disposed
+	 * Checks if SearchForCombo Buttons are disposed
 	 * 
-	 * @return boolean Attributes are Disposed
+	 * @return boolean SearchForCombo Buttons are disposed
 	 */
-	public boolean isAtributesDisposed();
-	
+	public boolean isDisposedButtons_SearchForCombo();
+
 	/**
 	 * Returns all Items per Parent
 	 * 
 	 * @return Map<String, LinkedList<Item>> Results per parent
 	 */
 	public Map<String, LinkedList<Item>> getResults();
-	
+
 	/**
 	 * Returns only the result parents
 	 * 
-	 * @return Collection<String> Parent Elements of results
+	 * @return Collection<String> Collection of parent results
 	 */
 	public Collection<String> getResultParents();
-	
+
 	/**
-	 * Adds a new ISearchEventListener element
+	 * Adds a new ISearchEventListener listener
 	 * 
 	 * @param listener
-	 *            (non-null) Listener element
+	 *            (non-null) Listener listener
 	 */
 	public void addListener(ISearchEventListener listener);
 
 	/**
-	 * Removes a ISearchEventListener element
+	 * Removes a ISearchEventListener listener
 	 * 
 	 * @param listener
-	 *            (non-null) Listener element
+	 *            (non-null) Listener listener
 	 */
 	public void removeListener(ISearchEventListener listener);
 

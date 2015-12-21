@@ -21,10 +21,10 @@ public class OutputPreview_Implementation implements OutputPreview {
 	private JavaEditorServices editor_search = SearchActivator.getActivatorInstance().getEditorService();
 	private String text_Search;
 	private String text_SearchInCombo = "";
-	private String specificText_ComboSearchIn;
+	private String specificText_SearchInCombo;
 	private DeepSearchVisitor visitor;
 	private PackageElement root_package = (PackageElement) browser_search.getRootPackage();
-	private String text_AdvancedCombo = "";
+	private String text_SearchForCombo = "";
 
 	@Override
 	public LinkedList<Item> getParents() {
@@ -69,14 +69,14 @@ public class OutputPreview_Implementation implements OutputPreview {
 	}
 
 	@Override
-	public void search(String text_Search, String text_SearchInCombo, String specificText_ComboSearchIn,
-			String text_AdvancedCombo, ArrayList<String> buttonsSelected_AdvancedCombo) {
+	public void search(String text_Search, String text_SearchInCombo, String specificText_SearchInCombo,
+			String text_SearchForCombo, ArrayList<String> buttonsSelected_SearchForCombo) {
 		this.text_SearchInCombo = text_SearchInCombo;
 		this.text_Search = text_Search;
-		this.specificText_ComboSearchIn = specificText_ComboSearchIn;
-		this.text_AdvancedCombo = text_AdvancedCombo;
-		if (text_AdvancedCombo != "") {
-			searchFor(buttonsSelected_AdvancedCombo);
+		this.specificText_SearchInCombo = specificText_SearchInCombo;
+		this.text_SearchForCombo = text_SearchForCombo;
+		if (text_SearchForCombo != "") {
+			searchFor(buttonsSelected_SearchForCombo);
 		} else if (text_SearchInCombo != "") {
 			searchIn();
 		} else {
@@ -97,13 +97,13 @@ public class OutputPreview_Implementation implements OutputPreview {
 	}
 
 	private void searchFor(ArrayList<String> buttonsSelected) {
-		if (text_AdvancedCombo.equals("Package")) {
+		if (text_SearchForCombo.equals("Package")) {
 			searchIn_orForPackage(SearchEnumType.SearchForPackage);
-		} else if (text_AdvancedCombo.equals("TypeDeclaration")) {
+		} else if (text_SearchForCombo.equals("TypeDeclaration")) {
 			searchAdvanced(SearchEnumType.SearchForClass, buttonsSelected);
-		} else if (text_AdvancedCombo.equals("Method")) {
+		} else if (text_SearchForCombo.equals("Method")) {
 			searchAdvanced(SearchEnumType.SearchForMethod, buttonsSelected);
-		} else if (text_AdvancedCombo.equals("Field")) {
+		} else if (text_SearchForCombo.equals("Field")) {
 			searchAdvanced(SearchEnumType.SearchForField, buttonsSelected);
 		}
 	}
@@ -129,11 +129,10 @@ public class OutputPreview_Implementation implements OutputPreview {
 	private void searchIn_orForPackage(SearchEnumType enumType) {
 		visitor = new DeepSearchVisitor(text_Search, enumType, "");
 		if (isComboSearchFor_CoherentWith_ComboSearchIn()) {
-
-			if (text_SearchInCombo != "" && !specificText_ComboSearchIn.equals("")) {
+			if (text_SearchInCombo != "" && !specificText_SearchInCombo.equals("")) {
 				for (SourceElement sourcePackage : root_package.getChildren()) {
 					String packageName = sourcePackage.getParent().getName() + "." + sourcePackage.getName();
-					if (packageName.equals(specificText_ComboSearchIn)) {
+					if (packageName.equals(specificText_SearchInCombo)) {
 						((PackageElement) sourcePackage).traverse(visitor);
 						break;
 					}
@@ -146,13 +145,13 @@ public class OutputPreview_Implementation implements OutputPreview {
 
 	private void searchInClass_orSearchFor() {
 		if (isComboSearchFor_CoherentWith_ComboSearchIn()) {
-			if (text_SearchInCombo.equals("Class") && !specificText_ComboSearchIn.equals("")) {
-				ClassElement classToVisit = visitor.getClass(specificText_ComboSearchIn, root_package);
+			if (text_SearchInCombo.equals("Class") && !specificText_SearchInCombo.equals("")) {
+				ClassElement classToVisit = visitor.getClass(specificText_SearchInCombo, root_package);
 				visitor.visitClass(classToVisit);
-			} else if (text_SearchInCombo.equals("Package") && !specificText_ComboSearchIn.equals("")) {
+			} else if (text_SearchInCombo.equals("Package") && !specificText_SearchInCombo.equals("")) {
 				for (SourceElement sourcePackage : root_package.getChildren()) {
 					String packageName = sourcePackage.getParent().getName() + "." + sourcePackage.getName();
-					if (packageName.equals(specificText_ComboSearchIn)) {
+					if (packageName.equals(specificText_SearchInCombo)) {
 						((PackageElement) sourcePackage).traverse(visitor);
 						break;
 					}
@@ -164,27 +163,27 @@ public class OutputPreview_Implementation implements OutputPreview {
 	}
 
 	private boolean isComboSearchFor_CoherentWith_ComboSearchIn() {
-		if (text_AdvancedCombo.equals("Package")) {
+		if (text_SearchForCombo.equals("Package")) {
 			if (text_SearchInCombo.equals("Package") || text_SearchInCombo.equals(""))
 				return true;
 			else
 				return false;
-		} else if (text_AdvancedCombo.equals("TypeDeclaration")) {
+		} else if (text_SearchForCombo.equals("TypeDeclaration")) {
 			if (!text_SearchInCombo.equals("Method"))
 				return true;
 			else
 				return false;
-		} else if (text_AdvancedCombo.equals("") || text_AdvancedCombo.equals("Method")
-				|| text_AdvancedCombo.equals("Field"))
+		} else if (text_SearchForCombo.equals("") || text_SearchForCombo.equals("Method")
+				|| text_SearchForCombo.equals("Field"))
 			return true;
 		else
 			return false;
 	}
 
 	@Override
-	public void doubleClick(Item e) {
-		if (e.getSpecialData() instanceof File) {
-			editor_search.openFile((File) e.getSpecialData());
+	public void doubleClick(Item item) {
+		if (item.getSpecialData() instanceof File) {
+			editor_search.openFile((File) item.getSpecialData());
 		}
 	}
 
