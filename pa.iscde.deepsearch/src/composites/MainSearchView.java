@@ -1,5 +1,6 @@
 package composites;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -82,10 +83,11 @@ public class MainSearchView implements PidescoView {
 						advanced_composite.getComboSearchFor().clearSelected();
 					} else {
 						o.search(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
-								search_composite.getSearchIn().getText_ofSearchSpecific(), "", null);
+								search_composite.getSearchIn().getText_ofSearchSpecific(), "", new ArrayList<String>());
 						for (ISearchEventListener l : SearchActivator.getActivatorInstance().getListeners()) {
 							l.widgetSelected(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
-									search_composite.getSearchIn().getText_ofSearchSpecific(), "", null);
+									search_composite.getSearchIn().getText_ofSearchSpecific(), "",
+									new ArrayList<String>());
 						}
 					}
 					createTree(o);
