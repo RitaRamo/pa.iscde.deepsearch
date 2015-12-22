@@ -18,6 +18,7 @@ import org.osgi.framework.ServiceRegistration;
 import extensionpoints.ISearchEvent;
 import extensionpoints.ISearchEventListener;
 import implementation.SearchEvent_Implementation;
+import pa.iscde.mcgraph.service.McGraphServices;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
 import pt.iscte.pidesco.projectbrowser.service.ProjectBrowserServices;
 
@@ -28,6 +29,8 @@ public class SearchActivator implements BundleActivator {
 
 	private Set<ISearchEventListener> listeners;
 	private ServiceRegistration<ISearchEvent> search_event_registry;
+
+	private McGraphServices graph_services;
 
 	private static SearchActivator activator;
 
@@ -41,6 +44,10 @@ public class SearchActivator implements BundleActivator {
 		ServiceReference<ProjectBrowserServices> ref_browser = context
 				.getServiceReference(ProjectBrowserServices.class);
 		browser_service = context.getService(ref_browser);
+		
+		//mc_graph
+		ServiceReference<McGraphServices>ref_graph = context.getServiceReference(McGraphServices.class);
+		graph_services = context.getService(ref_graph);
 
 		search_event_registry = context.registerService(ISearchEvent.class, new SearchEvent_Implementation(), null);
 	}
@@ -58,6 +65,10 @@ public class SearchActivator implements BundleActivator {
 
 	public JavaEditorServices getEditorService() {
 		return editor_service;
+	}
+	
+	public McGraphServices getGraph_services() {
+		return graph_services;
 	}
 
 	public static SearchActivator getActivatorInstance() {

@@ -24,7 +24,9 @@ import extensionpoints.ISearchEventListener;
 import extensionpoints.Item;
 import extensionpoints.OutputPreview;
 import extensions.FilterDiagramClass_Implementation;
+import extensions.MCGraphFilter_Implementation;
 import implementation.OutputItem;
+import pa.iscde.mcgraph.service.McGraphServices;
 import pt.iscte.pidesco.extensibility.PidescoView;
 import pt.iscte.pidesco.javaeditor.service.JavaEditorServices;
 
@@ -33,6 +35,8 @@ public class MainSearchView implements PidescoView {
 	private static MainSearchView MAIN_SEARCH_VIEW_INSTANCE;
 
 	private JavaEditorServices editor_search;
+
+	private McGraphServices graph_services;
 
 	private SearchComposite search_composite;
 	private PreviewComposite preview_composite;
@@ -54,6 +58,8 @@ public class MainSearchView implements PidescoView {
 	public void createContents(final Composite viewArea, Map<String, Image> imageMap) {
 
 		editor_search = SearchActivator.getActivatorInstance().getEditorService();
+
+		graph_services = SearchActivator.getActivatorInstance().getGraph_services();
 
 		viewArea.setLayout(new FillLayout(SWT.VERTICAL));
 
@@ -130,6 +136,20 @@ public class MainSearchView implements PidescoView {
 							tree_item.getData("highlightedText").toString(), tree_item.getData("SpecialData"));
 					if (item.getPreviewText() != "") {
 						preview_composite.styleText(item.getPreviewText(), item.getHighlightText(), searched_data);
+					}
+					if (MCGraphFilter_Implementation.getInstance() != null) {
+						if (tree_item.getParentItem().getText().equals("Class")
+								|| tree_item.getParentItem().getText().equals("Interface")
+								|| tree_item.getParentItem().getText().equals("Enum")) {
+							graph_services.deactivateFilter("MCFilter");
+							MCGraphFilter_Implementation.getInstance().addToSearchables(tree_item.getText() + ".java",
+									"Class");
+							graph_services.activateFilter("MCFilter");
+						} else if (tree_item.getParentItem().getText().equals("Method")) {
+							graph_services.deactivateFilter("MCFilter");
+							MCGraphFilter_Implementation.getInstance().addToSearchables(tree_item.getText(), "");
+							graph_services.activateFilter("MCFilter");
+						}
 					}
 				}
 			}

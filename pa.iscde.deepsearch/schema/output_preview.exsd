@@ -6,7 +6,8 @@
          <meta.schema plugin="pa.iscde.deepsearch" id="output_preview" name="OutputAndPreview"/>
       </appinfo>
       <documentation>
-         This extension point is for the output and preview.
+       Este ponto de extensão pretende que cada extensão contribua para popular os resultados , bem como tem o intuito de ser definido o preview para cada resultado.
+       Ver link(https://github.com/RitaRamo/pa.iscde.deepsearch/wiki/OutputPreview-ExtensionPoint)
       </documentation>
    </annotation>
 
