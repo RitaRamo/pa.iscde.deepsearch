@@ -22,9 +22,7 @@ public class FilterDiagramClass_Implementation implements ClassDiagramFilter {
 	private static final String CLASS_TYPE = "CLASS";
 
 	public FilterDiagramClass_Implementation() {
-		active=true;
 		instance = this;
-		System.out.println(instance);
 	}
 
 	@Override
@@ -42,20 +40,15 @@ public class FilterDiagramClass_Implementation implements ClassDiagramFilter {
 			Set<EModifierType> modifiers) {
 		if (searchForTop.size() > 0)
 			return searchForTop.contains(type.toString());
-		return !ETopElementType.INTERFACE.equals(type);
-		//return true;
-
+		return true;
 	}
 
 	@Override
 	public boolean acceptCildElement(EChildElementType type, String name, EModifierType visibility,
 			Set<EModifierType> modifiers, String returnType) {
-		// return EModifierType.STATIC.equals(visibility);
 		if (childElementToSearch != null) {
 			if (searchForChild.size() > 0) {
 				if (visibility != null) {
-					System.out.println(visibility.toString() + " " + visibility.toString() + " " + visibility);
-
 					return childElementToSearch.equals(type.toString())
 							&& searchForChild.contains(visibility.toString());
 
@@ -88,7 +81,6 @@ public class FilterDiagramClass_Implementation implements ClassDiagramFilter {
 
 	public void setTypesToSearch(String name_ItemSelected, ArrayList<String> buttonsSelected) {
 		searchForChild.clear();
-		System.out.println("tamaanooo" + searchForChild.size());
 		searchForTop.clear();
 		System.out.println(name_ItemSelected);
 		System.out.println(buttonsSelected.size());
@@ -104,14 +96,12 @@ public class FilterDiagramClass_Implementation implements ClassDiagramFilter {
 					}
 				}
 			} else {
-				System.out.println("entrei asas");
 				searchForTop.add(SUPERCLASS_TYPE);
 				searchForTop.add(CLASS_TYPE);
 			}
 		} else if (name_ItemSelected.equals(METHOD)) {
 			if (buttonsSelected.size() > 0) {
 				for (String type : buttonsSelected) {
-					System.out.println("dfdfd" + type);
 					searchForChild.add(type.toUpperCase());
 				}
 			}
