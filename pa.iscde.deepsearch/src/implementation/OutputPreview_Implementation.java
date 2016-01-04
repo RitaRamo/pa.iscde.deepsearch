@@ -2,6 +2,7 @@ package implementation;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 
 import activator.SearchActivator;
@@ -69,14 +70,14 @@ public class OutputPreview_Implementation implements OutputPreview {
 	}
 
 	@Override
-	public void search(String text_Search, String text_SearchInCombo, String specificText_SearchInCombo,
-			String text_SearchForCombo, ArrayList<String> buttonsSelected_SearchForCombo) {
+	public void searchEvent(String text_Search, String text_SearchInCombo, String specificText_SearchInCombo,
+			String text_SearchForCombo, Collection<String> buttonsSelected_SearchForCombo) {
 		this.text_SearchInCombo = text_SearchInCombo;
 		this.text_Search = text_Search;
 		this.specificText_SearchInCombo = specificText_SearchInCombo;
 		this.text_SearchForCombo = text_SearchForCombo;
 		if (text_SearchForCombo != "") {
-			searchFor(buttonsSelected_SearchForCombo);
+			searchFor((ArrayList<String>) buttonsSelected_SearchForCombo);
 		} else if (text_SearchInCombo != "") {
 			searchIn();
 		} else {

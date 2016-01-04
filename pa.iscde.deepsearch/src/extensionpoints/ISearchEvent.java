@@ -9,7 +9,8 @@ import java.util.Map;
  * @author Filipe Caçador
  *
  *         Service to be applied to get either results from after the Search
- *         Button is select (null if otherwise) or parameters used in the Searchs
+ *         Button is select (null if otherwise) or parameters used in the
+ *         Searchs
  */
 public interface ISearchEvent {
 
@@ -66,14 +67,14 @@ public interface ISearchEvent {
 	public boolean isDisposedButtons_SearchForCombo();
 
 	/**
-	 * Returns all Items per Parent
+	 * Returns all Items per Parent (null if no search has been done yet)
 	 * 
 	 * @return Map<String, LinkedList<Item>> Results per parent
 	 */
 	public Map<String, LinkedList<Item>> getResults();
 
 	/**
-	 * Returns only the result parents
+	 * Returns only the result parents (null if no search has been done yet)
 	 * 
 	 * @return Collection<String> Collection of parent results
 	 */

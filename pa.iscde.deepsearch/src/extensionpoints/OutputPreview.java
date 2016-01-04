@@ -10,34 +10,7 @@ import java.util.Collection;
  *         ExtensionPoint for populating results from the search and show them
  *         in preview for each selection/double-click
  */
-public interface OutputPreview {
-
-	/**
-	 * Invoked when button is selected and gives the information that was used
-	 * in the search
-	 * 
-	 * @param text_Search
-	 *            (non-null) Text of the Search field
-	 * 
-	 * @param text_SearchInCombo
-	 *            Text of the SearchInCombo field (if empty is represented by
-	 *            "")
-	 * @param specificText_SearchInCombo
-	 *            specific class or package selected for SearchIn
-	 * 
-	 * @param text_SearchForCombo
-	 *            (non-null) Text of the SearchForCombo field (if empty is
-	 *            represented by "")
-	 * 
-	 * @param buttonsSelected_SearchForCombo
-	 *            (can be empty, if no button selected) Represents the buttons
-	 *            selected of the SearchForCombo ex:interface, abstract and enum
-	 *            for text_SearchForCombo field with Class
-	 * 
-	 */
-
-	public void search(String text_Search, String text_SearchInCombo, String specificText_SearchInCombo,
-			String text_SearchForCombo, ArrayList<String> buttonsSelected_SearchForCombo);
+public interface OutputPreview extends ISearch {
 
 	/**
 	 * Obtains the parents for output hierarchy

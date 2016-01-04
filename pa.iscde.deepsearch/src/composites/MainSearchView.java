@@ -83,22 +83,22 @@ public class MainSearchView implements PidescoView {
 				}
 				for (OutputPreview o : extensionResult) {
 					if (advancedButtonIsSelected) {
-						o.search(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
+						o.searchEvent(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
 								search_composite.getSearchIn().getText_ofSearchSpecific(),
 								advanced_composite.getComboSearchFor().getName_ItemSelected(),
 								advanced_composite.getComboSearchFor().getButtonsSelected());
 						for (ISearchEventListener l : SearchActivator.getActivatorInstance().getListeners()) {
-							l.widgetSelected(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
+							l.searchEvent(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
 									search_composite.getSearchIn().getText_ofSearchSpecific(),
 									advanced_composite.getComboSearchFor().getName_ItemSelected(),
 									advanced_composite.getComboSearchFor().getButtonsSelected());
 						}
 						advanced_composite.getComboSearchFor().clearSelected();
 					} else {
-						o.search(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
+						o.searchEvent(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
 								search_composite.getSearchIn().getText_ofSearchSpecific(), "", new ArrayList<String>());
 						for (ISearchEventListener l : SearchActivator.getActivatorInstance().getListeners()) {
-							l.widgetSelected(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
+							l.searchEvent(searched_data, search_composite.getSearchIn().getName_ItemSelected(),
 									search_composite.getSearchIn().getText_ofSearchSpecific(), "",
 									new ArrayList<String>());
 						}

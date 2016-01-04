@@ -6,7 +6,7 @@
          <meta.schema plugin="pa.iscde.deepsearch" id="output_preview" name="OutputAndPreview"/>
       </appinfo>
       <documentation>
-       Este ponto de extensão pretende que cada extensão contribua para popular os resultados , bem como tem o intuito de ser definido o preview para cada resultado.
+         Este ponto de extensão pretende que cada extensão contribua para popular os resultados , bem como tem o intuito de ser definido o preview para cada resultado.
        Ver link(https://github.com/RitaRamo/pa.iscde.deepsearch/wiki/OutputPreview-ExtensionPoint)
       </documentation>
    </annotation>
@@ -53,15 +53,18 @@
          <attribute name="name" type="string">
             <annotation>
                <documentation>
-                  
+                  Specifies the name of the Extension Item
                </documentation>
             </annotation>
          </attribute>
-         <attribute name="class" type="string">
+         <attribute name="class" type="string" use="required">
             <annotation>
                <documentation>
-                  
+                  A class that provides the populated output results of a specific search.
                </documentation>
+               <appinfo>
+                  <meta.attribute kind="resource"/>
+               </appinfo>
             </annotation>
          </attribute>
       </complexType>
