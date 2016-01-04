@@ -21,8 +21,8 @@
    <extension
          point="pt.iscte.pidesco.classdiagram.Filter">
       <FilterClass
-            filter="pa.iscde.deepsearch.ClassDiagramFilter1"
-            filterName="pa.iscde.deepsearch.FilterClass1">
+            filter="extensions.FilterDiagramClass_Implementation"
+            filterName="FilterClass1">
       </FilterClass>
    </extension>
    <extension
@@ -30,6 +30,13 @@
       <item
             class="extensions.MCGraphFilter_Implementation"
             name="MCFilter">
+      </item>
+   </extension>
+   <extension
+         point="pa.iscde.outlaw.filter">
+      <item
+            class="extensions.Outlaw_Implementation"
+            name="Outlaw_Imp">
       </item>
    </extension>
 

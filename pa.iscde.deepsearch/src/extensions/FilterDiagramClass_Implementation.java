@@ -22,6 +22,7 @@ public class FilterDiagramClass_Implementation implements ClassDiagramFilter {
 	private static final String CLASS_TYPE = "CLASS";
 
 	public FilterDiagramClass_Implementation() {
+		active=true;
 		instance = this;
 		System.out.println(instance);
 	}
@@ -41,7 +42,8 @@ public class FilterDiagramClass_Implementation implements ClassDiagramFilter {
 			Set<EModifierType> modifiers) {
 		if (searchForTop.size() > 0)
 			return searchForTop.contains(type.toString());
-		return true;
+		return !ETopElementType.INTERFACE.equals(type);
+		//return true;
 
 	}
 

@@ -14,7 +14,8 @@ Require-Bundle: pt.iscte.pidesco;bundle-version="0.1.0",
  org.eclipse.core.runtime;bundle-version="3.11.1",
  org.eclipse.core.resources,
  pt.iscte.pidesco.classdiagram;bundle-version="1.0.0",
- pa.iscde.mcgraph;bundle-version="1.0.0"
+ pa.iscde.mcgraph;bundle-version="1.0.0",
+ pa.iscde.outlaw
 Bundle-Activator: activator.SearchActivator
 Export-Package: extensionpoints
 Bundle-ActivationPolicy: lazy
