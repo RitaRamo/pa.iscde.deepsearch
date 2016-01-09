@@ -169,14 +169,18 @@ public class MainSearchView implements PidescoView {
 	}
 
 	private void createTree(OutputPreview outputPreview) {
+		results.clear();
+		parent_results.clear();
 		for (Item parent : outputPreview.getParents()) {
 			TreeItem newParent = new TreeItem(preview_composite.getHierarquies(), 0);
+			parent_results.add(parent.getName());
 			newParent.setText(parent.getName());
 			if (parent.getImg() != null) {
 				newParent.setImage(parent.getImg());
 			}
 			newParent.setData("previewText", parent.getPreviewText());
 			newParent.setData("highlightedText", parent.getHighlightText());
+			results.put(parent.getName(), (LinkedList<Item>)(outputPreview.getChildren(parent.getName())));
 			for (Item child : outputPreview.getChildren(parent.getName())) {
 				TreeItem newChild = new TreeItem(newParent, 0);
 				newChild.setText(child.getName());
